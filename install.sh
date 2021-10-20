@@ -14,6 +14,7 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 sudo apt install -y protobuf-compiler
 
 # Install Kind
+export PATH=$PATH:/usr/local/go/bin
 go get sigs.k8s.io/kind
 export PATH="$PATH:$(go env GOPATH)/bin"
 
@@ -31,3 +32,7 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 # Setup go module
 go mod init mapreduce
 go mod tidy
+
+# Clean up
+sudo rm kubectl
+sudo rm kubectl.sha256
