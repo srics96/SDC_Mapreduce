@@ -11,6 +11,12 @@ The install script will do the following:
 5. Install gRPC
 6. Set up Go module with dependencies included
 
+After set up, remember to add the path of Go and its libraries to the PATH environmental variables.
+Do this by pasting the following into ~/.bash_profile or ~/.bashrc, depending on your environment.
+``` bash
+export PATH=$PATH:/usr/local/go/bin
+export PATH="$PATH:$(go env GOPATH)/bin"
+```
 Let us know if you have any issues.
 
 ## Directory Structure
