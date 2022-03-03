@@ -34,7 +34,7 @@ link_directories(/usr/local/lib)
 
 message(STATUS ${CMAKE_SOURCE_DIR})
 set(PROTO_PATH "${CMAKE_SOURCE_DIR}/protos")
-set(MAPREDUCE_PROTO "${CMAKE_SOURCE_DIR}/sample.proto")
+set(MAPREDUCE_PROTO "${CMAKE_SOURCE_DIR}/protos/sample.proto")
 set(GENERATED_PROTOBUF_PATH "${CMAKE_BINARY_DIR}/generated")
 file(MAKE_DIRECTORY ${GENERATED_PROTOBUF_PATH})
 
@@ -75,5 +75,5 @@ link_libraries(grpc++_unsecure grpc gpr ${PROTOBUF_LIBRARY})
 add_executable(master src/master/master.cc )
 target_link_libraries(master hw_grpc_proto ${_REFLECTION}  ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF})
 add_executable(worker src/worker/worker.cc )
-target_link_libraries(worker_server hw_grpc_proto ${_REFLECTION} ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG})
+target_link_libraries(worker hw_grpc_proto ${_REFLECTION} ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG})
 
