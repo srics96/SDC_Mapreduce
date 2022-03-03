@@ -2,6 +2,8 @@
 
 # This install script is for debian based linux distributions only
 
+numprocs=$(nproc)
+
 #Install CMake
 
 sudo apt-get install -y g++ zookeeper libzookeeper-mt2 zookeeperd zookeeper-bin libzookeeper-mt-dev ant check build-essential autoconf libtool pkg-config checkinstall git zlib1g libssl-dev
@@ -27,13 +29,14 @@ sudo curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.t
 echo "$(<kubectl.sha256) kubectl" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
-# Install Protobuf
-#sudo apt install -y protobuf-compiler
-
 # Install Kind
-export PATH=$PATH:/usr/local/go/bin
-go get sigs.k8s.io/kind
-export PATH="$PATH:$(go env GOPATH)/bin"
+git clone https://github.com/kubernetes-sigs/kind
+cd kind
+make
+make install
+
+
+
 
 # Install Helm
 curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
