@@ -43,18 +43,44 @@ sudo apt-get update
 sudo apt-get install helm
 
 #Install Conservator
+echo "Installing Conservator C++ Zookeeper Wrapper"
+mkdir -p ~/src
+cd ~/src
+git clone https://github.gatech.edu/cs8803-SIC/conservator.git
+cd conservator
+cmake .
+make -j${numprocs}
+sudo checkinstall -y --pkgname conservator
+
+# Install C++ GRPC
+echo "Installing GRPC"
+git clone --recurse-submodules -b v1.35.0 https://github.com/grpc/grpc
+cd grpc
+mkdir -p cmake/build
+cd cmake/build
+cmake \
+	  -DCMAKE_BUILD_TYPE=Release \
+	    -DgRPC_INSTALL=ON \
+	      -DgRPC_BUILD_TESTS=OFF \
+	        -DgRPC_SSL_PROVIDER=package \
+		  ../..
+make -j${numprocs}
+sudo checkinstall -y --pkgname grpc
+sudo ldconfig
+
+#install GLOG
 
 
-# Install Go GRPC
-#go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
-#go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
-
-#Install GRPC
-
-
-# Setup go module
-#go mod init mapreduce
-#go mod tidy
+o "Installing GLog"
+cd ~/src/
+git clone https://github.com/google/glog.git
+cd glog
+cmake -H. -Bbuild -G "Unix Makefiles"
+cmake --build build
+cmake --build build --target test
+sudo cmake --build build --target install
+echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
+source ~/.bashrc
 
 # Clean up
 sudo rm kubectl
