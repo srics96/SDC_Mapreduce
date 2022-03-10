@@ -6,7 +6,7 @@ numprocs=$(nproc)
 
 #Install CMake
 
-sudo apt-get install -y g++ zookeeper libzookeeper-mt2 zookeeperd zookeeper-bin libzookeeper-mt-dev ant check build-essential autoconf libtool pkg-config checkinstall git zlib1g libssl-dev
+sudo apt-get install -y g++ zookeeper libboost-all-dev  libzookeeper-mt2 zookeeperd zookeeper-bin libzookeeper-mt-dev ant check build-essential autoconf libtool pkg-config checkinstall git zlib1g libssl-dev
 echo "Instaling cmake 3.0+"
 mkdir -p ~/src
 cd ~/src
@@ -35,8 +35,12 @@ cd kind
 make
 make install
 
-
-
+#Install cpprestsdk
+git clone https://github.com/microsoft/cpprestsdk.git
+cd cpprestsdk
+mkdir build && cd build
+cmake .. -DCPPREST_EXCLUDE_WEBSOCKETS=ON
+make -j && make install
 
 # Install Helm
 curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
@@ -84,6 +88,14 @@ cmake --build build --target test
 sudo cmake --build build --target install
 echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
 source ~/.bashrc
+
+#install etcd client
+git clone https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3.git
+cd etcd-cpp-apiv3
+mkdir build && cd build
+cmake ..
+make -j && make install
+
 
 # Clean up
 sudo rm kubectl
