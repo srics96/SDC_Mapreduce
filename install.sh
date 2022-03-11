@@ -35,13 +35,6 @@ cd kind
 make
 make install
 
-#Install cpprestsdk
-git clone https://github.com/microsoft/cpprestsdk.git
-cd cpprestsdk
-mkdir build && cd build
-cmake .. -DCPPREST_EXCLUDE_WEBSOCKETS=ON
-make -j && make install
-
 # Install Helm
 curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
 sudo apt-get install apt-transport-https --yes
@@ -61,6 +54,8 @@ sudo checkinstall -y --pkgname conservator
 
 # Install C++ GRPC
 echo "Installing GRPC"
+mkdir -p ~/src
+cd ~/src
 git clone --recurse-submodules -b v1.35.0 https://github.com/grpc/grpc
 cd grpc
 mkdir -p cmake/build
@@ -75,11 +70,32 @@ make -j${numprocs}
 sudo checkinstall -y --pkgname grpc
 sudo ldconfig
 
+#Install cpprestsdk
+mkdir -p ~/src
+cd ~/src
+git clone https://github.com/microsoft/cpprestsdk.git
+cd cpprestsdk
+mkdir build && cd build
+cmake .. -DCPPREST_EXCLUDE_WEBSOCKETS=ON
+make -j2 && sudo make install
+
+
+
+#install etcd client
+mkdir -p ~/src
+cd ~/src
+git clone https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3.git
+cd etcd-cpp-apiv3
+mkdir build && cd build
+cmake ..
+make -j2 && sudo make install
+
+
+
+
 #install GLOG
-
-
-o "Installing GLog"
-cd ~/src/
+mkdir -p ~/src
+cd ~/src
 git clone https://github.com/google/glog.git
 cd glog
 cmake -H. -Bbuild -G "Unix Makefiles"
@@ -88,14 +104,6 @@ cmake --build build --target test
 sudo cmake --build build --target install
 echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
 source ~/.bashrc
-
-#install etcd client
-git clone https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3.git
-cd etcd-cpp-apiv3
-mkdir build && cd build
-cmake ..
-make -j && make install
-
 
 # Clean up
 sudo rm kubectl
