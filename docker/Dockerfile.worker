@@ -1,4 +1,5 @@
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install -y ca-certificates zookeeper libzookeeper-mt2 zookeeperd zookeeper-bin libzookeeper-mt-dev 
 
 # Define the rest of your dockerfile here
