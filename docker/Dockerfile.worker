@@ -3,3 +3,5 @@ RUN apt-get update
 RUN apt-get install -y ca-certificates zookeeper libzookeeper-mt2 zookeeperd zookeeper-bin libzookeeper-mt-dev 
 
 # Define the rest of your dockerfile here
+WORKDIR /code
+COPY . /code

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package mapr;
+
+service WorkerService {
+  rpc handshake (HandShakeRequest) returns (HandShakeReply) {}
+}
+
+message HandShakeRequest {
+  string message = 1;
+}
+
+message HandShakeReply {
+  string message = 1;
+}

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: master-deployment 
+  labels:
+    app: master-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: master-app
+  template:
+    metadata:
+      labels:
+        app: master-app
+    spec:
+      containers:
+      - name: master-app
+        image: srics96/master_image
+        command: ['./master']
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: worker-app
+  labels:
+    app: worker-app
+spec:
+  containers:
+  - name: worker-app
+    image: srics96/worker_image
+    command: ["./worker"]
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: worker-service  
+spec:
+  type: ClusterIP
+  selector:
+    app: worker-app
+  ports:
+  # Default port used by the image
+  - port: 5001

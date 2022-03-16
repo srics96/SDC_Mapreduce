@@ -1,0 +1,20 @@
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install -y g++ zookeeper libboost-all-dev libzookeeper-mt2 zookeeperd zookeeper-bin libzookeeper-mt-dev ant check build-essential autoconf libtool pkg-config checkinstall git zlib1g libssl-dev
+# Define the rest of your dockerfile here
+
+WORKDIR /code
+COPY . /code
+RUN cd /code
+
+RUN numprocs=$(nproc)
+#Install CMake
+RUN echo "Instaling cmake 3.0+"
+RUN ./build_src/cmake-3.19.5/configure
+RUN make -j${numprocs}
+RUN checkinstall -y --pkgname cmake
+RUN echo "PATH=/usr/local/bin:$PATH" >> ~/.profile
+RUN . ~/.profile
+RUN cmake --version
+RUN make -j
+
