@@ -5,3 +5,9 @@ kubectl apply -f k8_config.yaml
 kubectl exec worker-service -- printenv | grep SERVICE
 kubectl delete pods,services,deployments --all
 helm install default bitnami/zookeeper
+
+
+docker run -d --privileged --name=master --net=none master_image tail -f /dev/null
+
+kubectl scale deployment master-deployment --replicas=0
+kubectl scale deployment master-deployment --replicas=1

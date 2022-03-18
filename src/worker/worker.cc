@@ -26,7 +26,8 @@ class WorkerServiceImpl final : public WorkerService::Service {
         const HandShakeRequest* request,
         HandShakeReply* reply
     ) override {
-        string response = request->message() + "gatech";
+        cout << "Received message " << request->message() << endl;
+        string response = request->message() + " gatech";
         reply->set_message(response);
         return Status::OK;
     }
