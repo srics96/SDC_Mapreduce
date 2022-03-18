@@ -62,7 +62,7 @@ bool electLeader(string hostname) {
     LOG(INFO) << "Elect leader called by " << hostname << endl;
 
     ConservatorFrameworkFactory factory = ConservatorFrameworkFactory();
-    unique_ptr<ConservatorFramework> framework = factory.newClient("my-release-zookeeper:2181");
+    unique_ptr<ConservatorFramework> framework = factory.newClient("default-zookeeper:2181");
     framework->start();
 
     LOG(INFO) << "Connected to the zookeeper service" << endl;
