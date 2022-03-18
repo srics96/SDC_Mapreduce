@@ -4,3 +4,4 @@ kubectl apply -f k8_config.yaml
 
 kubectl exec worker-service -- printenv | grep SERVICE
 kubectl delete pods,services,deployments --all
+helm install default bitnami/zookeeper

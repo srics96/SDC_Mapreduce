@@ -34,14 +34,14 @@ link_directories(/usr/local/lib)
 
 message(STATUS ${CMAKE_SOURCE_DIR})
 set(PROTO_PATH "${CMAKE_SOURCE_DIR}/protos")
-set(MAPREDUCE_PROTO "${CMAKE_SOURCE_DIR}/protos/sample.proto")
+set(MAPREDUCE_PROTO "${CMAKE_SOURCE_DIR}/protos/central.proto")
 set(GENERATED_PROTOBUF_PATH "${CMAKE_BINARY_DIR}/generated")
 file(MAKE_DIRECTORY ${GENERATED_PROTOBUF_PATH})
 
-set(MAPREDUCE_PB_CPP_FILE "${GENERATED_PROTOBUF_PATH}/sample.pb.cc")
-set(MAPREDUCE_PB_H_FILE "${GENERATED_PROTOBUF_PATH}/sample.pb.h")
-set(MAPREDUCE_GRPC_PB_CPP_FILE "${GENERATED_PROTOBUF_PATH}/sample.grpc.pb.cc")
-set(MAPREDUCE_GRPC_PB_H_FILE "${GENERATED_PROTOBUF_PATH}/sample.grpc.pb.h")
+set(MAPREDUCE_PB_CPP_FILE "${GENERATED_PROTOBUF_PATH}/central.pb.cc")
+set(MAPREDUCE_PB_H_FILE "${GENERATED_PROTOBUF_PATH}/central.pb.h")
+set(MAPREDUCE_GRPC_PB_CPP_FILE "${GENERATED_PROTOBUF_PATH}/central.grpc.pb.cc")
+set(MAPREDUCE_GRPC_PB_H_FILE "${GENERATED_PROTOBUF_PATH}/central.grpc.pb.h")
 add_custom_command(
     OUTPUT "${MAPREDUCE_PB_H_FILE}"
            "${MAPREDUCE_PB_CPP_FILE}"
@@ -70,10 +70,14 @@ include_directories(${CHECK_INCLUDE_DIRS})
 include_directories(${ZOOKEEPER_INCLUDE_DIR}/zookeeper)
 include_directories(${CONSERVATOR_INCLUDE_DIR}/conservator)
 
+add_library(conservator_lib SHARED IMPORTED)
+set_property(TARGET conservator_lib PROPERTY IMPORTED_LOCATION "${CONSERVATOR_INCLUDE_DIR}/conservator/build/libconservator-framework.so")
+
+
 link_libraries(grpc++_unsecure grpc gpr ${PROTOBUF_LIBRARY})
 
 add_executable(master src/master/master.cc )
-target_link_libraries(master hw_grpc_proto ${_REFLECTION}  ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF})
+target_link_libraries(master hw_grpc_proto ${_REFLECTION}  ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG} ${CONSERVATOR_LIBRARY})
 add_executable(worker src/worker/worker.cc )
-target_link_libraries(worker hw_grpc_proto ${_REFLECTION} ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG})
+target_link_libraries(worker hw_grpc_proto ${_REFLECTION} ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG} ${CONSERVATOR_LIBRARY})
 
