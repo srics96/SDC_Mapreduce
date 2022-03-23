@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/vagrant/workshop7/src/util/blob.cpp
+blob.h
+/vagrant/workshop7/src/util/blob.h
+cpprest/containerstream.h
+-
+cpprest/filestream.h
+-
+was/blob.h
+-
+was/storage_account.h
+-
+cassert
+-
+string
+-
+trace.h
+/vagrant/workshop7/src/util/trace.h
+stdafx.h
+/vagrant/workshop7/src/util/stdafx.h
+
+/vagrant/workshop7/src/util/blob.h
+cpprest/containerstream.h
+-
+cpprest/filestream.h
+-
+was/blob.h
+-
+was/storage_account.h
+-
+string
+-
+
+/vagrant/workshop7/src/util/trace.h
+iostream
+-
+string
+-
+

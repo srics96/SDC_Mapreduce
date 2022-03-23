@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/vagrant/workshop6-c/src/master/sharding.cpp
+iostream
+-
+string
+-
+fstream
+-
+vector
+-
+map
+-
+boost/filesystem.hpp
+/vagrant/workshop6-c/src/master/boost/filesystem.hpp
+../util/shard.h
+/vagrant/workshop6-c/src/util/shard.h
+
+/vagrant/workshop6-c/src/util/shard.h
+iostream
+-
+vector
+-
+
