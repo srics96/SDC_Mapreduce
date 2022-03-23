@@ -72,12 +72,23 @@ include_directories(${CONSERVATOR_INCLUDE_DIR}/conservator)
 
 add_library(conservator_lib SHARED IMPORTED)
 set_property(TARGET conservator_lib PROPERTY IMPORTED_LOCATION "${CONSERVATOR_INCLUDE_DIR}/conservator/build/libconservator-framework.so")
-
-
 link_libraries(grpc++_unsecure grpc gpr ${PROTOBUF_LIBRARY})
 
-add_executable(master src/master/master.cc )
-target_link_libraries(master hw_grpc_proto ${_REFLECTION}  ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG} ${CONSERVATOR_LIBRARY})
-add_executable(worker src/worker/worker.cc )
-target_link_libraries(worker hw_grpc_proto ${_REFLECTION} ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG} ${CONSERVATOR_LIBRARY})
+
+
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost REQUIRED COMPONENTS log thread system filesystem program_options)
+find_package(Casablanca REQUIRED)
+find_package(AzureStorageCpp REQUIRED)
+find_package(SSL REQUIRED)
+
+add_definitions(-std=c++11)
+add_subdirectory(src)
+
+# add_executable(master src/master/master.cc )
+# target_link_libraries(master hw_grpc_proto ${_REFLECTION}  ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG} ${CONSERVATOR_LIBRARY})
+# add_executable(worker src/worker/worker.cc )
+# target_link_libraries(worker hw_grpc_proto ${_REFLECTION} ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG} ${CONSERVATOR_LIBRARY})
 
