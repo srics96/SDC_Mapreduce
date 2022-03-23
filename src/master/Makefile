@@ -171,33 +171,6 @@ master.cpp.s:
 	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/master/CMakeFiles/master.dir/build.make src/master/CMakeFiles/master.dir/master.cpp.s
 .PHONY : master.cpp.s
 
-sharding.o: sharding.cpp.o
-
-.PHONY : sharding.o
-
-# target to build an object file
-sharding.cpp.o:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/master/CMakeFiles/master.dir/build.make src/master/CMakeFiles/master.dir/sharding.cpp.o
-.PHONY : sharding.cpp.o
-
-sharding.i: sharding.cpp.i
-
-.PHONY : sharding.i
-
-# target to preprocess a source file
-sharding.cpp.i:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/master/CMakeFiles/master.dir/build.make src/master/CMakeFiles/master.dir/sharding.cpp.i
-.PHONY : sharding.cpp.i
-
-sharding.s: sharding.cpp.s
-
-.PHONY : sharding.s
-
-# target to generate assembly for a file
-sharding.cpp.s:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/master/CMakeFiles/master.dir/build.make src/master/CMakeFiles/master.dir/sharding.cpp.s
-.PHONY : sharding.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -210,9 +183,6 @@ help:
 	@echo "... master.o"
 	@echo "... master.i"
 	@echo "... master.s"
-	@echo "... sharding.o"
-	@echo "... sharding.i"
-	@echo "... sharding.s"
 .PHONY : help
 
 

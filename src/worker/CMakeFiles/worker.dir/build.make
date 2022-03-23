@@ -76,22 +76,9 @@ include src/worker/CMakeFiles/worker.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/worker/CMakeFiles/worker.dir/flags.make
 
-src/worker/CMakeFiles/worker.dir/sharding.cpp.o: src/worker/CMakeFiles/worker.dir/flags.make
-src/worker/CMakeFiles/worker.dir/sharding.cpp.o: src/worker/sharding.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/vagrant/workshop6-c/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/worker/CMakeFiles/worker.dir/sharding.cpp.o"
-	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/worker.dir/sharding.cpp.o -c /vagrant/workshop6-c/src/worker/sharding.cpp
-
-src/worker/CMakeFiles/worker.dir/sharding.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/worker.dir/sharding.cpp.i"
-	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /vagrant/workshop6-c/src/worker/sharding.cpp > CMakeFiles/worker.dir/sharding.cpp.i
-
-src/worker/CMakeFiles/worker.dir/sharding.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/worker.dir/sharding.cpp.s"
-	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /vagrant/workshop6-c/src/worker/sharding.cpp -o CMakeFiles/worker.dir/sharding.cpp.s
-
 src/worker/CMakeFiles/worker.dir/worker.cpp.o: src/worker/CMakeFiles/worker.dir/flags.make
 src/worker/CMakeFiles/worker.dir/worker.cpp.o: src/worker/worker.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/vagrant/workshop6-c/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/worker/CMakeFiles/worker.dir/worker.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/vagrant/workshop6-c/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/worker/CMakeFiles/worker.dir/worker.cpp.o"
 	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/worker.dir/worker.cpp.o -c /vagrant/workshop6-c/src/worker/worker.cpp
 
 src/worker/CMakeFiles/worker.dir/worker.cpp.i: cmake_force
@@ -102,16 +89,29 @@ src/worker/CMakeFiles/worker.dir/worker.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/worker.dir/worker.cpp.s"
 	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /vagrant/workshop6-c/src/worker/worker.cpp -o CMakeFiles/worker.dir/worker.cpp.s
 
+src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.o: src/worker/CMakeFiles/worker.dir/flags.make
+src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.o: src/util/blob.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/vagrant/workshop6-c/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.o"
+	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/worker.dir/__/util/blob.cpp.o -c /vagrant/workshop6-c/src/util/blob.cpp
+
+src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/worker.dir/__/util/blob.cpp.i"
+	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /vagrant/workshop6-c/src/util/blob.cpp > CMakeFiles/worker.dir/__/util/blob.cpp.i
+
+src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/worker.dir/__/util/blob.cpp.s"
+	cd /vagrant/workshop6-c/src/worker && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /vagrant/workshop6-c/src/util/blob.cpp -o CMakeFiles/worker.dir/__/util/blob.cpp.s
+
 # Object files for target worker
 worker_OBJECTS = \
-"CMakeFiles/worker.dir/sharding.cpp.o" \
-"CMakeFiles/worker.dir/worker.cpp.o"
+"CMakeFiles/worker.dir/worker.cpp.o" \
+"CMakeFiles/worker.dir/__/util/blob.cpp.o"
 
 # External object files for target worker
 worker_EXTERNAL_OBJECTS =
 
-src/worker/worker: src/worker/CMakeFiles/worker.dir/sharding.cpp.o
 src/worker/worker: src/worker/CMakeFiles/worker.dir/worker.cpp.o
+src/worker/worker: src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.o
 src/worker/worker: src/worker/CMakeFiles/worker.dir/build.make
 src/worker/worker: /usr/local/lib/libprotobuf.a
 src/worker/worker: libhw_grpc_proto.a

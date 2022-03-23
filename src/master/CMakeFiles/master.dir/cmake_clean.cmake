@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/master.dir/master.cpp.o"
-  "CMakeFiles/master.dir/sharding.cpp.o"
   "master"
   "master.pdb"
 )

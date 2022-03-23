@@ -6,6 +6,7 @@
 #include <array>
 #include <algorithm>
 #include <chrono>
+#include <queue>
 #include <thread>
 
 #include <iostream>
@@ -15,6 +16,7 @@
 #include <grpcpp/grpcpp.h>
 
 #include "central.grpc.pb.h"
+#include "sharding.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
@@ -52,6 +54,37 @@ class MasterClient {
     private:
         std::unique_ptr<WorkerService::Stub> stub_;
 };
+
+
+class Master {
+
+    private:
+
+
+    public:
+        Master() {}
+
+        void shard() {
+            vector<shared_ptr<ShardAllocation>> allShards = createShardAllocations();
+            LOG(INFO) << "Sharding phase complete" << endl;
+        }
+
+        void trigger() {
+            string serverAddress = "localhost:5001";
+            LOG(INFO) << "The server address is " << serverAddress << endl;
+            MasterClient masterClient(grpc::CreateChannel(serverAddress, grpc::InsecureChannelCredentials()));
+            LOG(INFO) << "Connected to server" << endl;
+            string message("Map");
+            string reply = masterClient.handshake(message); 
+            LOG(INFO) << "Handshake response received: " << reply << std::endl;
+        }
+
+        void execute() {
+            trigger();
+        }
+
+};
+
 
 int get_node_id(const std::string &s) {
   return stoi(s.substr(s.find('_') + 1));
@@ -136,17 +169,10 @@ int main(int argc, char** argv) {
     }
     
     LOG(INFO) << "The host name is " << hostname << endl;
-    electLeader(hostname);
+    // electLeader(hostname);
+    Master master;
+    master.execute();
     
-    string serverAddress = "worker-service:5001";
-    LOG(INFO) << "The server address is " << serverAddress << endl;
-    MasterClient masterClient(grpc::CreateChannel(serverAddress, grpc::InsecureChannelCredentials()));
-    LOG(INFO) << "Connected to server" << endl;
-    string message(hostname);
-    string reply = masterClient.handshake(message); 
-    LOG(INFO) << "Handshake response received: " << reply << std::endl;
-    
-
     while (true) {
         LOG(INFO) << "Waiting to be killed (sleeping for 2 seconds)";
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));

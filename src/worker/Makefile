@@ -144,32 +144,32 @@ worker/fast:
 	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/build
 .PHONY : worker/fast
 
-sharding.o: sharding.cpp.o
+__/util/blob.o: __/util/blob.cpp.o
 
-.PHONY : sharding.o
+.PHONY : __/util/blob.o
 
 # target to build an object file
-sharding.cpp.o:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/sharding.cpp.o
-.PHONY : sharding.cpp.o
+__/util/blob.cpp.o:
+	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.o
+.PHONY : __/util/blob.cpp.o
 
-sharding.i: sharding.cpp.i
+__/util/blob.i: __/util/blob.cpp.i
 
-.PHONY : sharding.i
+.PHONY : __/util/blob.i
 
 # target to preprocess a source file
-sharding.cpp.i:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/sharding.cpp.i
-.PHONY : sharding.cpp.i
+__/util/blob.cpp.i:
+	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.i
+.PHONY : __/util/blob.cpp.i
 
-sharding.s: sharding.cpp.s
+__/util/blob.s: __/util/blob.cpp.s
 
-.PHONY : sharding.s
+.PHONY : __/util/blob.s
 
 # target to generate assembly for a file
-sharding.cpp.s:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/sharding.cpp.s
-.PHONY : sharding.cpp.s
+__/util/blob.cpp.s:
+	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.s
+.PHONY : __/util/blob.cpp.s
 
 worker.o: worker.cpp.o
 
@@ -207,9 +207,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... worker"
-	@echo "... sharding.o"
-	@echo "... sharding.i"
-	@echo "... sharding.s"
+	@echo "... __/util/blob.o"
+	@echo "... __/util/blob.i"
+	@echo "... __/util/blob.s"
 	@echo "... worker.o"
 	@echo "... worker.i"
 	@echo "... worker.s"

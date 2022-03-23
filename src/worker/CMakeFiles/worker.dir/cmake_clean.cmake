@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/worker.dir/sharding.cpp.o"
+  "CMakeFiles/worker.dir/__/util/blob.cpp.o"
   "CMakeFiles/worker.dir/worker.cpp.o"
   "worker"
   "worker.pdb"

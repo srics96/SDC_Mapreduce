@@ -3,8 +3,7 @@
 
 src/master/CMakeFiles/master.dir/master.cpp.o
  /vagrant/workshop6-c/src/master/master.cpp
+ /vagrant/workshop6-c/src/master/sharding.h
+ /vagrant/workshop6-c/src/util/shard.h
  generated/central.grpc.pb.h
  generated/central.pb.h
-src/master/CMakeFiles/master.dir/sharding.cpp.o
- /vagrant/workshop6-c/src/master/sharding.cpp
- /vagrant/workshop6-c/src/util/shard.h
