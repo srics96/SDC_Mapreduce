@@ -25,6 +25,8 @@ using grpc::Status;
 using mapr::WorkerService;
 using mapr::HandShakeRequest;
 using mapr::HandShakeReply;
+using mapr::Task;
+using mapr::ShardData;
 
 using namespace std;
 
@@ -43,6 +45,33 @@ class MasterClient {
             ClientContext context;
 
             Status status = stub_->handshake(&context, request, &reply);
+
+            if (status.ok()) {
+                return reply.message();
+            } else {
+                std::cout << status.error_code() << ": " << status.error_message() << std::endl;
+            }
+        
+        }
+
+        std::string map(string tasktype, string taskid, string fname, int start, int end) {
+            Task task;
+            task.set_tasktype(tasktype);
+            task.set_taskid(taskid);
+            
+            ShardData *shard = new ShardData(); 
+            shard->set_fname(fname);
+            shard->set_end(end);
+            shard->set_start(start);
+            
+            task.set_allocated_mapshard(shard);
+            
+
+            HandShakeReply reply;
+
+            ClientContext context;
+
+            Status status = stub_->map(&context, task, &reply);
 
             if (status.ok()) {
                 return reply.message();
@@ -74,8 +103,10 @@ class Master {
             LOG(INFO) << "The server address is " << serverAddress << endl;
             MasterClient masterClient(grpc::CreateChannel(serverAddress, grpc::InsecureChannelCredentials()));
             LOG(INFO) << "Connected to server" << endl;
-            string message("Map");
-            string reply = masterClient.handshake(message); 
+
+            string tasktype("Map"), taskid("99999");
+            int start=3, end=347; 
+            string reply = masterClient.map(tasktype, taskid, "gutenberg/Winston Churchill___Coniston, Complete.txt", start, end); 
             LOG(INFO) << "Handshake response received: " << reply << std::endl;
         }
 

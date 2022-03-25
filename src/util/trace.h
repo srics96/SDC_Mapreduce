@@ -15,8 +15,8 @@ class Trace {
   Trace(std::string func, std::string args_msg = "")
       : func_name_(func), args_str_(args_msg) {
     cout << ">>> Entering " << this->func_name_ << "(" << this->args_str_
-              << ")";
+              << ")" << endl;
   }
-  ~Trace() { cout << "<<< Leaving " << this->func_name_; }
+  ~Trace() { cout << "<<< Leaving " << this->func_name_ << endl; }
 };
 #endif /* ifndef TRACE_H */

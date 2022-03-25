@@ -4,6 +4,7 @@ package mapr;
 
 service WorkerService {
   rpc handshake (HandShakeRequest) returns (HandShakeReply) {}
+  rpc map (Task) returns (HandShakeReply) {}
 }
 
 message HandShakeRequest {
@@ -13,3 +14,18 @@ message HandShakeRequest {
 message HandShakeReply {
   string message = 1;
 }
+
+message ShardData {
+    string fname = 1;
+    int32 start = 2;
+    int32 end = 3;
+}
+
+message Task{
+  string taskid = 1;
+  string tasktype = 2;
+  ShardData mapshard = 3;
+}
+
+
+

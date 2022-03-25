@@ -1,4 +1,6 @@
-CMakeFiles/*
+*.log
 *.cmake
 Makefile
 cmake_install.cmake
+CMakeFiles/
+CMakeModules/

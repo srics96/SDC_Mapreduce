@@ -1,7 +1,9 @@
 FILE(GLOB MASTER_SRC *.cpp)
 FILE(GLOB UTIL_HEADERS ${CMAKE_BINARY_DIR}/src/util/*.h)
+FILE(GLOB UTIL_SOURCES ${CMAKE_BINARY_DIR}/src/util/*.cpp)
+
 include_directories(${CMAKE_BINARY_DIR}/proto)
 include_directories(${CMAKE_BINARY_DIR}/src/util)
-add_executable(master ${MASTER_SRC} ${UTIL_HEADERS})
+add_executable(master ${MASTER_SRC} ${UTIL_SOURCES} ${UTIL_HEADERS})
 target_link_libraries(master hw_grpc_proto ${_REFLECTION} ${ZOOKEEPER_LIBRARIES} ${CONSERVATOR_LIBRARIES} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF} ${_GLOG} ${CONSERVATOR_LIBRARY} ${Boost_LIBRARIES}  ${SSL_LIBRARIES} ${CASABLANCA_LIBRARY} ${AZURE_STORAGE_LIBRARY})
 

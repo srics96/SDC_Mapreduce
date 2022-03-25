@@ -21,6 +21,8 @@ using grpc::Status;
 using mapr::WorkerService;
 using mapr::HandShakeRequest;
 using mapr::HandShakeReply;
+using mapr::Task;
+using mapr::ShardData;
 
 using namespace std;
 
@@ -34,6 +36,62 @@ class Mapper {
         }
 
     public:
+        void adjust_shard_boundaries(const Task* task){
+            int start = task->mapshard().start();
+            int end = task->mapshard().end();
+            string fname = task->mapshard().fname();
+            ShardFileInfo sh;
+            sh.startOffset = start;
+            sh.endOffset = end;
+            sh.fileName = fname;
+            string data = getFileContents(sh);
+            cout << "INITIAL DATA" << endl << data << endl;
+            bool first_shard = false;
+            if(start == 0){
+                sh.startOffset = start;
+                first_shard = true;
+            } else {
+                sh.startOffset = start - 1; 
+            }
+            
+            sh.endOffset = end + 100;
+            sh.fileName = fname;
+
+            data = getFileContents(sh);
+            cout << "Requested DATA" << endl << data << endl;
+            
+            int i = 0;
+            if(first_shard){
+
+            }
+            else if(isalnum(data[i])){
+            while(isalnum(data[i])){
+                i++;
+                }
+            while(!isalnum(data[i])){
+                i++;
+                }
+                sh.startOffset += i;
+            } else{
+                sh.startOffset += 1;
+            }
+
+            i = end - start + 1;
+            if(isalnum(data[i])){
+                while(isalnum(data[i])){
+                i++;
+                }
+                i-=1;
+                sh.endOffset = start + i;
+            } else{
+                sh.endOffset = end;
+            }
+
+            data = getFileContents(sh);
+            cout << "Corrected DATA" << endl << data << endl;
+        }
+
+
         void map() {
             std::map<string, string> outFilePaths;
             vector<shared_ptr<ShardAllocation>> shards = createShardAllocations();
@@ -68,12 +126,32 @@ class WorkerServiceImpl final : public WorkerService::Service {
     ) override {
         cout << "Received message " << request->message() << endl;
         string response = request->message() + " gatech";
-        map();
+        mapp();
         reply->set_message(response);
         return Status::OK;
     }
 
-    void map() {
+    Status map(
+        ServerContext* context, 
+        const Task* task,
+        HandShakeReply* reply
+    ) override {
+        cout << "Received Task " << task->taskid() <<
+        " " << task->tasktype() << " " << task->mapshard().fname() 
+        << " " <<task->mapshard().start() 
+        <<" " << task->mapshard().end() << endl;
+        string response = task->taskid() + " gatech";
+        //map();
+        adjust_shard_boundaries(task);
+        reply->set_message(response);
+        return Status::OK;
+    }
+    void adjust_shard_boundaries(const Task* task){
+        Mapper mapper;
+        mapper.adjust_shard_boundaries(task);
+    }
+
+    void mapp() {
         Mapper mapper;
         mapper.map();
     }
