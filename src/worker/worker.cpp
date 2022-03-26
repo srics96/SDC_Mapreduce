@@ -36,7 +36,7 @@ class Mapper {
         }
 
     public:
-        void adjust_shard_boundaries(const Task* task){
+        string adjust_shard_boundaries(const Task* task){
             int start = task->mapshard().start();
             int end = task->mapshard().end();
             string fname = task->mapshard().fname();
@@ -89,10 +89,24 @@ class Mapper {
 
             data = getFileContents(sh);
             cout << "Corrected DATA" << endl << data << endl;
+
+            return data;
+        }
+
+        void new_map(const Task* task) {            
+            string shardContent = adjust_shard_boundaries(task);
+            shardContent += "\ngatech";
+            string blobname = task->taskid() + ".txt";
+            string filename = "./intermediates/" + blobname;
+            std::ofstream out(filename, std::ios::out);
+            out << shardContent;
+            out.close();            
+            auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);           
+            as.upload_file(filename, "mapper_intermediates/" + blobname);
         }
 
 
-        void map() {
+        void old_map() {
             std::map<string, string> outFilePaths;
             vector<shared_ptr<ShardAllocation>> shards = createShardAllocations();
             for (auto shard: shards) {
@@ -103,7 +117,7 @@ class Mapper {
                 }
                 shardContent += "gatech";
                 string blobname = std::to_string(shard->id) + ".txt";
-                string filename = "../../intermediates/" + blobname;
+                string filename = "./intermediates/" + blobname;
                 std::ofstream out(filename, std::ios::out);
                 out << shardContent;
                 out.close();
@@ -126,7 +140,6 @@ class WorkerServiceImpl final : public WorkerService::Service {
     ) override {
         cout << "Received message " << request->message() << endl;
         string response = request->message() + " gatech";
-        mapp();
         reply->set_message(response);
         return Status::OK;
     }
@@ -141,19 +154,19 @@ class WorkerServiceImpl final : public WorkerService::Service {
         << " " <<task->mapshard().start() 
         <<" " << task->mapshard().end() << endl;
         string response = task->taskid() + " gatech";
-        //map();
-        adjust_shard_boundaries(task);
+        map(task);
         reply->set_message(response);
         return Status::OK;
     }
+    
     void adjust_shard_boundaries(const Task* task){
         Mapper mapper;
         mapper.adjust_shard_boundaries(task);
     }
 
-    void mapp() {
+    void map(const Task* task) {
         Mapper mapper;
-        mapper.map();
+        mapper.new_map(task);
     }
 };
 
