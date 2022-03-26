@@ -90,6 +90,7 @@ class Master {
 
     private:
         queue<shared_ptr<TaskInstance>> tasks_;
+        vector<shared_ptr<WorkerInstance>> workers_;
 
     public:
         Master() {}
@@ -128,6 +129,7 @@ class Master {
         }
 
         void execute() {
+            populateWorkers();
             auto shards = shard();
             for (auto shard: shards) {
                 auto task = make_shared<TaskInstance>(TaskType::map, shard);
@@ -222,7 +224,7 @@ int main(int argc, char** argv) {
     }
     
     LOG(INFO) << "The host name is " << hostname << endl;
-    // electLeader(hostname);
+    electLeader(hostname);
     Master master;
     master.execute();
     

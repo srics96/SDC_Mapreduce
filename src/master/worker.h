@@ -19,7 +19,4 @@ class WorkerInstance {
             this->status = live;
         }
 
-
-
-
 }
