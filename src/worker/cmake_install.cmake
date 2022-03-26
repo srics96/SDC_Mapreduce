@@ -1,4 +1,4 @@
-# Install script for directory: /home/azureuser/src/sdc_map_reduce/src/worker
+# Install script for directory: /vagrant/workshop6-c/src/worker
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

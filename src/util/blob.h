@@ -23,6 +23,7 @@ class AzureStorageHelper {
   void upload_stream(concurrency::streams::istream &stream, std::size_t size,
                      std::string blobname);
   std::string get_blob(std::string blobname);
+  int get_blob_size(std::string blobname);
   std::string get_blob_with_offset(std::string blobname, int start, int length);
   void save_blob(std::string blobname, std::string filename);
   void delete_all(void);

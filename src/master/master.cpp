@@ -17,6 +17,7 @@
 
 #include "central.grpc.pb.h"
 #include "sharding.h"
+#include "task.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
@@ -88,15 +89,27 @@ class MasterClient {
 class Master {
 
     private:
-
+        queue<shared_ptr<TaskInstance>> tasks_;
 
     public:
         Master() {}
 
-        void shard() {
+        vector<shared_ptr<ShardAllocation>> shard() {
             vector<shared_ptr<ShardAllocation>> allShards = createShardAllocations();
             LOG(INFO) << "Sharding phase complete" << endl;
+            return allShards;
         }
+
+        void schedule() {
+            cout << "Schedule phase" << endl;
+
+            while (!tasks_.empty()) {
+                auto task = tasks_.front();
+                tasks_.pop();
+                
+            }
+        }
+
 
         void trigger() {
             string serverAddress = "localhost:5001";
@@ -110,8 +123,17 @@ class Master {
             LOG(INFO) << "Handshake response received: " << reply << std::endl;
         }
 
+        void populateWorkers() {
+            
+        }
+
         void execute() {
-            trigger();
+            auto shards = shard();
+            for (auto shard: shards) {
+                auto task = make_shared<TaskInstance>(TaskType::map, shard);
+                tasks_.push(task);
+            }
+            schedule();
         }
 
 };

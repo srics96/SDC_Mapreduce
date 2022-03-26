@@ -7,6 +7,8 @@
 #include "boost/filesystem.hpp"  
 
 #include "../util/shard.h"
+#include "../util/blob.h"
+#include "../util/constants.h"
 
 using namespace std;
 using namespace boost::filesystem;
@@ -32,7 +34,7 @@ void printShard(shared_ptr<ShardAllocation> shard) {
 
 vector<shared_ptr<ShardAllocation>> createShardAllocations() {
     // TODO - Remove hardcoded values.
-    vector<string> filePaths {"/vagrant/workshop7/data/file_1.txt"};
+    vector<string> filePaths {"gutenberg/John Bunyan___The Works of John Bunyan.txt", "gutenberg/William Wordsworth___The Prose Works of William Wordsworth.txt"};
     int shardSize = 50000;
     vector<shared_ptr<ShardAllocation>> allShards;
     shared_ptr<ShardAllocation> currentShard = shared_ptr<ShardAllocation>(new ShardAllocation());
@@ -40,11 +42,13 @@ vector<shared_ptr<ShardAllocation>> createShardAllocations() {
     currentShard->capacity = 0;
     
     int n = filePaths.size();
+
+    auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
     
     for (int i = 0; i < n; i++) {
 
         string filePath = filePaths[i];
-        int fileSize = getFileSize(filePath);
+        int fileSize = as.get_blob_size(filePath);
         int startOffset = 1;
         
         while (startOffset <= fileSize) {

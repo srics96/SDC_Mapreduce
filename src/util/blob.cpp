@@ -75,6 +75,14 @@ void AzureStorageHelper::save_blob(std::string blobname, std::string filename) {
   blob.download_to_file(filename);
 }
 
+int AzureStorageHelper::get_blob_size(std::string blobname){
+  Trace trace(__func__, " blob=" + blobname);
+  auto blob = this->container_.get_block_blob_reference(blobname);
+  blob.download_attributes();
+  blob.download_account_properties();
+  return blob.properties().size();
+}
+
 void AzureStorageHelper::delete_all(void) {
   Trace trace(__func__);
   for (auto it = this->container_.list_blobs();
