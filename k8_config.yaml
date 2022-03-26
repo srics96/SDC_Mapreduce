@@ -5,7 +5,7 @@ metadata:
   labels:
     app: master-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: master-app
@@ -17,7 +17,7 @@ spec:
       containers:
       - name: master-app
         image: srics96/master_image
-        command: ['./master']
+        command: ['/code/src/master/master']
 ---
 kind: Pod
 apiVersion: v1
@@ -29,7 +29,7 @@ spec:
   containers:
   - name: worker-app
     image: srics96/worker_image
-    command: ["./worker"]
+    command: ["/code/src/worker/worker"]
 ---
 kind: Service
 apiVersion: v1

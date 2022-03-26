@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 RUN apt-get update
 RUN apt-get install -y ca-certificates zookeeper libzookeeper-mt2 zookeeperd zookeeper-bin libzookeeper-mt-dev 
-ADD lib/* /usr/local/lib/
-# Define the rest of your dockerfile here
+ADD lib /usr/local/lib/
+ADD boost/* /usr/lib/x86_64-linux-gnu/
 WORKDIR /code
 COPY . /code

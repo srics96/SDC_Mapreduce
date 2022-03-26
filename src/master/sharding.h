@@ -4,19 +4,11 @@
 #include <vector>
 #include <map>
 
-#include "boost/filesystem.hpp"  
-
 #include "../util/shard.h"
 #include "../util/blob.h"
 #include "../util/constants.h"
 
 using namespace std;
-using namespace boost::filesystem;
-
-
-int getFileSize(string filePath) {
-    return file_size(filePath);
-}   
 
 
 void printShard(shared_ptr<ShardAllocation> shard) {
@@ -56,8 +48,8 @@ vector<shared_ptr<ShardAllocation>> createShardAllocations() {
 
             startOffset = startOffset;
             int endOffset = min(fileSize, (startOffset + requiredShardSize) - 1);
-            cout << "For Shard " << currentShard->id << ", file: " << filePath << "size: " << fileSize;
-            cout << " start: " << startOffset << "end: " << endOffset << endl << endl;
+            // cout << "For Shard " << currentShard->id << ", file: " << filePath << "size: " << fileSize;
+            // cout << " start: " << startOffset << "end: " << endOffset << endl << endl;
 
             ShardFileInfo fileInfo;
             fileInfo.fileName = filePath;
@@ -70,7 +62,7 @@ vector<shared_ptr<ShardAllocation>> createShardAllocations() {
             bool isShardComplete = currentShard->capacity == shardSize;
             
             if (isShardComplete) {
-                cout << "Shard " << currentShard->id << " is complete." << endl;
+                // cout << "Shard " << currentShard->id << " is complete." << endl;
                 allShards.push_back(currentShard);
                 shared_ptr<ShardAllocation> newShard = shared_ptr<ShardAllocation>(new ShardAllocation());
                 newShard->id = currentShard->id + 1;
@@ -85,10 +77,6 @@ vector<shared_ptr<ShardAllocation>> createShardAllocations() {
 
             startOffset = endOffset + 1;
         }
-    }
-
-    for (auto shard: allShards) {
-        printShard(shard);        
     }
     return allShards;
 }

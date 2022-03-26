@@ -8,14 +8,16 @@ enum TaskType {map, reduce};
 enum StatusType {queued, running, failed};
 
 class TaskInstance {
-    private:
+    
+    public:
+        int id;
         TaskType taskType;
         string worker;
         StatusType status;
         shared_ptr<ShardAllocation> shard;
-
-    public:
-        TaskInstance(TaskType taskType, shared_ptr<ShardAllocation> shard) {
+        
+        TaskInstance(int id, TaskType taskType, shared_ptr<ShardAllocation> shard) {
+            this->id = id;
             this->taskType = taskType;
             this->status = queued;
             this->shard = shard;

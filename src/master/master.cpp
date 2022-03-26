@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <chrono>
 #include <queue>
+#include <vector>
 #include <thread>
 
 #include <iostream>
@@ -18,6 +19,7 @@
 #include "central.grpc.pb.h"
 #include "sharding.h"
 #include "task.h"
+#include "worker.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
@@ -89,8 +91,9 @@ class MasterClient {
 class Master {
 
     private:
-        queue<shared_ptr<TaskInstance>> tasks_;
+        vector<shared_ptr<TaskInstance>> tasks_;
         vector<shared_ptr<WorkerInstance>> workers_;
+        int worker_sequence_ = 0;
 
     public:
         Master() {}
@@ -98,42 +101,52 @@ class Master {
         vector<shared_ptr<ShardAllocation>> shard() {
             vector<shared_ptr<ShardAllocation>> allShards = createShardAllocations();
             LOG(INFO) << "Sharding phase complete" << endl;
+            LOG(INFO) << "Num Shards: " << allShards.size() << endl;
             return allShards;
+        }
+
+        shared_ptr<WorkerInstance> choose_worker() {
+            auto worker = workers_[worker_sequence_];
+            worker_sequence_ = (worker_sequence_ + 1) % workers_.size();
+            return worker;
         }
 
         void schedule() {
             cout << "Schedule phase" << endl;
-
-            while (!tasks_.empty()) {
-                auto task = tasks_.front();
-                tasks_.pop();
-                
+            
+            for (auto task: tasks_) {
+                auto worker = choose_worker();
+                cout << "For task id: " << task->id << " worker is: " << worker->id << endl;
+                trigger(task, worker);
+                cout << "Trigger complete" << endl;
             }
         }
-
-
-        void trigger() {
-            string serverAddress = "localhost:5001";
+        
+        void trigger(shared_ptr<TaskInstance> task, shared_ptr<WorkerInstance> worker) {
+            string serverAddress = worker->address + ":5001";
             LOG(INFO) << "The server address is " << serverAddress << endl;
-            MasterClient masterClient(grpc::CreateChannel(serverAddress, grpc::InsecureChannelCredentials()));
+            MasterClient masterClient(worker->channel);
             LOG(INFO) << "Connected to server" << endl;
 
-            string tasktype("Map"), taskid("99999");
-            int start=3, end=347; 
-            string reply = masterClient.map(tasktype, taskid, "gutenberg/Winston Churchill___Coniston, Complete.txt", start, end); 
+            string tasktype("Map"), taskid(std::to_string(task->id));
+            
+            string reply = masterClient.map(tasktype, taskid, task->shard->files[0].fileName, task->shard->files[0].startOffset, task->shard->files[0].endOffset); 
             LOG(INFO) << "Handshake response received: " << reply << std::endl;
         }
 
         void populateWorkers() {
-            
+            auto workers = WorkerInstance::populate();
+            workers_ = workers;
         }
 
         void execute() {
             populateWorkers();
             auto shards = shard();
+            int id = 1;
             for (auto shard: shards) {
-                auto task = make_shared<TaskInstance>(TaskType::map, shard);
-                tasks_.push(task);
+                auto task = make_shared<TaskInstance>(id, TaskType::map, shard);
+                tasks_.push_back(task);
+                id = id + 1;
             }
             schedule();
         }
@@ -143,11 +156,6 @@ class Master {
 
 int get_node_id(const std::string &s) {
   return stoi(s.substr(s.find('_') + 1));
-}
-
-// Function to extract ip from worker nodes
-string get_node_ip(const std::string &s) {
-  return s.substr(0, s.find('_'));
 }
 
 
@@ -206,30 +214,30 @@ bool electLeader(string hostname) {
     return true;
 }
 
-string get_local_ip() {
-    string ip;
-    array<char, 1024> buffer;
-    FILE* out = popen("hostname -i", "r");
-    assert(out);
-    int n_read;
-    while ((n_read = fgets(buffer.data(), 512, out) != NULL)) {
-        ip += buffer.data();
-    }
-    pclose(out);
-    if (!ip.empty() && ip.back() == '\n') {
-        ip.pop_back();
-    }
-    return ip;
-}
 
 int main(int argc, char** argv) {
     google::InitGoogleLogging(argv[0]);
     FLAGS_stderrthreshold = 0;
     LOG(INFO) << "The Master has started" << endl;
-
-    string hostname = get_local_ip();
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+    string hostname;
+    
+    array<char, 1024> buffer;
+    FILE* out = popen("hostname -i", "r");
+    if (!out) {
+        LOG(FATAL) << "Popen failed";
+    }
+    int n_read;
+    while (n_read = fgets(buffer.data(), 512, out) != NULL) {
+        hostname += buffer.data();
+    }
+    pclose(out);
+    if (!hostname.empty() && hostname.back() == '\n') {
+        hostname.pop_back();
+    }
+    
     LOG(INFO) << "The host name is " << hostname << endl;
-    electLeader(hostname);
+    // electLeader(hostname);
     Master master;
     master.execute();
     

@@ -36,7 +36,7 @@ class Mapper {
     private:
         string getFileContents(ShardFileInfo fileInfo) {
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
-            return as.get_blob_with_offset("test_blob", fileInfo.startOffset, (fileInfo.endOffset - fileInfo.startOffset) + 1);
+            return as.get_blob_with_offset(fileInfo.fileName, fileInfo.startOffset, (fileInfo.endOffset - fileInfo.startOffset) + 1);
         }
 
     public:
@@ -45,11 +45,11 @@ class Mapper {
             int end = task->mapshard().end();
             string fname = task->mapshard().fname();
             ShardFileInfo sh;
-            sh.startOffset = start;
+            sh.startOffset = start; 
             sh.endOffset = end;
             sh.fileName = fname;
             string data = getFileContents(sh);
-            cout << "INITIAL DATA" << endl << data << endl;
+            // cout << "INITIAL DATA" << endl << data << endl;
             bool first_shard = false;
             if(start == 0){
                 sh.startOffset = start;
@@ -62,7 +62,7 @@ class Mapper {
             sh.fileName = fname;
 
             data = getFileContents(sh);
-            cout << "Requested DATA" << endl << data << endl;
+            // cout << "Requested DATA" << endl << data << endl;
             
             int i = 0;
             if(first_shard){
@@ -92,7 +92,7 @@ class Mapper {
             }
 
             data = getFileContents(sh);
-            cout << "Corrected DATA" << endl << data << endl;
+            // cout << "Corrected DATA" << endl << data << endl;
 
             return data;
         }
@@ -161,59 +161,11 @@ class WorkerServiceImpl final : public WorkerService::Service {
         <<" " << task->mapshard().end() << endl;
         string response = task->taskid() + " gatech";
 
-        string hostname = get_local_ip();
-        register_with_zoopeeker(hostname);
-
         map(task);
         reply->set_message(response);
         return Status::OK;
     }
 
-    string get_local_ip() {
-        string ip;
-        array<char, 1024> buffer;
-        FILE* out = popen("hostname -i", "r");
-        assert(out);
-        int n_read;
-        while ((n_read = fgets(buffer.data(), 512, out) != NULL)) {
-            ip += buffer.data();
-        }
-        pclose(out);
-        if (!ip.empty() && ip.back() == '\n') {
-            ip.pop_back();
-        }
-        return ip;
-    }
-
-    void register_with_zoopeeker(string local_ip){
-        LOG(INFO) << "Elect leader called by " << local_ip << endl;
-
-        ConservatorFrameworkFactory factory = ConservatorFrameworkFactory();
-        unique_ptr<ConservatorFramework> framework = factory.newClient("default-zookeeper:2181");
-        framework->start();
-
-        LOG(INFO) << "Connected to the zookeeper service" << endl;
-        
-        auto res = framework->create()->forPath("/workers");
-        LOG(INFO) << "Create /masters retval:" << res;
-        
-        res = framework->checkExists()->forPath("/workers");
-        assert(res == ZOK);
-        LOG(INFO) << "/masters now exists";
-
-        string realpath;
-        int mypath;
-        
-        res = framework->create()->withFlags(ZOO_EPHEMERAL | ZOO_SEQUENCE)->forPath("/workers/" + local_ip + "_", NULL, realpath);
-        if (res != ZOK) {
-        LOG(FATAL) << "Failed to create ephemeral node, retval "<< res;
-        } else {
-        LOG(INFO) << "Created seq ephm node " << realpath;
-        mypath = stoi(realpath.substr(realpath.find('_') + 1));
-        }
-
-    }
-    
     void adjust_shard_boundaries(const Task* task){
         Mapper mapper;
         mapper.adjust_shard_boundaries(task);
@@ -225,12 +177,59 @@ class WorkerServiceImpl final : public WorkerService::Service {
     }
 };
 
+string get_local_ip() {
+    string ip;
+    array<char, 1024> buffer;
+    FILE* out = popen("hostname -i", "r");
+    assert(out);
+    int n_read;
+    while ((n_read = fgets(buffer.data(), 512, out) != NULL)) {
+        ip += buffer.data();
+    }
+    pclose(out);
+    if (!ip.empty() && ip.back() == '\n') {
+        ip.pop_back();
+    }
+    return ip;
+}
+
+void register_with_zoopeeker(string local_ip){
+    LOG(INFO) << "Elect leader called by " << local_ip << endl;
+
+    ConservatorFrameworkFactory factory = ConservatorFrameworkFactory();
+    unique_ptr<ConservatorFramework> framework = factory.newClient("default-zookeeper:2181");
+    framework->start();
+
+    LOG(INFO) << "Connected to the zookeeper service" << endl;
+    
+    auto res = framework->create()->forPath("/workers");
+    LOG(INFO) << "Create /workers retval:" << res;
+    
+    res = framework->checkExists()->forPath("/workers");
+    assert(res == ZOK);
+    LOG(INFO) << "/workers now exists";
+
+    string realpath;
+    int mypath;
+    
+    res = framework->create()->withFlags(ZOO_EPHEMERAL | ZOO_SEQUENCE)->forPath("/workers/" + local_ip + "_", NULL, realpath);
+    if (res != ZOK) {
+        LOG(FATAL) << "Failed to create ephemeral node, retval "<< res;
+    } else {
+        LOG(INFO) << "Created seq ephm node " << realpath;
+        mypath = stoi(realpath.substr(realpath.find('_') + 1));
+    }
+}
+
 void runServer() {
     std::string server_address("0.0.0.0:5001");
     WorkerServiceImpl service;
 
     // grpc::EnableDefaultHealthCheckService(true);
     // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
+
+    string hostname = get_local_ip();
+    register_with_zoopeeker(hostname);
     
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
