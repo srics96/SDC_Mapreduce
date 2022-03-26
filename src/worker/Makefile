@@ -67,10 +67,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /vagrant/workshop6-c
+CMAKE_SOURCE_DIR = /home/azureuser/src/sdc_map_reduce
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /vagrant/workshop6-c
+CMAKE_BINARY_DIR = /home/azureuser/src/sdc_map_reduce
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,14 +99,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /vagrant/workshop6-c && $(CMAKE_COMMAND) -E cmake_progress_start /vagrant/workshop6-c/CMakeFiles /vagrant/workshop6-c/src/worker//CMakeFiles/progress.marks
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /vagrant/workshop6-c/CMakeFiles 0
+	cd /home/azureuser/src/sdc_map_reduce && $(CMAKE_COMMAND) -E cmake_progress_start /home/azureuser/src/sdc_map_reduce/CMakeFiles /home/azureuser/src/sdc_map_reduce/src/worker//CMakeFiles/progress.marks
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/azureuser/src/sdc_map_reduce/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/clean
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/clean
 .PHONY : clean
 
 # The main clean target
@@ -116,22 +116,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/preinstall
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/preinstall
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /vagrant/workshop6-c && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/azureuser/src/sdc_map_reduce && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/worker/CMakeFiles/worker.dir/rule:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/CMakeFiles/worker.dir/rule
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/worker/CMakeFiles/worker.dir/rule
 .PHONY : src/worker/CMakeFiles/worker.dir/rule
 
 # Convenience name for target.
@@ -141,7 +141,7 @@ worker: src/worker/CMakeFiles/worker.dir/rule
 
 # fast build rule for target.
 worker/fast:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/build
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/build
 .PHONY : worker/fast
 
 __/util/blob.o: __/util/blob.cpp.o
@@ -150,7 +150,7 @@ __/util/blob.o: __/util/blob.cpp.o
 
 # target to build an object file
 __/util/blob.cpp.o:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.o
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.o
 .PHONY : __/util/blob.cpp.o
 
 __/util/blob.i: __/util/blob.cpp.i
@@ -159,7 +159,7 @@ __/util/blob.i: __/util/blob.cpp.i
 
 # target to preprocess a source file
 __/util/blob.cpp.i:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.i
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.i
 .PHONY : __/util/blob.cpp.i
 
 __/util/blob.s: __/util/blob.cpp.s
@@ -168,7 +168,7 @@ __/util/blob.s: __/util/blob.cpp.s
 
 # target to generate assembly for a file
 __/util/blob.cpp.s:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.s
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/__/util/blob.cpp.s
 .PHONY : __/util/blob.cpp.s
 
 worker.o: worker.cpp.o
@@ -177,7 +177,7 @@ worker.o: worker.cpp.o
 
 # target to build an object file
 worker.cpp.o:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/worker.cpp.o
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/worker.cpp.o
 .PHONY : worker.cpp.o
 
 worker.i: worker.cpp.i
@@ -186,7 +186,7 @@ worker.i: worker.cpp.i
 
 # target to preprocess a source file
 worker.cpp.i:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/worker.cpp.i
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/worker.cpp.i
 .PHONY : worker.cpp.i
 
 worker.s: worker.cpp.s
@@ -195,7 +195,7 @@ worker.s: worker.cpp.s
 
 # target to generate assembly for a file
 worker.cpp.s:
-	cd /vagrant/workshop6-c && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/worker.cpp.s
+	cd /home/azureuser/src/sdc_map_reduce && $(MAKE) $(MAKESILENT) -f src/worker/CMakeFiles/worker.dir/build.make src/worker/CMakeFiles/worker.dir/worker.cpp.s
 .PHONY : worker.cpp.s
 
 # Help Target
@@ -224,6 +224,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /vagrant/workshop6-c && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/azureuser/src/sdc_map_reduce && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

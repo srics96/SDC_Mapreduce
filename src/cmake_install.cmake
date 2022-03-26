@@ -1,4 +1,4 @@
-# Install script for directory: /vagrant/workshop6-c/src
+# Install script for directory: /home/azureuser/src/sdc_map_reduce/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,9 +44,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/vagrant/workshop6-c/src/master/cmake_install.cmake")
-  include("/vagrant/workshop6-c/src/worker/cmake_install.cmake")
-  include("/vagrant/workshop6-c/src/test/cmake_install.cmake")
+  include("/home/azureuser/src/sdc_map_reduce/src/master/cmake_install.cmake")
+  include("/home/azureuser/src/sdc_map_reduce/src/worker/cmake_install.cmake")
+  include("/home/azureuser/src/sdc_map_reduce/src/test/cmake_install.cmake")
 
 endif()
 
