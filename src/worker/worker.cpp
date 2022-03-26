@@ -13,6 +13,10 @@
 #include "../util/constants.h"
 #include "../util/blob.h"
 
+#include <zookeeper/zookeeper.h>
+#include <conservator/ConservatorFrameworkFactory.h>
+#include <glog/logging.h>
+
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
@@ -131,6 +135,8 @@ class Mapper {
         }
 };
 
+
+
 class WorkerServiceImpl final : public WorkerService::Service {
     
     Status handshake(
@@ -154,9 +160,58 @@ class WorkerServiceImpl final : public WorkerService::Service {
         << " " <<task->mapshard().start() 
         <<" " << task->mapshard().end() << endl;
         string response = task->taskid() + " gatech";
+
+        string hostname = get_local_ip();
+        register_with_zoopeeker(hostname);
+
         map(task);
         reply->set_message(response);
         return Status::OK;
+    }
+
+    string get_local_ip() {
+        string ip;
+        array<char, 1024> buffer;
+        FILE* out = popen("hostname -i", "r");
+        assert(out);
+        int n_read;
+        while ((n_read = fgets(buffer.data(), 512, out) != NULL)) {
+            ip += buffer.data();
+        }
+        pclose(out);
+        if (!ip.empty() && ip.back() == '\n') {
+            ip.pop_back();
+        }
+        return ip;
+    }
+
+    void register_with_zoopeeker(string local_ip){
+        LOG(INFO) << "Elect leader called by " << local_ip << endl;
+
+        ConservatorFrameworkFactory factory = ConservatorFrameworkFactory();
+        unique_ptr<ConservatorFramework> framework = factory.newClient("default-zookeeper:2181");
+        framework->start();
+
+        LOG(INFO) << "Connected to the zookeeper service" << endl;
+        
+        auto res = framework->create()->forPath("/workers");
+        LOG(INFO) << "Create /masters retval:" << res;
+        
+        res = framework->checkExists()->forPath("/workers");
+        assert(res == ZOK);
+        LOG(INFO) << "/masters now exists";
+
+        string realpath;
+        int mypath;
+        
+        res = framework->create()->withFlags(ZOO_EPHEMERAL | ZOO_SEQUENCE)->forPath("/workers/" + local_ip + "_", NULL, realpath);
+        if (res != ZOK) {
+        LOG(FATAL) << "Failed to create ephemeral node, retval "<< res;
+        } else {
+        LOG(INFO) << "Created seq ephm node " << realpath;
+        mypath = stoi(realpath.substr(realpath.find('_') + 1));
+        }
+
     }
     
     void adjust_shard_boundaries(const Task* task){

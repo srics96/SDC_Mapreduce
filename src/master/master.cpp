@@ -145,6 +145,11 @@ int get_node_id(const std::string &s) {
   return stoi(s.substr(s.find('_') + 1));
 }
 
+// Function to extract ip from worker nodes
+string get_node_ip(const std::string &s) {
+  return s.substr(0, s.find('_'));
+}
+
 
 bool electLeader(string hostname) {
     LOG(INFO) << "Elect leader called by " << hostname << endl;
@@ -201,28 +206,28 @@ bool electLeader(string hostname) {
     return true;
 }
 
+string get_local_ip() {
+    string ip;
+    array<char, 1024> buffer;
+    FILE* out = popen("hostname -i", "r");
+    assert(out);
+    int n_read;
+    while ((n_read = fgets(buffer.data(), 512, out) != NULL)) {
+        ip += buffer.data();
+    }
+    pclose(out);
+    if (!ip.empty() && ip.back() == '\n') {
+        ip.pop_back();
+    }
+    return ip;
+}
 
 int main(int argc, char** argv) {
     google::InitGoogleLogging(argv[0]);
     FLAGS_stderrthreshold = 0;
     LOG(INFO) << "The Master has started" << endl;
 
-    string hostname;
-    
-    array<char, 1024> buffer;
-    FILE* out = popen("hostname -i", "r");
-    if (!out) {
-        LOG(FATAL) << "Popen failed";
-    }
-    int n_read;
-    while (n_read = fgets(buffer.data(), 512, out) != NULL) {
-        hostname += buffer.data();
-    }
-    pclose(out);
-    if (!hostname.empty() && hostname.back() == '\n') {
-        hostname.pop_back();
-    }
-    
+    string hostname = get_local_ip();
     LOG(INFO) << "The host name is " << hostname << endl;
     electLeader(hostname);
     Master master;
