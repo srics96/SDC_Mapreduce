@@ -106,7 +106,7 @@ class Mapper {
             out << shardContent;
             out.close();            
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);           
-            as.upload_file(filename, "mapper_intermediates/" + blobname);
+            as.upload_file(filename, "final_intermediates/" + blobname);
         }
 
 
