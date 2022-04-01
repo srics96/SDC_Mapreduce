@@ -14,63 +14,55 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-extern PROTOBUF_INTERNAL_EXPORT_central_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ShardData_central_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_central_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FileInfo_central_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_central_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ResultFile_central_2eproto;
 namespace mapr {
-class HandShakeRequestDefaultTypeInternal {
+class TaskReceptionDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<HandShakeRequest> _instance;
-} _HandShakeRequest_default_instance_;
-class HandShakeReplyDefaultTypeInternal {
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TaskReception> _instance;
+} _TaskReception_default_instance_;
+class ResultFileDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<HandShakeReply> _instance;
-} _HandShakeReply_default_instance_;
-class ShardDataDefaultTypeInternal {
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ResultFile> _instance;
+} _ResultFile_default_instance_;
+class TaskCompletionDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ShardData> _instance;
-} _ShardData_default_instance_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TaskCompletion> _instance;
+} _TaskCompletion_default_instance_;
+class FileInfoDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<FileInfo> _instance;
+} _FileInfo_default_instance_;
 class TaskDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Task> _instance;
 } _Task_default_instance_;
 }  // namespace mapr
-static void InitDefaultsscc_info_HandShakeReply_central_2eproto() {
+static void InitDefaultsscc_info_FileInfo_central_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::mapr::_HandShakeReply_default_instance_;
-    new (ptr) ::mapr::HandShakeReply();
+    void* ptr = &::mapr::_FileInfo_default_instance_;
+    new (ptr) ::mapr::FileInfo();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_HandShakeReply_central_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_HandShakeReply_central_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FileInfo_central_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_FileInfo_central_2eproto}, {}};
 
-static void InitDefaultsscc_info_HandShakeRequest_central_2eproto() {
+static void InitDefaultsscc_info_ResultFile_central_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::mapr::_HandShakeRequest_default_instance_;
-    new (ptr) ::mapr::HandShakeRequest();
+    void* ptr = &::mapr::_ResultFile_default_instance_;
+    new (ptr) ::mapr::ResultFile();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_HandShakeRequest_central_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_HandShakeRequest_central_2eproto}, {}};
-
-static void InitDefaultsscc_info_ShardData_central_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::mapr::_ShardData_default_instance_;
-    new (ptr) ::mapr::ShardData();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ShardData_central_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ShardData_central_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ResultFile_central_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ResultFile_central_2eproto}, {}};
 
 static void InitDefaultsscc_info_Task_central_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -84,81 +76,122 @@ static void InitDefaultsscc_info_Task_central_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Task_central_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Task_central_2eproto}, {
-      &scc_info_ShardData_central_2eproto.base,}};
+      &scc_info_FileInfo_central_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_central_2eproto[4];
+static void InitDefaultsscc_info_TaskCompletion_central_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::mapr::_TaskCompletion_default_instance_;
+    new (ptr) ::mapr::TaskCompletion();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_TaskCompletion_central_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_TaskCompletion_central_2eproto}, {
+      &scc_info_ResultFile_central_2eproto.base,}};
+
+static void InitDefaultsscc_info_TaskReception_central_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::mapr::_TaskReception_default_instance_;
+    new (ptr) ::mapr::TaskReception();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TaskReception_central_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TaskReception_central_2eproto}, {}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_central_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_central_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_central_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_central_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::mapr::HandShakeRequest, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskReception, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::mapr::HandShakeRequest, message_),
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskReception, message_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::mapr::HandShakeReply, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::mapr::ResultFile, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::mapr::HandShakeReply, message_),
+  PROTOBUF_FIELD_OFFSET(::mapr::ResultFile, filename_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::mapr::ShardData, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskCompletion, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::mapr::ShardData, fname_),
-  PROTOBUF_FIELD_OFFSET(::mapr::ShardData, start_),
-  PROTOBUF_FIELD_OFFSET(::mapr::ShardData, end_),
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskCompletion, task_id_),
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskCompletion, worker_id_),
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskCompletion, result_files_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::mapr::FileInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::mapr::FileInfo, fname_),
+  PROTOBUF_FIELD_OFFSET(::mapr::FileInfo, start_),
+  PROTOBUF_FIELD_OFFSET(::mapr::FileInfo, end_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::mapr::Task, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::mapr::Task, taskid_),
-  PROTOBUF_FIELD_OFFSET(::mapr::Task, tasktype_),
-  PROTOBUF_FIELD_OFFSET(::mapr::Task, mapshard_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, task_id_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, worker_id_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, task_type_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, files_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::mapr::HandShakeRequest)},
-  { 6, -1, sizeof(::mapr::HandShakeReply)},
-  { 12, -1, sizeof(::mapr::ShardData)},
-  { 20, -1, sizeof(::mapr::Task)},
+  { 0, -1, sizeof(::mapr::TaskReception)},
+  { 6, -1, sizeof(::mapr::ResultFile)},
+  { 12, -1, sizeof(::mapr::TaskCompletion)},
+  { 20, -1, sizeof(::mapr::FileInfo)},
+  { 28, -1, sizeof(::mapr::Task)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_HandShakeRequest_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_HandShakeReply_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_ShardData_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_TaskReception_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_ResultFile_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_TaskCompletion_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_FileInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_Task_default_instance_),
 };
 
 const char descriptor_table_protodef_central_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\rcentral.proto\022\004mapr\"#\n\020HandShakeReques"
-  "t\022\017\n\007message\030\001 \001(\t\"!\n\016HandShakeReply\022\017\n\007"
-  "message\030\001 \001(\t\"6\n\tShardData\022\r\n\005fname\030\001 \001("
-  "\t\022\r\n\005start\030\002 \001(\005\022\013\n\003end\030\003 \001(\005\"K\n\004Task\022\016\n"
-  "\006taskid\030\001 \001(\t\022\020\n\010tasktype\030\002 \001(\t\022!\n\010mapsh"
-  "ard\030\003 \001(\0132\017.mapr.ShardData2w\n\rWorkerServ"
-  "ice\022;\n\thandshake\022\026.mapr.HandShakeRequest"
-  "\032\024.mapr.HandShakeReply\"\000\022)\n\003map\022\n.mapr.T"
-  "ask\032\024.mapr.HandShakeReply\"\000b\006proto3"
+  "\n\rcentral.proto\022\004mapr\" \n\rTaskReception\022\017"
+  "\n\007message\030\001 \001(\t\"\036\n\nResultFile\022\020\n\010fileNam"
+  "e\030\001 \001(\t\"\\\n\016TaskCompletion\022\017\n\007task_id\030\001 \001"
+  "(\005\022\021\n\tworker_id\030\002 \001(\005\022&\n\014result_files\030\003 "
+  "\003(\0132\020.mapr.ResultFile\"5\n\010FileInfo\022\r\n\005fna"
+  "me\030\001 \001(\t\022\r\n\005start\030\002 \001(\005\022\013\n\003end\030\003 \001(\005\"\\\n\004"
+  "Task\022\017\n\007task_id\030\001 \001(\005\022\021\n\tworker_id\030\002 \001(\005"
+  "\022\021\n\ttask_type\030\003 \001(\t\022\035\n\005files\030\004 \003(\0132\016.map"
+  "r.FileInfo2B\n\rWorkerService\0221\n\014execute_t"
+  "ask\022\n.mapr.Task\032\023.mapr.TaskReception\"\000b\006"
+  "proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_central_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_central_2eproto_sccs[4] = {
-  &scc_info_HandShakeReply_central_2eproto.base,
-  &scc_info_HandShakeRequest_central_2eproto.base,
-  &scc_info_ShardData_central_2eproto.base,
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_central_2eproto_sccs[5] = {
+  &scc_info_FileInfo_central_2eproto.base,
+  &scc_info_ResultFile_central_2eproto.base,
   &scc_info_Task_central_2eproto.base,
+  &scc_info_TaskCompletion_central_2eproto.base,
+  &scc_info_TaskReception_central_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_central_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_central_2eproto = {
-  false, false, descriptor_table_protodef_central_2eproto, "central.proto", 355,
-  &descriptor_table_central_2eproto_once, descriptor_table_central_2eproto_sccs, descriptor_table_central_2eproto_deps, 4, 0,
+  false, false, descriptor_table_protodef_central_2eproto, "central.proto", 406,
+  &descriptor_table_central_2eproto_once, descriptor_table_central_2eproto_sccs, descriptor_table_central_2eproto_deps, 5, 0,
   schemas, file_default_instances, TableStruct_central_2eproto::offsets,
-  file_level_metadata_central_2eproto, 4, file_level_enum_descriptors_central_2eproto, file_level_service_descriptors_central_2eproto,
+  file_level_metadata_central_2eproto, 5, file_level_enum_descriptors_central_2eproto, file_level_service_descriptors_central_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -167,17 +200,17 @@ namespace mapr {
 
 // ===================================================================
 
-class HandShakeRequest::_Internal {
+class TaskReception::_Internal {
  public:
 };
 
-HandShakeRequest::HandShakeRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+TaskReception::TaskReception(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:mapr.HandShakeRequest)
+  // @@protoc_insertion_point(arena_constructor:mapr.TaskReception)
 }
-HandShakeRequest::HandShakeRequest(const HandShakeRequest& from)
+TaskReception::TaskReception(const TaskReception& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -185,42 +218,42 @@ HandShakeRequest::HandShakeRequest(const HandShakeRequest& from)
     message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_message(), 
       GetArena());
   }
-  // @@protoc_insertion_point(copy_constructor:mapr.HandShakeRequest)
+  // @@protoc_insertion_point(copy_constructor:mapr.TaskReception)
 }
 
-void HandShakeRequest::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_HandShakeRequest_central_2eproto.base);
+void TaskReception::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TaskReception_central_2eproto.base);
   message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-HandShakeRequest::~HandShakeRequest() {
-  // @@protoc_insertion_point(destructor:mapr.HandShakeRequest)
+TaskReception::~TaskReception() {
+  // @@protoc_insertion_point(destructor:mapr.TaskReception)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void HandShakeRequest::SharedDtor() {
+void TaskReception::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   message_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void HandShakeRequest::ArenaDtor(void* object) {
-  HandShakeRequest* _this = reinterpret_cast< HandShakeRequest* >(object);
+void TaskReception::ArenaDtor(void* object) {
+  TaskReception* _this = reinterpret_cast< TaskReception* >(object);
   (void)_this;
 }
-void HandShakeRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void TaskReception::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void HandShakeRequest::SetCachedSize(int size) const {
+void TaskReception::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const HandShakeRequest& HandShakeRequest::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_HandShakeRequest_central_2eproto.base);
+const TaskReception& TaskReception::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TaskReception_central_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void HandShakeRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:mapr.HandShakeRequest)
+void TaskReception::Clear() {
+// @@protoc_insertion_point(message_clear_start:mapr.TaskReception)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -229,7 +262,7 @@ void HandShakeRequest::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* HandShakeRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* TaskReception::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -241,7 +274,7 @@ const char* HandShakeRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_message();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.HandShakeRequest.message"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.TaskReception.message"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -267,9 +300,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* HandShakeRequest::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* TaskReception::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:mapr.HandShakeRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:mapr.TaskReception)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -278,7 +311,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "mapr.HandShakeRequest.message");
+      "mapr.TaskReception.message");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_message(), target);
   }
@@ -287,12 +320,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:mapr.HandShakeRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:mapr.TaskReception)
   return target;
 }
 
-size_t HandShakeRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:mapr.HandShakeRequest)
+size_t TaskReception::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:mapr.TaskReception)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -315,23 +348,23 @@ size_t HandShakeRequest::ByteSizeLong() const {
   return total_size;
 }
 
-void HandShakeRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:mapr.HandShakeRequest)
+void TaskReception::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:mapr.TaskReception)
   GOOGLE_DCHECK_NE(&from, this);
-  const HandShakeRequest* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<HandShakeRequest>(
+  const TaskReception* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TaskReception>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.HandShakeRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.TaskReception)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.HandShakeRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.TaskReception)
     MergeFrom(*source);
   }
 }
 
-void HandShakeRequest::MergeFrom(const HandShakeRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:mapr.HandShakeRequest)
+void TaskReception::MergeFrom(const TaskReception& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:mapr.TaskReception)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -342,112 +375,112 @@ void HandShakeRequest::MergeFrom(const HandShakeRequest& from) {
   }
 }
 
-void HandShakeRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:mapr.HandShakeRequest)
+void TaskReception::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:mapr.TaskReception)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void HandShakeRequest::CopyFrom(const HandShakeRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:mapr.HandShakeRequest)
+void TaskReception::CopyFrom(const TaskReception& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:mapr.TaskReception)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool HandShakeRequest::IsInitialized() const {
+bool TaskReception::IsInitialized() const {
   return true;
 }
 
-void HandShakeRequest::InternalSwap(HandShakeRequest* other) {
+void TaskReception::InternalSwap(TaskReception* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata HandShakeRequest::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata TaskReception::GetMetadata() const {
   return GetMetadataStatic();
 }
 
 
 // ===================================================================
 
-class HandShakeReply::_Internal {
+class ResultFile::_Internal {
  public:
 };
 
-HandShakeReply::HandShakeReply(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+ResultFile::ResultFile(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:mapr.HandShakeReply)
+  // @@protoc_insertion_point(arena_constructor:mapr.ResultFile)
 }
-HandShakeReply::HandShakeReply(const HandShakeReply& from)
+ResultFile::ResultFile(const ResultFile& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_message().empty()) {
-    message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_message(), 
+  filename_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_filename().empty()) {
+    filename_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_filename(), 
       GetArena());
   }
-  // @@protoc_insertion_point(copy_constructor:mapr.HandShakeReply)
+  // @@protoc_insertion_point(copy_constructor:mapr.ResultFile)
 }
 
-void HandShakeReply::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_HandShakeReply_central_2eproto.base);
-  message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+void ResultFile::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ResultFile_central_2eproto.base);
+  filename_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-HandShakeReply::~HandShakeReply() {
-  // @@protoc_insertion_point(destructor:mapr.HandShakeReply)
+ResultFile::~ResultFile() {
+  // @@protoc_insertion_point(destructor:mapr.ResultFile)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void HandShakeReply::SharedDtor() {
+void ResultFile::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
-  message_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  filename_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void HandShakeReply::ArenaDtor(void* object) {
-  HandShakeReply* _this = reinterpret_cast< HandShakeReply* >(object);
+void ResultFile::ArenaDtor(void* object) {
+  ResultFile* _this = reinterpret_cast< ResultFile* >(object);
   (void)_this;
 }
-void HandShakeReply::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void ResultFile::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void HandShakeReply::SetCachedSize(int size) const {
+void ResultFile::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const HandShakeReply& HandShakeReply::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_HandShakeReply_central_2eproto.base);
+const ResultFile& ResultFile::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ResultFile_central_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void HandShakeReply::Clear() {
-// @@protoc_insertion_point(message_clear_start:mapr.HandShakeReply)
+void ResultFile::Clear() {
+// @@protoc_insertion_point(message_clear_start:mapr.ResultFile)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  message_.ClearToEmpty();
+  filename_.ClearToEmpty();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* HandShakeReply::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* ResultFile::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string message = 1;
+      // string fileName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          auto str = _internal_mutable_message();
+          auto str = _internal_mutable_filename();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.HandShakeReply.message"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.ResultFile.fileName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -473,43 +506,43 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* HandShakeReply::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* ResultFile::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:mapr.HandShakeReply)
+  // @@protoc_insertion_point(serialize_to_array_start:mapr.ResultFile)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string message = 1;
-  if (this->message().size() > 0) {
+  // string fileName = 1;
+  if (this->filename().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
+      this->_internal_filename().data(), static_cast<int>(this->_internal_filename().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "mapr.HandShakeReply.message");
+      "mapr.ResultFile.fileName");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_message(), target);
+        1, this->_internal_filename(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:mapr.HandShakeReply)
+  // @@protoc_insertion_point(serialize_to_array_end:mapr.ResultFile)
   return target;
 }
 
-size_t HandShakeReply::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:mapr.HandShakeReply)
+size_t ResultFile::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:mapr.ResultFile)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string message = 1;
-  if (this->message().size() > 0) {
+  // string fileName = 1;
+  if (this->filename().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_message());
+        this->_internal_filename());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -521,75 +554,337 @@ size_t HandShakeReply::ByteSizeLong() const {
   return total_size;
 }
 
-void HandShakeReply::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:mapr.HandShakeReply)
+void ResultFile::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:mapr.ResultFile)
   GOOGLE_DCHECK_NE(&from, this);
-  const HandShakeReply* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<HandShakeReply>(
+  const ResultFile* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ResultFile>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.HandShakeReply)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.ResultFile)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.HandShakeReply)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.ResultFile)
     MergeFrom(*source);
   }
 }
 
-void HandShakeReply::MergeFrom(const HandShakeReply& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:mapr.HandShakeReply)
+void ResultFile::MergeFrom(const ResultFile& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:mapr.ResultFile)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.message().size() > 0) {
-    _internal_set_message(from._internal_message());
+  if (from.filename().size() > 0) {
+    _internal_set_filename(from._internal_filename());
   }
 }
 
-void HandShakeReply::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:mapr.HandShakeReply)
+void ResultFile::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:mapr.ResultFile)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void HandShakeReply::CopyFrom(const HandShakeReply& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:mapr.HandShakeReply)
+void ResultFile::CopyFrom(const ResultFile& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:mapr.ResultFile)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool HandShakeReply::IsInitialized() const {
+bool ResultFile::IsInitialized() const {
   return true;
 }
 
-void HandShakeReply::InternalSwap(HandShakeReply* other) {
+void ResultFile::InternalSwap(ResultFile* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  filename_.Swap(&other->filename_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata HandShakeReply::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata ResultFile::GetMetadata() const {
   return GetMetadataStatic();
 }
 
 
 // ===================================================================
 
-class ShardData::_Internal {
+class TaskCompletion::_Internal {
  public:
 };
 
-ShardData::ShardData(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+TaskCompletion::TaskCompletion(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  result_files_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:mapr.TaskCompletion)
+}
+TaskCompletion::TaskCompletion(const TaskCompletion& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      result_files_(from.result_files_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&task_id_, &from.task_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&worker_id_) -
+    reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
+  // @@protoc_insertion_point(copy_constructor:mapr.TaskCompletion)
+}
+
+void TaskCompletion::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TaskCompletion_central_2eproto.base);
+  ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+      reinterpret_cast<char*>(&task_id_) - reinterpret_cast<char*>(this)),
+      0, static_cast<size_t>(reinterpret_cast<char*>(&worker_id_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
+}
+
+TaskCompletion::~TaskCompletion() {
+  // @@protoc_insertion_point(destructor:mapr.TaskCompletion)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void TaskCompletion::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void TaskCompletion::ArenaDtor(void* object) {
+  TaskCompletion* _this = reinterpret_cast< TaskCompletion* >(object);
+  (void)_this;
+}
+void TaskCompletion::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void TaskCompletion::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const TaskCompletion& TaskCompletion::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TaskCompletion_central_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void TaskCompletion::Clear() {
+// @@protoc_insertion_point(message_clear_start:mapr.TaskCompletion)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  result_files_.Clear();
+  ::memset(&task_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&worker_id_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TaskCompletion::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int32 task_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          task_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 worker_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          worker_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .mapr.ResultFile result_files = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_result_files(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* TaskCompletion::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:mapr.TaskCompletion)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 task_id = 1;
+  if (this->task_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_task_id(), target);
+  }
+
+  // int32 worker_id = 2;
+  if (this->worker_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_worker_id(), target);
+  }
+
+  // repeated .mapr.ResultFile result_files = 3;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_result_files_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, this->_internal_result_files(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:mapr.TaskCompletion)
+  return target;
+}
+
+size_t TaskCompletion::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:mapr.TaskCompletion)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .mapr.ResultFile result_files = 3;
+  total_size += 1UL * this->_internal_result_files_size();
+  for (const auto& msg : this->result_files_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // int32 task_id = 1;
+  if (this->task_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_task_id());
+  }
+
+  // int32 worker_id = 2;
+  if (this->worker_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_worker_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void TaskCompletion::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:mapr.TaskCompletion)
+  GOOGLE_DCHECK_NE(&from, this);
+  const TaskCompletion* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TaskCompletion>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.TaskCompletion)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.TaskCompletion)
+    MergeFrom(*source);
+  }
+}
+
+void TaskCompletion::MergeFrom(const TaskCompletion& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:mapr.TaskCompletion)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  result_files_.MergeFrom(from.result_files_);
+  if (from.task_id() != 0) {
+    _internal_set_task_id(from._internal_task_id());
+  }
+  if (from.worker_id() != 0) {
+    _internal_set_worker_id(from._internal_worker_id());
+  }
+}
+
+void TaskCompletion::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:mapr.TaskCompletion)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void TaskCompletion::CopyFrom(const TaskCompletion& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:mapr.TaskCompletion)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TaskCompletion::IsInitialized() const {
+  return true;
+}
+
+void TaskCompletion::InternalSwap(TaskCompletion* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  result_files_.InternalSwap(&other->result_files_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TaskCompletion, worker_id_)
+      + sizeof(TaskCompletion::worker_id_)
+      - PROTOBUF_FIELD_OFFSET(TaskCompletion, task_id_)>(
+          reinterpret_cast<char*>(&task_id_),
+          reinterpret_cast<char*>(&other->task_id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TaskCompletion::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class FileInfo::_Internal {
+ public:
+};
+
+FileInfo::FileInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:mapr.ShardData)
+  // @@protoc_insertion_point(arena_constructor:mapr.FileInfo)
 }
-ShardData::ShardData(const ShardData& from)
+FileInfo::FileInfo(const FileInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   fname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -600,11 +895,11 @@ ShardData::ShardData(const ShardData& from)
   ::memcpy(&start_, &from.start_,
     static_cast<size_t>(reinterpret_cast<char*>(&end_) -
     reinterpret_cast<char*>(&start_)) + sizeof(end_));
-  // @@protoc_insertion_point(copy_constructor:mapr.ShardData)
+  // @@protoc_insertion_point(copy_constructor:mapr.FileInfo)
 }
 
-void ShardData::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ShardData_central_2eproto.base);
+void FileInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_FileInfo_central_2eproto.base);
   fname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
       reinterpret_cast<char*>(&start_) - reinterpret_cast<char*>(this)),
@@ -612,34 +907,34 @@ void ShardData::SharedCtor() {
       reinterpret_cast<char*>(&start_)) + sizeof(end_));
 }
 
-ShardData::~ShardData() {
-  // @@protoc_insertion_point(destructor:mapr.ShardData)
+FileInfo::~FileInfo() {
+  // @@protoc_insertion_point(destructor:mapr.FileInfo)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void ShardData::SharedDtor() {
+void FileInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   fname_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void ShardData::ArenaDtor(void* object) {
-  ShardData* _this = reinterpret_cast< ShardData* >(object);
+void FileInfo::ArenaDtor(void* object) {
+  FileInfo* _this = reinterpret_cast< FileInfo* >(object);
   (void)_this;
 }
-void ShardData::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void FileInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void ShardData::SetCachedSize(int size) const {
+void FileInfo::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ShardData& ShardData::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ShardData_central_2eproto.base);
+const FileInfo& FileInfo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_FileInfo_central_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void ShardData::Clear() {
-// @@protoc_insertion_point(message_clear_start:mapr.ShardData)
+void FileInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:mapr.FileInfo)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -651,7 +946,7 @@ void ShardData::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* ShardData::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* FileInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -663,7 +958,7 @@ const char* ShardData::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_fname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.ShardData.fname"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.FileInfo.fname"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -703,9 +998,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* ShardData::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* FileInfo::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:mapr.ShardData)
+  // @@protoc_insertion_point(serialize_to_array_start:mapr.FileInfo)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -714,7 +1009,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_fname().data(), static_cast<int>(this->_internal_fname().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "mapr.ShardData.fname");
+      "mapr.FileInfo.fname");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_fname(), target);
   }
@@ -735,12 +1030,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:mapr.ShardData)
+  // @@protoc_insertion_point(serialize_to_array_end:mapr.FileInfo)
   return target;
 }
 
-size_t ShardData::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:mapr.ShardData)
+size_t FileInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:mapr.FileInfo)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -777,23 +1072,23 @@ size_t ShardData::ByteSizeLong() const {
   return total_size;
 }
 
-void ShardData::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:mapr.ShardData)
+void FileInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:mapr.FileInfo)
   GOOGLE_DCHECK_NE(&from, this);
-  const ShardData* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ShardData>(
+  const FileInfo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<FileInfo>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.ShardData)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.FileInfo)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.ShardData)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.FileInfo)
     MergeFrom(*source);
   }
 }
 
-void ShardData::MergeFrom(const ShardData& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:mapr.ShardData)
+void FileInfo::MergeFrom(const FileInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:mapr.FileInfo)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -810,37 +1105,37 @@ void ShardData::MergeFrom(const ShardData& from) {
   }
 }
 
-void ShardData::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:mapr.ShardData)
+void FileInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:mapr.FileInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ShardData::CopyFrom(const ShardData& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:mapr.ShardData)
+void FileInfo::CopyFrom(const FileInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:mapr.FileInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ShardData::IsInitialized() const {
+bool FileInfo::IsInitialized() const {
   return true;
 }
 
-void ShardData::InternalSwap(ShardData* other) {
+void FileInfo::InternalSwap(FileInfo* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   fname_.Swap(&other->fname_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ShardData, end_)
-      + sizeof(ShardData::end_)
-      - PROTOBUF_FIELD_OFFSET(ShardData, start_)>(
+      PROTOBUF_FIELD_OFFSET(FileInfo, end_)
+      + sizeof(FileInfo::end_)
+      - PROTOBUF_FIELD_OFFSET(FileInfo, start_)>(
           reinterpret_cast<char*>(&start_),
           reinterpret_cast<char*>(&other->start_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata ShardData::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata FileInfo::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -849,45 +1144,37 @@ void ShardData::InternalSwap(ShardData* other) {
 
 class Task::_Internal {
  public:
-  static const ::mapr::ShardData& mapshard(const Task* msg);
 };
 
-const ::mapr::ShardData&
-Task::_Internal::mapshard(const Task* msg) {
-  return *msg->mapshard_;
-}
 Task::Task(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  files_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:mapr.Task)
 }
 Task::Task(const Task& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      files_(from.files_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  taskid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_taskid().empty()) {
-    taskid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_taskid(), 
+  task_type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_task_type().empty()) {
+    task_type_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_task_type(), 
       GetArena());
   }
-  tasktype_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_tasktype().empty()) {
-    tasktype_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_tasktype(), 
-      GetArena());
-  }
-  if (from._internal_has_mapshard()) {
-    mapshard_ = new ::mapr::ShardData(*from.mapshard_);
-  } else {
-    mapshard_ = nullptr;
-  }
+  ::memcpy(&task_id_, &from.task_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&worker_id_) -
+    reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
   // @@protoc_insertion_point(copy_constructor:mapr.Task)
 }
 
 void Task::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Task_central_2eproto.base);
-  taskid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  tasktype_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  mapshard_ = nullptr;
+  task_type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+      reinterpret_cast<char*>(&task_id_) - reinterpret_cast<char*>(this)),
+      0, static_cast<size_t>(reinterpret_cast<char*>(&worker_id_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
 }
 
 Task::~Task() {
@@ -898,9 +1185,7 @@ Task::~Task() {
 
 void Task::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
-  taskid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  tasktype_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (this != internal_default_instance()) delete mapshard_;
+  task_type_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void Task::ArenaDtor(void* object) {
@@ -924,12 +1209,11 @@ void Task::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  taskid_.ClearToEmpty();
-  tasktype_.ClearToEmpty();
-  if (GetArena() == nullptr && mapshard_ != nullptr) {
-    delete mapshard_;
-  }
-  mapshard_ = nullptr;
+  files_.Clear();
+  task_type_.ClearToEmpty();
+  ::memset(&task_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&worker_id_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -940,29 +1224,39 @@ const char* Task::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inter
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string taskid = 1;
+      // int32 task_id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          auto str = _internal_mutable_taskid();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.Task.taskid"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          task_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string tasktype = 2;
+      // int32 worker_id = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_tasktype();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.Task.tasktype"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          worker_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .mapr.ShardData mapshard = 3;
+      // string task_type = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr = ctx->ParseMessage(_internal_mutable_mapshard(), ptr);
+          auto str = _internal_mutable_task_type();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.Task.task_type"));
           CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .mapr.FileInfo files = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_files(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -993,32 +1287,34 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string taskid = 1;
-  if (this->taskid().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_taskid().data(), static_cast<int>(this->_internal_taskid().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "mapr.Task.taskid");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_taskid(), target);
+  // int32 task_id = 1;
+  if (this->task_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_task_id(), target);
   }
 
-  // string tasktype = 2;
-  if (this->tasktype().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_tasktype().data(), static_cast<int>(this->_internal_tasktype().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "mapr.Task.tasktype");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_tasktype(), target);
+  // int32 worker_id = 2;
+  if (this->worker_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_worker_id(), target);
   }
 
-  // .mapr.ShardData mapshard = 3;
-  if (this->has_mapshard()) {
+  // string task_type = 3;
+  if (this->task_type().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_task_type().data(), static_cast<int>(this->_internal_task_type().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "mapr.Task.task_type");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_task_type(), target);
+  }
+
+  // repeated .mapr.FileInfo files = 4;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_files_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        3, _Internal::mapshard(this), target, stream);
+      InternalWriteMessage(4, this->_internal_files(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1037,25 +1333,32 @@ size_t Task::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string taskid = 1;
-  if (this->taskid().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_taskid());
+  // repeated .mapr.FileInfo files = 4;
+  total_size += 1UL * this->_internal_files_size();
+  for (const auto& msg : this->files_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // string tasktype = 2;
-  if (this->tasktype().size() > 0) {
+  // string task_type = 3;
+  if (this->task_type().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_tasktype());
+        this->_internal_task_type());
   }
 
-  // .mapr.ShardData mapshard = 3;
-  if (this->has_mapshard()) {
+  // int32 task_id = 1;
+  if (this->task_id() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *mapshard_);
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_task_id());
+  }
+
+  // int32 worker_id = 2;
+  if (this->worker_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_worker_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1089,14 +1392,15 @@ void Task::MergeFrom(const Task& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.taskid().size() > 0) {
-    _internal_set_taskid(from._internal_taskid());
+  files_.MergeFrom(from.files_);
+  if (from.task_type().size() > 0) {
+    _internal_set_task_type(from._internal_task_type());
   }
-  if (from.tasktype().size() > 0) {
-    _internal_set_tasktype(from._internal_tasktype());
+  if (from.task_id() != 0) {
+    _internal_set_task_id(from._internal_task_id());
   }
-  if (from.has_mapshard()) {
-    _internal_mutable_mapshard()->::mapr::ShardData::MergeFrom(from._internal_mapshard());
+  if (from.worker_id() != 0) {
+    _internal_set_worker_id(from._internal_worker_id());
   }
 }
 
@@ -1121,9 +1425,14 @@ bool Task::IsInitialized() const {
 void Task::InternalSwap(Task* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  taskid_.Swap(&other->taskid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  tasktype_.Swap(&other->tasktype_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  swap(mapshard_, other->mapshard_);
+  files_.InternalSwap(&other->files_);
+  task_type_.Swap(&other->task_type_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Task, worker_id_)
+      + sizeof(Task::worker_id_)
+      - PROTOBUF_FIELD_OFFSET(Task, task_id_)>(
+          reinterpret_cast<char*>(&task_id_),
+          reinterpret_cast<char*>(&other->task_id_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Task::GetMetadata() const {
@@ -1134,14 +1443,17 @@ void Task::InternalSwap(Task* other) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace mapr
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::mapr::HandShakeRequest* Arena::CreateMaybeMessage< ::mapr::HandShakeRequest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::mapr::HandShakeRequest >(arena);
+template<> PROTOBUF_NOINLINE ::mapr::TaskReception* Arena::CreateMaybeMessage< ::mapr::TaskReception >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::mapr::TaskReception >(arena);
 }
-template<> PROTOBUF_NOINLINE ::mapr::HandShakeReply* Arena::CreateMaybeMessage< ::mapr::HandShakeReply >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::mapr::HandShakeReply >(arena);
+template<> PROTOBUF_NOINLINE ::mapr::ResultFile* Arena::CreateMaybeMessage< ::mapr::ResultFile >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::mapr::ResultFile >(arena);
 }
-template<> PROTOBUF_NOINLINE ::mapr::ShardData* Arena::CreateMaybeMessage< ::mapr::ShardData >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::mapr::ShardData >(arena);
+template<> PROTOBUF_NOINLINE ::mapr::TaskCompletion* Arena::CreateMaybeMessage< ::mapr::TaskCompletion >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::mapr::TaskCompletion >(arena);
+}
+template<> PROTOBUF_NOINLINE ::mapr::FileInfo* Arena::CreateMaybeMessage< ::mapr::FileInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::mapr::FileInfo >(arena);
 }
 template<> PROTOBUF_NOINLINE ::mapr::Task* Arena::CreateMaybeMessage< ::mapr::Task >(Arena* arena) {
   return Arena::CreateMessageInternal< ::mapr::Task >(arena);

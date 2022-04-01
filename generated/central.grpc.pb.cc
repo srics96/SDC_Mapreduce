@@ -22,8 +22,7 @@
 namespace mapr {
 
 static const char* WorkerService_method_names[] = {
-  "/mapr.WorkerService/handshake",
-  "/mapr.WorkerService/map",
+  "/mapr.WorkerService/execute_task",
 };
 
 std::unique_ptr< WorkerService::Stub> WorkerService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -33,52 +32,28 @@ std::unique_ptr< WorkerService::Stub> WorkerService::NewStub(const std::shared_p
 }
 
 WorkerService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
-  : channel_(channel), rpcmethod_handshake_(WorkerService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_map_(WorkerService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  : channel_(channel), rpcmethod_execute_task_(WorkerService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status WorkerService::Stub::handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::mapr::HandShakeReply* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::mapr::HandShakeRequest, ::mapr::HandShakeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_handshake_, context, request, response);
+::grpc::Status WorkerService::Stub::execute_task(::grpc::ClientContext* context, const ::mapr::Task& request, ::mapr::TaskReception* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::mapr::Task, ::mapr::TaskReception, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_execute_task_, context, request, response);
 }
 
-void WorkerService::Stub::experimental_async::handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::mapr::HandShakeRequest, ::mapr::HandShakeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_handshake_, context, request, response, std::move(f));
+void WorkerService::Stub::experimental_async::execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::mapr::Task, ::mapr::TaskReception, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_execute_task_, context, request, response, std::move(f));
 }
 
-void WorkerService::Stub::experimental_async::handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_handshake_, context, request, response, reactor);
+void WorkerService::Stub::experimental_async::execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_execute_task_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* WorkerService::Stub::PrepareAsynchandshakeRaw(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::mapr::HandShakeReply, ::mapr::HandShakeRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_handshake_, context, request);
+::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>* WorkerService::Stub::PrepareAsyncexecute_taskRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::mapr::TaskReception, ::mapr::Task, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_execute_task_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* WorkerService::Stub::AsynchandshakeRaw(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>* WorkerService::Stub::Asyncexecute_taskRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsynchandshakeRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-::grpc::Status WorkerService::Stub::map(::grpc::ClientContext* context, const ::mapr::Task& request, ::mapr::HandShakeReply* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::mapr::Task, ::mapr::HandShakeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_map_, context, request, response);
-}
-
-void WorkerService::Stub::experimental_async::map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::mapr::Task, ::mapr::HandShakeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_map_, context, request, response, std::move(f));
-}
-
-void WorkerService::Stub::experimental_async::map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_map_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* WorkerService::Stub::PrepareAsyncmapRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::mapr::HandShakeReply, ::mapr::Task, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_map_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* WorkerService::Stub::AsyncmapRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncmapRaw(context, request, cq);
+    this->PrepareAsyncexecute_taskRaw(context, request, cq);
   result->StartCall();
   return result;
 }
@@ -87,36 +62,19 @@ WorkerService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       WorkerService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< WorkerService::Service, ::mapr::HandShakeRequest, ::mapr::HandShakeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](WorkerService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::mapr::HandShakeRequest* req,
-             ::mapr::HandShakeReply* resp) {
-               return service->handshake(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      WorkerService_method_names[1],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< WorkerService::Service, ::mapr::Task, ::mapr::HandShakeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      new ::grpc::internal::RpcMethodHandler< WorkerService::Service, ::mapr::Task, ::mapr::TaskReception, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](WorkerService::Service* service,
              ::grpc::ServerContext* ctx,
              const ::mapr::Task* req,
-             ::mapr::HandShakeReply* resp) {
-               return service->map(ctx, req, resp);
+             ::mapr::TaskReception* resp) {
+               return service->execute_task(ctx, req, resp);
              }, this)));
 }
 
 WorkerService::Service::~Service() {
 }
 
-::grpc::Status WorkerService::Service::handshake(::grpc::ServerContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status WorkerService::Service::map(::grpc::ServerContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response) {
+::grpc::Status WorkerService::Service::execute_task(::grpc::ServerContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response) {
   (void) context;
   (void) request;
   (void) response;

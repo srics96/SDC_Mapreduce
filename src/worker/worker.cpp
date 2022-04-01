@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <thread>
 
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include <grpcpp/grpcpp.h>
@@ -22,16 +23,15 @@ using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
 
+using mapr::FileInfo;
 using mapr::WorkerService;
-using mapr::HandShakeRequest;
-using mapr::HandShakeReply;
 using mapr::Task;
-using mapr::ShardData;
+using mapr::TaskReception;
 
 using namespace std;
 
 
-class Mapper {
+class TaskExecutor {
     
     private:
         string getFileContents(ShardFileInfo fileInfo) {
@@ -40,10 +40,10 @@ class Mapper {
         }
 
     public:
-        string adjust_shard_boundaries(const Task* task){
-            int start = task->mapshard().start();
-            int end = task->mapshard().end();
-            string fname = task->mapshard().fname();
+        string adjust_shard_boundaries(const FileInfo* file){
+            int start = file->start();
+            int end = file->end();
+            string fname = file->fname();
             ShardFileInfo sh;
             sh.startOffset = start; 
             sh.endOffset = end;
@@ -97,84 +97,50 @@ class Mapper {
             return data;
         }
 
-        void new_map(const Task* task) {            
-            string shardContent = adjust_shard_boundaries(task);
-            shardContent += "\ngatech";
-            string blobname = task->taskid() + ".txt";
-            string filename = "./intermediates/" + blobname;
-            std::ofstream out(filename, std::ios::out);
-            out << shardContent;
-            out.close();            
-            auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);           
-            as.upload_file(filename, "final_intermediates/" + blobname);
+        void map(const Task* task) {        
+            std::vector<FileInfo> files(task->files().begin(), task->files().end());
+            string shard_content = "";
+            for (auto file: files) {
+                shard_content += adjust_shard_boundaries(&file);
+                shard_content += " ";
+            }
+            cout << "Map called" << endl;
+            /*
+            1. Write shard content to a file.
+            2. Call python Mapper.
+            */
+            
         }
 
-
-        void old_map() {
-            std::map<string, string> outFilePaths;
-            vector<shared_ptr<ShardAllocation>> shards = createShardAllocations();
-            for (auto shard: shards) {
-                string shardContent;
-                for (auto file: shard->files) {
-                    shardContent += getFileContents(file);
-                    shardContent += "\n";
-                }
-                shardContent += "gatech";
-                string blobname = std::to_string(shard->id) + ".txt";
-                string filename = "./intermediates/" + blobname;
-                std::ofstream out(filename, std::ios::out);
-                out << shardContent;
-                out.close();
-                outFilePaths[blobname] = filename;
-            }
-            auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
-
-            std::map<string, string>::iterator it;
-            for (it=outFilePaths.begin(); it!=outFilePaths.end(); it++)
-                as.upload_file(it->second, "mapper_intermediates/" + it->first);
+        void reduce(const Task* task) {
+            std::vector<FileInfo> files(task->files().begin(), task->files().end());
+            cout << "Reduce called" << endl;
+            /*
+            1. Download the M intermediate files.
+            2. Call the Reducer M + 1 times.
+            */
         }
 };
 
 
-
 class WorkerServiceImpl final : public WorkerService::Service {
     
-    Status handshake(
-        ServerContext* context, 
-        const HandShakeRequest* request,
-        HandShakeReply* reply
-    ) override {
-        cout << "Received message " << request->message() << endl;
-        string response = request->message() + " gatech";
-        reply->set_message(response);
-        return Status::OK;
-    }
-
-    Status map(
+    Status execute_task(
         ServerContext* context, 
         const Task* task,
-        HandShakeReply* reply
+        TaskReception* reception 
     ) override {
-        cout << "Received Task " << task->taskid() <<
-        " " << task->tasktype() << " " << task->mapshard().fname() 
-        << " " <<task->mapshard().start() 
-        <<" " << task->mapshard().end() << endl;
-        string response = task->taskid() + " gatech";
-
-        map(task);
-        reply->set_message(response);
+        string reception_text = "Received Task " + to_string(task->task_id()) + " " + task->task_type();
+        cout << reception_text << endl;
+        TaskExecutor* taskPtr = new TaskExecutor();
+        if (task->task_type() == "map")
+            std::thread task_thread(&TaskExecutor::map, taskPtr, task);
+        else
+            std::thread task_thread(&TaskExecutor::reduce, taskPtr, task);
+        reception->set_message(reception_text);
         return Status::OK;
     }
 
-    void adjust_shard_boundaries(const Task* task){
-        Mapper mapper;
-        mapper.adjust_shard_boundaries(task);
-    }
-
-    void map(const Task* task) {
-        Mapper mapper;
-        mapper.new_map(task);
-    }
 };
 
 string get_local_ip() {

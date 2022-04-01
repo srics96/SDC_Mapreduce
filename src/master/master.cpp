@@ -26,10 +26,9 @@ using grpc::ClientContext;
 using grpc::Status;
 
 using mapr::WorkerService;
-using mapr::HandShakeRequest;
-using mapr::HandShakeReply;
 using mapr::Task;
-using mapr::ShardData;
+using mapr::TaskReception;
+using mapr::FileInfo;
 
 using namespace std;
 
@@ -39,45 +38,33 @@ class MasterClient {
     public:
         MasterClient(std::shared_ptr<Channel> channel): stub_(WorkerService::NewStub(channel)) {}
 
-        std::string handshake(string message) {
-            HandShakeRequest request;
-            request.set_message(message);
-
-            HandShakeReply reply;
-
-            ClientContext context;
-
-            Status status = stub_->handshake(&context, request, &reply);
-
-            if (status.ok()) {
-                return reply.message();
-            } else {
-                std::cout << status.error_code() << ": " << status.error_message() << std::endl;
-            }
-        
-        }
-
-        std::string map(string tasktype, string taskid, string fname, int start, int end) {
+        std::string execute_task(shared_ptr<TaskInstance> task_instance, shared_ptr<WorkerInstance> worker) {
             Task task;
-            task.set_tasktype(tasktype);
-            task.set_taskid(taskid);
+            string task_type;
             
-            ShardData *shard = new ShardData(); 
-            shard->set_fname(fname);
-            shard->set_end(end);
-            shard->set_start(start);
-            
-            task.set_allocated_mapshard(shard);
-            
+            if (task_instance->taskType == TaskType::map)
+                task_type = "map";
+            else
+                task_type = "reduce";
 
-            HandShakeReply reply;
+            task.set_task_type(task_type);
+            task.set_task_id(task_instance->id);
+            
+            FileInfo* file_info = task.add_files();
+            
+            for (auto file: task_instance->shard->files) {
+                file_info->set_fname(file.fileName);
+                file_info->set_start(file.startOffset);
+                file_info->set_end(file.endOffset);
+            }
 
+            TaskReception reception;
             ClientContext context;
 
-            Status status = stub_->map(&context, task, &reply);
+            Status status = stub_->execute_task(&context, task, &reception);
 
             if (status.ok()) {
-                return reply.message();
+                return reception.message();
             } else {
                 std::cout << status.error_code() << ": " << status.error_message() << std::endl;
             }
@@ -91,10 +78,8 @@ class MasterClient {
 class Master {
 
     private:
-        vector<shared_ptr<TaskInstance>> tasks_;
+        queue<shared_ptr<TaskInstance>> tasks_;
         vector<shared_ptr<WorkerInstance>> workers_;
-        int worker_sequence_ = 0;
-
     public:
         Master() {}
 
@@ -106,16 +91,21 @@ class Master {
         }
 
         shared_ptr<WorkerInstance> choose_worker() {
-            auto worker = workers_[worker_sequence_];
-            worker_sequence_ = (worker_sequence_ + 1) % workers_.size();
-            return worker;
+            for (auto worker: workers_) {
+                if (worker->status == WorkerStatus::idle)
+                    return worker;
+            }
+            return NULL;
         }
 
         void schedule() {
             cout << "Schedule phase" << endl;
-            
-            for (auto task: tasks_) {
+            while (!tasks_.empty()) {
+                auto task = tasks_.front();
+                tasks_.pop();
                 auto worker = choose_worker();
+                if (worker == NULL)
+                    continue;    
                 cout << "For task id: " << task->id << " worker is: " << worker->id << endl;
                 trigger(task, worker);
                 cout << "Trigger complete" << endl;
@@ -123,14 +113,11 @@ class Master {
         }
         
         void trigger(shared_ptr<TaskInstance> task, shared_ptr<WorkerInstance> worker) {
-            string serverAddress = worker->address + ":5001";
+            string serverAddress = worker->address;
             LOG(INFO) << "The server address is " << serverAddress << endl;
             MasterClient masterClient(worker->channel);
             LOG(INFO) << "Connected to server" << endl;
-
-            string tasktype("Map"), taskid(std::to_string(task->id));
-            
-            string reply = masterClient.map(tasktype, taskid, task->shard->files[0].fileName, task->shard->files[0].startOffset, task->shard->files[0].endOffset); 
+            string reply = masterClient.execute_task(task, worker);
             LOG(INFO) << "Handshake response received: " << reply << std::endl;
         }
 
@@ -145,7 +132,7 @@ class Master {
             int id = 1;
             for (auto shard: shards) {
                 auto task = make_shared<TaskInstance>(id, TaskType::map, shard);
-                tasks_.push_back(task);
+                tasks_.push(task);
                 id = id + 1;
             }
             schedule();

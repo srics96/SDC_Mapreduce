@@ -36,34 +36,21 @@ class WorkerService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::mapr::HandShakeReply* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>> Asynchandshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>>(AsynchandshakeRaw(context, request, cq));
+    virtual ::grpc::Status execute_task(::grpc::ClientContext* context, const ::mapr::Task& request, ::mapr::TaskReception* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskReception>> Asyncexecute_task(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskReception>>(Asyncexecute_taskRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>> PrepareAsynchandshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>>(PrepareAsynchandshakeRaw(context, request, cq));
-    }
-    virtual ::grpc::Status map(::grpc::ClientContext* context, const ::mapr::Task& request, ::mapr::HandShakeReply* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>> Asyncmap(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>>(AsyncmapRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>> PrepareAsyncmap(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>>(PrepareAsyncmapRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskReception>> PrepareAsyncexecute_task(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskReception>>(PrepareAsyncexecute_taskRaw(context, request, cq));
     }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
-      virtual void handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      virtual void map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
     };
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -74,42 +61,27 @@ class WorkerService final {
     #endif
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>* AsynchandshakeRaw(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>* PrepareAsynchandshakeRaw(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>* AsyncmapRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::HandShakeReply>* PrepareAsyncmapRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskReception>* Asyncexecute_taskRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskReception>* PrepareAsyncexecute_taskRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::mapr::HandShakeReply* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>> Asynchandshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>>(AsynchandshakeRaw(context, request, cq));
+    ::grpc::Status execute_task(::grpc::ClientContext* context, const ::mapr::Task& request, ::mapr::TaskReception* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>> Asyncexecute_task(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>>(Asyncexecute_taskRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>> PrepareAsynchandshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>>(PrepareAsynchandshakeRaw(context, request, cq));
-    }
-    ::grpc::Status map(::grpc::ClientContext* context, const ::mapr::Task& request, ::mapr::HandShakeReply* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>> Asyncmap(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>>(AsyncmapRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>> PrepareAsyncmap(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>>(PrepareAsyncmapRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>> PrepareAsyncexecute_task(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>>(PrepareAsyncexecute_taskRaw(context, request, cq));
     }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
-      void handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, std::function<void(::grpc::Status)>) override;
+      void execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
-      void handshake(::grpc::ClientContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      void map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void map(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void execute_task(::grpc::ClientContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
      private:
       friend class Stub;
@@ -122,12 +94,9 @@ class WorkerService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class experimental_async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* AsynchandshakeRaw(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* PrepareAsynchandshakeRaw(::grpc::ClientContext* context, const ::mapr::HandShakeRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* AsyncmapRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::mapr::HandShakeReply>* PrepareAsyncmapRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_handshake_;
-    const ::grpc::internal::RpcMethod rpcmethod_map_;
+    ::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>* Asyncexecute_taskRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::mapr::TaskReception>* PrepareAsyncexecute_taskRaw(::grpc::ClientContext* context, const ::mapr::Task& request, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_execute_task_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -135,229 +104,124 @@ class WorkerService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status handshake(::grpc::ServerContext* context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response);
-    virtual ::grpc::Status map(::grpc::ServerContext* context, const ::mapr::Task* request, ::mapr::HandShakeReply* response);
+    virtual ::grpc::Status execute_task(::grpc::ServerContext* context, const ::mapr::Task* request, ::mapr::TaskReception* response);
   };
   template <class BaseClass>
-  class WithAsyncMethod_handshake : public BaseClass {
+  class WithAsyncMethod_execute_task : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithAsyncMethod_handshake() {
+    WithAsyncMethod_execute_task() {
       ::grpc::Service::MarkMethodAsync(0);
     }
-    ~WithAsyncMethod_handshake() override {
+    ~WithAsyncMethod_execute_task() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status handshake(::grpc::ServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
+    ::grpc::Status execute_task(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requesthandshake(::grpc::ServerContext* context, ::mapr::HandShakeRequest* request, ::grpc::ServerAsyncResponseWriter< ::mapr::HandShakeReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void Requestexecute_task(::grpc::ServerContext* context, ::mapr::Task* request, ::grpc::ServerAsyncResponseWriter< ::mapr::TaskReception>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
+  typedef WithAsyncMethod_execute_task<Service > AsyncService;
   template <class BaseClass>
-  class WithAsyncMethod_map : public BaseClass {
+  class ExperimentalWithCallbackMethod_execute_task : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithAsyncMethod_map() {
-      ::grpc::Service::MarkMethodAsync(1);
-    }
-    ~WithAsyncMethod_map() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status map(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void Requestmap(::grpc::ServerContext* context, ::mapr::Task* request, ::grpc::ServerAsyncResponseWriter< ::mapr::HandShakeReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  typedef WithAsyncMethod_handshake<WithAsyncMethod_map<Service > > AsyncService;
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_handshake : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_handshake() {
+    ExperimentalWithCallbackMethod_execute_task() {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::Service::
     #else
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::mapr::HandShakeRequest, ::mapr::HandShakeReply>(
+          new ::grpc::internal::CallbackUnaryHandler< ::mapr::Task, ::mapr::TaskReception>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::mapr::HandShakeRequest* request, ::mapr::HandShakeReply* response) { return this->handshake(context, request, response); }));}
-    void SetMessageAllocatorFor_handshake(
-        ::grpc::experimental::MessageAllocator< ::mapr::HandShakeRequest, ::mapr::HandShakeReply>* allocator) {
+                     context, const ::mapr::Task* request, ::mapr::TaskReception* response) { return this->execute_task(context, request, response); }));}
+    void SetMessageAllocatorFor_execute_task(
+        ::grpc::experimental::MessageAllocator< ::mapr::Task, ::mapr::TaskReception>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
     #else
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
     #endif
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::mapr::HandShakeRequest, ::mapr::HandShakeReply>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::mapr::Task, ::mapr::TaskReception>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~ExperimentalWithCallbackMethod_handshake() override {
+    ~ExperimentalWithCallbackMethod_execute_task() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status handshake(::grpc::ServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
+    ::grpc::Status execute_task(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* handshake(
-      ::grpc::CallbackServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/)
+    virtual ::grpc::ServerUnaryReactor* execute_task(
+      ::grpc::CallbackServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/)
     #else
-    virtual ::grpc::experimental::ServerUnaryReactor* handshake(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_map : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_map() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(1,
-          new ::grpc::internal::CallbackUnaryHandler< ::mapr::Task, ::mapr::HandShakeReply>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::mapr::Task* request, ::mapr::HandShakeReply* response) { return this->map(context, request, response); }));}
-    void SetMessageAllocatorFor_map(
-        ::grpc::experimental::MessageAllocator< ::mapr::Task, ::mapr::HandShakeReply>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
-    #endif
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::mapr::Task, ::mapr::HandShakeReply>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~ExperimentalWithCallbackMethod_map() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status map(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* map(
-      ::grpc::CallbackServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* map(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/)
+    virtual ::grpc::experimental::ServerUnaryReactor* execute_task(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/)
     #endif
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_handshake<ExperimentalWithCallbackMethod_map<Service > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_execute_task<Service > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_handshake<ExperimentalWithCallbackMethod_map<Service > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_execute_task<Service > ExperimentalCallbackService;
   template <class BaseClass>
-  class WithGenericMethod_handshake : public BaseClass {
+  class WithGenericMethod_execute_task : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_handshake() {
+    WithGenericMethod_execute_task() {
       ::grpc::Service::MarkMethodGeneric(0);
     }
-    ~WithGenericMethod_handshake() override {
+    ~WithGenericMethod_execute_task() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status handshake(::grpc::ServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
+    ::grpc::Status execute_task(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_map : public BaseClass {
+  class WithRawMethod_execute_task : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_map() {
-      ::grpc::Service::MarkMethodGeneric(1);
-    }
-    ~WithGenericMethod_map() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status map(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_handshake : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_handshake() {
+    WithRawMethod_execute_task() {
       ::grpc::Service::MarkMethodRaw(0);
     }
-    ~WithRawMethod_handshake() override {
+    ~WithRawMethod_execute_task() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status handshake(::grpc::ServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
+    ::grpc::Status execute_task(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requesthandshake(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void Requestexecute_task(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithRawMethod_map : public BaseClass {
+  class ExperimentalWithRawCallbackMethod_execute_task : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_map() {
-      ::grpc::Service::MarkMethodRaw(1);
-    }
-    ~WithRawMethod_map() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status map(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void Requestmap(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_handshake : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithRawCallbackMethod_handshake() {
+    ExperimentalWithRawCallbackMethod_execute_task() {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::Service::
     #else
@@ -371,120 +235,55 @@ class WorkerService final {
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->handshake(context, request, response); }));
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->execute_task(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_handshake() override {
+    ~ExperimentalWithRawCallbackMethod_execute_task() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status handshake(::grpc::ServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
+    ::grpc::Status execute_task(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* handshake(
+    virtual ::grpc::ServerUnaryReactor* execute_task(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
     #else
-    virtual ::grpc::experimental::ServerUnaryReactor* handshake(
+    virtual ::grpc::experimental::ServerUnaryReactor* execute_task(
       ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
     #endif
       { return nullptr; }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_map : public BaseClass {
+  class WithStreamedUnaryMethod_execute_task : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    ExperimentalWithRawCallbackMethod_map() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(1,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->map(context, request, response); }));
-    }
-    ~ExperimentalWithRawCallbackMethod_map() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status map(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* map(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* map(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_handshake : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_handshake() {
+    WithStreamedUnaryMethod_execute_task() {
       ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::mapr::HandShakeRequest, ::mapr::HandShakeReply>(
+          ::mapr::Task, ::mapr::TaskReception>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::mapr::HandShakeRequest, ::mapr::HandShakeReply>* streamer) {
-                       return this->Streamedhandshake(context,
+                     ::mapr::Task, ::mapr::TaskReception>* streamer) {
+                       return this->Streamedexecute_task(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_handshake() override {
+    ~WithStreamedUnaryMethod_execute_task() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status handshake(::grpc::ServerContext* /*context*/, const ::mapr::HandShakeRequest* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
+    ::grpc::Status execute_task(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::TaskReception* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedhandshake(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::mapr::HandShakeRequest,::mapr::HandShakeReply>* server_unary_streamer) = 0;
+    virtual ::grpc::Status Streamedexecute_task(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::mapr::Task,::mapr::TaskReception>* server_unary_streamer) = 0;
   };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_map : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_map() {
-      ::grpc::Service::MarkMethodStreamed(1,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::mapr::Task, ::mapr::HandShakeReply>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
-                     ::mapr::Task, ::mapr::HandShakeReply>* streamer) {
-                       return this->Streamedmap(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_map() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status map(::grpc::ServerContext* /*context*/, const ::mapr::Task* /*request*/, ::mapr::HandShakeReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedmap(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::mapr::Task,::mapr::HandShakeReply>* server_unary_streamer) = 0;
-  };
-  typedef WithStreamedUnaryMethod_handshake<WithStreamedUnaryMethod_map<Service > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_execute_task<Service > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_handshake<WithStreamedUnaryMethod_map<Service > > StreamedService;
+  typedef WithStreamedUnaryMethod_execute_task<Service > StreamedService;
 };
 
 }  // namespace mapr

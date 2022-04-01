@@ -3,29 +3,32 @@ syntax = "proto3";
 package mapr;
 
 service WorkerService {
-  rpc handshake (HandShakeRequest) returns (HandShakeReply) {}
-  rpc map (Task) returns (HandShakeReply) {}
+  rpc execute_task (Task) returns (TaskReception) {}
 }
 
-message HandShakeRequest {
+message TaskReception {
   string message = 1;
 }
 
-message HandShakeReply {
-  string message = 1;
+message ResultFile {
+	string fileName = 1;
 }
 
-message ShardData {
-    string fname = 1;
-    int32 start = 2;
-    int32 end = 3;
+message TaskCompletion {
+  int32 task_id = 1;
+  int32 worker_id = 2;
+  repeated ResultFile result_files = 3;
+}
+
+message FileInfo {
+  string fname = 1;
+  int32 start = 2;
+  int32 end = 3;
 }
 
 message Task{
-  string taskid = 1;
-  string tasktype = 2;
-  ShardData mapshard = 3;
+  int32 task_id = 1;
+  int32 worker_id = 2;
+  string task_type = 3;
+  repeated FileInfo files = 4;
 }
-
-
-

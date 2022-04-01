@@ -46,7 +46,7 @@ struct TableStruct_central_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -54,46 +54,50 @@ struct TableStruct_central_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_central_2eproto;
 namespace mapr {
-class HandShakeReply;
-class HandShakeReplyDefaultTypeInternal;
-extern HandShakeReplyDefaultTypeInternal _HandShakeReply_default_instance_;
-class HandShakeRequest;
-class HandShakeRequestDefaultTypeInternal;
-extern HandShakeRequestDefaultTypeInternal _HandShakeRequest_default_instance_;
-class ShardData;
-class ShardDataDefaultTypeInternal;
-extern ShardDataDefaultTypeInternal _ShardData_default_instance_;
+class FileInfo;
+class FileInfoDefaultTypeInternal;
+extern FileInfoDefaultTypeInternal _FileInfo_default_instance_;
+class ResultFile;
+class ResultFileDefaultTypeInternal;
+extern ResultFileDefaultTypeInternal _ResultFile_default_instance_;
 class Task;
 class TaskDefaultTypeInternal;
 extern TaskDefaultTypeInternal _Task_default_instance_;
+class TaskCompletion;
+class TaskCompletionDefaultTypeInternal;
+extern TaskCompletionDefaultTypeInternal _TaskCompletion_default_instance_;
+class TaskReception;
+class TaskReceptionDefaultTypeInternal;
+extern TaskReceptionDefaultTypeInternal _TaskReception_default_instance_;
 }  // namespace mapr
 PROTOBUF_NAMESPACE_OPEN
-template<> ::mapr::HandShakeReply* Arena::CreateMaybeMessage<::mapr::HandShakeReply>(Arena*);
-template<> ::mapr::HandShakeRequest* Arena::CreateMaybeMessage<::mapr::HandShakeRequest>(Arena*);
-template<> ::mapr::ShardData* Arena::CreateMaybeMessage<::mapr::ShardData>(Arena*);
+template<> ::mapr::FileInfo* Arena::CreateMaybeMessage<::mapr::FileInfo>(Arena*);
+template<> ::mapr::ResultFile* Arena::CreateMaybeMessage<::mapr::ResultFile>(Arena*);
 template<> ::mapr::Task* Arena::CreateMaybeMessage<::mapr::Task>(Arena*);
+template<> ::mapr::TaskCompletion* Arena::CreateMaybeMessage<::mapr::TaskCompletion>(Arena*);
+template<> ::mapr::TaskReception* Arena::CreateMaybeMessage<::mapr::TaskReception>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace mapr {
 
 // ===================================================================
 
-class HandShakeRequest PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.HandShakeRequest) */ {
+class TaskReception PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.TaskReception) */ {
  public:
-  inline HandShakeRequest() : HandShakeRequest(nullptr) {}
-  virtual ~HandShakeRequest();
+  inline TaskReception() : TaskReception(nullptr) {}
+  virtual ~TaskReception();
 
-  HandShakeRequest(const HandShakeRequest& from);
-  HandShakeRequest(HandShakeRequest&& from) noexcept
-    : HandShakeRequest() {
+  TaskReception(const TaskReception& from);
+  TaskReception(TaskReception&& from) noexcept
+    : TaskReception() {
     *this = ::std::move(from);
   }
 
-  inline HandShakeRequest& operator=(const HandShakeRequest& from) {
+  inline TaskReception& operator=(const TaskReception& from) {
     CopyFrom(from);
     return *this;
   }
-  inline HandShakeRequest& operator=(HandShakeRequest&& from) noexcept {
+  inline TaskReception& operator=(TaskReception&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -111,19 +115,19 @@ class HandShakeRequest PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const HandShakeRequest& default_instance();
+  static const TaskReception& default_instance();
 
-  static inline const HandShakeRequest* internal_default_instance() {
-    return reinterpret_cast<const HandShakeRequest*>(
-               &_HandShakeRequest_default_instance_);
+  static inline const TaskReception* internal_default_instance() {
+    return reinterpret_cast<const TaskReception*>(
+               &_TaskReception_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(HandShakeRequest& a, HandShakeRequest& b) {
+  friend void swap(TaskReception& a, TaskReception& b) {
     a.Swap(&b);
   }
-  inline void Swap(HandShakeRequest* other) {
+  inline void Swap(TaskReception* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -131,7 +135,7 @@ class HandShakeRequest PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(HandShakeRequest* other) {
+  void UnsafeArenaSwap(TaskReception* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -139,17 +143,17 @@ class HandShakeRequest PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline HandShakeRequest* New() const final {
-    return CreateMaybeMessage<HandShakeRequest>(nullptr);
+  inline TaskReception* New() const final {
+    return CreateMaybeMessage<TaskReception>(nullptr);
   }
 
-  HandShakeRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<HandShakeRequest>(arena);
+  TaskReception* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TaskReception>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const HandShakeRequest& from);
-  void MergeFrom(const HandShakeRequest& from);
+  void CopyFrom(const TaskReception& from);
+  void MergeFrom(const TaskReception& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -163,13 +167,13 @@ class HandShakeRequest PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(HandShakeRequest* other);
+  void InternalSwap(TaskReception* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "mapr.HandShakeRequest";
+    return "mapr.TaskReception";
   }
   protected:
-  explicit HandShakeRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit TaskReception(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -207,7 +211,7 @@ class HandShakeRequest PROTOBUF_FINAL :
   std::string* _internal_mutable_message();
   public:
 
-  // @@protoc_insertion_point(class_scope:mapr.HandShakeRequest)
+  // @@protoc_insertion_point(class_scope:mapr.TaskReception)
  private:
   class _Internal;
 
@@ -220,23 +224,23 @@ class HandShakeRequest PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
-class HandShakeReply PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.HandShakeReply) */ {
+class ResultFile PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.ResultFile) */ {
  public:
-  inline HandShakeReply() : HandShakeReply(nullptr) {}
-  virtual ~HandShakeReply();
+  inline ResultFile() : ResultFile(nullptr) {}
+  virtual ~ResultFile();
 
-  HandShakeReply(const HandShakeReply& from);
-  HandShakeReply(HandShakeReply&& from) noexcept
-    : HandShakeReply() {
+  ResultFile(const ResultFile& from);
+  ResultFile(ResultFile&& from) noexcept
+    : ResultFile() {
     *this = ::std::move(from);
   }
 
-  inline HandShakeReply& operator=(const HandShakeReply& from) {
+  inline ResultFile& operator=(const ResultFile& from) {
     CopyFrom(from);
     return *this;
   }
-  inline HandShakeReply& operator=(HandShakeReply&& from) noexcept {
+  inline ResultFile& operator=(ResultFile&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -254,19 +258,19 @@ class HandShakeReply PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const HandShakeReply& default_instance();
+  static const ResultFile& default_instance();
 
-  static inline const HandShakeReply* internal_default_instance() {
-    return reinterpret_cast<const HandShakeReply*>(
-               &_HandShakeReply_default_instance_);
+  static inline const ResultFile* internal_default_instance() {
+    return reinterpret_cast<const ResultFile*>(
+               &_ResultFile_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  friend void swap(HandShakeReply& a, HandShakeReply& b) {
+  friend void swap(ResultFile& a, ResultFile& b) {
     a.Swap(&b);
   }
-  inline void Swap(HandShakeReply* other) {
+  inline void Swap(ResultFile* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -274,7 +278,7 @@ class HandShakeReply PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(HandShakeReply* other) {
+  void UnsafeArenaSwap(ResultFile* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -282,17 +286,17 @@ class HandShakeReply PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline HandShakeReply* New() const final {
-    return CreateMaybeMessage<HandShakeReply>(nullptr);
+  inline ResultFile* New() const final {
+    return CreateMaybeMessage<ResultFile>(nullptr);
   }
 
-  HandShakeReply* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<HandShakeReply>(arena);
+  ResultFile* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ResultFile>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const HandShakeReply& from);
-  void MergeFrom(const HandShakeReply& from);
+  void CopyFrom(const ResultFile& from);
+  void MergeFrom(const ResultFile& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -306,13 +310,13 @@ class HandShakeReply PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(HandShakeReply* other);
+  void InternalSwap(ResultFile* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "mapr.HandShakeReply";
+    return "mapr.ResultFile";
   }
   protected:
-  explicit HandShakeReply(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit ResultFile(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -332,54 +336,54 @@ class HandShakeReply PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMessageFieldNumber = 1,
+    kFileNameFieldNumber = 1,
   };
-  // string message = 1;
-  void clear_message();
-  const std::string& message() const;
-  void set_message(const std::string& value);
-  void set_message(std::string&& value);
-  void set_message(const char* value);
-  void set_message(const char* value, size_t size);
-  std::string* mutable_message();
-  std::string* release_message();
-  void set_allocated_message(std::string* message);
+  // string fileName = 1;
+  void clear_filename();
+  const std::string& filename() const;
+  void set_filename(const std::string& value);
+  void set_filename(std::string&& value);
+  void set_filename(const char* value);
+  void set_filename(const char* value, size_t size);
+  std::string* mutable_filename();
+  std::string* release_filename();
+  void set_allocated_filename(std::string* filename);
   private:
-  const std::string& _internal_message() const;
-  void _internal_set_message(const std::string& value);
-  std::string* _internal_mutable_message();
+  const std::string& _internal_filename() const;
+  void _internal_set_filename(const std::string& value);
+  std::string* _internal_mutable_filename();
   public:
 
-  // @@protoc_insertion_point(class_scope:mapr.HandShakeReply)
+  // @@protoc_insertion_point(class_scope:mapr.ResultFile)
  private:
   class _Internal;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr filename_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_central_2eproto;
 };
 // -------------------------------------------------------------------
 
-class ShardData PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.ShardData) */ {
+class TaskCompletion PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.TaskCompletion) */ {
  public:
-  inline ShardData() : ShardData(nullptr) {}
-  virtual ~ShardData();
+  inline TaskCompletion() : TaskCompletion(nullptr) {}
+  virtual ~TaskCompletion();
 
-  ShardData(const ShardData& from);
-  ShardData(ShardData&& from) noexcept
-    : ShardData() {
+  TaskCompletion(const TaskCompletion& from);
+  TaskCompletion(TaskCompletion&& from) noexcept
+    : TaskCompletion() {
     *this = ::std::move(from);
   }
 
-  inline ShardData& operator=(const ShardData& from) {
+  inline TaskCompletion& operator=(const TaskCompletion& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ShardData& operator=(ShardData&& from) noexcept {
+  inline TaskCompletion& operator=(TaskCompletion&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -397,19 +401,19 @@ class ShardData PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const ShardData& default_instance();
+  static const TaskCompletion& default_instance();
 
-  static inline const ShardData* internal_default_instance() {
-    return reinterpret_cast<const ShardData*>(
-               &_ShardData_default_instance_);
+  static inline const TaskCompletion* internal_default_instance() {
+    return reinterpret_cast<const TaskCompletion*>(
+               &_TaskCompletion_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     2;
 
-  friend void swap(ShardData& a, ShardData& b) {
+  friend void swap(TaskCompletion& a, TaskCompletion& b) {
     a.Swap(&b);
   }
-  inline void Swap(ShardData* other) {
+  inline void Swap(TaskCompletion* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -417,7 +421,7 @@ class ShardData PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(ShardData* other) {
+  void UnsafeArenaSwap(TaskCompletion* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -425,17 +429,17 @@ class ShardData PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline ShardData* New() const final {
-    return CreateMaybeMessage<ShardData>(nullptr);
+  inline TaskCompletion* New() const final {
+    return CreateMaybeMessage<TaskCompletion>(nullptr);
   }
 
-  ShardData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<ShardData>(arena);
+  TaskCompletion* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TaskCompletion>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const ShardData& from);
-  void MergeFrom(const ShardData& from);
+  void CopyFrom(const TaskCompletion& from);
+  void MergeFrom(const TaskCompletion& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -449,13 +453,180 @@ class ShardData PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ShardData* other);
+  void InternalSwap(TaskCompletion* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "mapr.ShardData";
+    return "mapr.TaskCompletion";
   }
   protected:
-  explicit ShardData(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit TaskCompletion(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_central_2eproto);
+    return ::descriptor_table_central_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kResultFilesFieldNumber = 3,
+    kTaskIdFieldNumber = 1,
+    kWorkerIdFieldNumber = 2,
+  };
+  // repeated .mapr.ResultFile result_files = 3;
+  int result_files_size() const;
+  private:
+  int _internal_result_files_size() const;
+  public:
+  void clear_result_files();
+  ::mapr::ResultFile* mutable_result_files(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >*
+      mutable_result_files();
+  private:
+  const ::mapr::ResultFile& _internal_result_files(int index) const;
+  ::mapr::ResultFile* _internal_add_result_files();
+  public:
+  const ::mapr::ResultFile& result_files(int index) const;
+  ::mapr::ResultFile* add_result_files();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >&
+      result_files() const;
+
+  // int32 task_id = 1;
+  void clear_task_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 task_id() const;
+  void set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_task_id() const;
+  void _internal_set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 worker_id = 2;
+  void clear_worker_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 worker_id() const;
+  void set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_worker_id() const;
+  void _internal_set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:mapr.TaskCompletion)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile > result_files_;
+  ::PROTOBUF_NAMESPACE_ID::int32 task_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 worker_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_central_2eproto;
+};
+// -------------------------------------------------------------------
+
+class FileInfo PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.FileInfo) */ {
+ public:
+  inline FileInfo() : FileInfo(nullptr) {}
+  virtual ~FileInfo();
+
+  FileInfo(const FileInfo& from);
+  FileInfo(FileInfo&& from) noexcept
+    : FileInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline FileInfo& operator=(const FileInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FileInfo& operator=(FileInfo&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const FileInfo& default_instance();
+
+  static inline const FileInfo* internal_default_instance() {
+    return reinterpret_cast<const FileInfo*>(
+               &_FileInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(FileInfo& a, FileInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(FileInfo* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FileInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline FileInfo* New() const final {
+    return CreateMaybeMessage<FileInfo>(nullptr);
+  }
+
+  FileInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<FileInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const FileInfo& from);
+  void MergeFrom(const FileInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(FileInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "mapr.FileInfo";
+  }
+  protected:
+  explicit FileInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -513,7 +684,7 @@ class ShardData PROTOBUF_FINAL :
   void _internal_set_end(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:mapr.ShardData)
+  // @@protoc_insertion_point(class_scope:mapr.FileInfo)
  private:
   class _Internal;
 
@@ -569,7 +740,7 @@ class Task PROTOBUF_FINAL :
                &_Task_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(Task& a, Task& b) {
     a.Swap(&b);
@@ -640,59 +811,62 @@ class Task PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTaskidFieldNumber = 1,
-    kTasktypeFieldNumber = 2,
-    kMapshardFieldNumber = 3,
+    kFilesFieldNumber = 4,
+    kTaskTypeFieldNumber = 3,
+    kTaskIdFieldNumber = 1,
+    kWorkerIdFieldNumber = 2,
   };
-  // string taskid = 1;
-  void clear_taskid();
-  const std::string& taskid() const;
-  void set_taskid(const std::string& value);
-  void set_taskid(std::string&& value);
-  void set_taskid(const char* value);
-  void set_taskid(const char* value, size_t size);
-  std::string* mutable_taskid();
-  std::string* release_taskid();
-  void set_allocated_taskid(std::string* taskid);
+  // repeated .mapr.FileInfo files = 4;
+  int files_size() const;
   private:
-  const std::string& _internal_taskid() const;
-  void _internal_set_taskid(const std::string& value);
-  std::string* _internal_mutable_taskid();
+  int _internal_files_size() const;
+  public:
+  void clear_files();
+  ::mapr::FileInfo* mutable_files(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo >*
+      mutable_files();
+  private:
+  const ::mapr::FileInfo& _internal_files(int index) const;
+  ::mapr::FileInfo* _internal_add_files();
+  public:
+  const ::mapr::FileInfo& files(int index) const;
+  ::mapr::FileInfo* add_files();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo >&
+      files() const;
+
+  // string task_type = 3;
+  void clear_task_type();
+  const std::string& task_type() const;
+  void set_task_type(const std::string& value);
+  void set_task_type(std::string&& value);
+  void set_task_type(const char* value);
+  void set_task_type(const char* value, size_t size);
+  std::string* mutable_task_type();
+  std::string* release_task_type();
+  void set_allocated_task_type(std::string* task_type);
+  private:
+  const std::string& _internal_task_type() const;
+  void _internal_set_task_type(const std::string& value);
+  std::string* _internal_mutable_task_type();
   public:
 
-  // string tasktype = 2;
-  void clear_tasktype();
-  const std::string& tasktype() const;
-  void set_tasktype(const std::string& value);
-  void set_tasktype(std::string&& value);
-  void set_tasktype(const char* value);
-  void set_tasktype(const char* value, size_t size);
-  std::string* mutable_tasktype();
-  std::string* release_tasktype();
-  void set_allocated_tasktype(std::string* tasktype);
+  // int32 task_id = 1;
+  void clear_task_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 task_id() const;
+  void set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  const std::string& _internal_tasktype() const;
-  void _internal_set_tasktype(const std::string& value);
-  std::string* _internal_mutable_tasktype();
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_task_id() const;
+  void _internal_set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // .mapr.ShardData mapshard = 3;
-  bool has_mapshard() const;
+  // int32 worker_id = 2;
+  void clear_worker_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 worker_id() const;
+  void set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  bool _internal_has_mapshard() const;
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_worker_id() const;
+  void _internal_set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
-  void clear_mapshard();
-  const ::mapr::ShardData& mapshard() const;
-  ::mapr::ShardData* release_mapshard();
-  ::mapr::ShardData* mutable_mapshard();
-  void set_allocated_mapshard(::mapr::ShardData* mapshard);
-  private:
-  const ::mapr::ShardData& _internal_mapshard() const;
-  ::mapr::ShardData* _internal_mutable_mapshard();
-  public:
-  void unsafe_arena_set_allocated_mapshard(
-      ::mapr::ShardData* mapshard);
-  ::mapr::ShardData* unsafe_arena_release_mapshard();
 
   // @@protoc_insertion_point(class_scope:mapr.Task)
  private:
@@ -701,9 +875,10 @@ class Task PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr taskid_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tasktype_;
-  ::mapr::ShardData* mapshard_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo > files_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr task_type_;
+  ::PROTOBUF_NAMESPACE_ID::int32 task_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 worker_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_central_2eproto;
 };
@@ -716,59 +891,59 @@ class Task PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// HandShakeRequest
+// TaskReception
 
 // string message = 1;
-inline void HandShakeRequest::clear_message() {
+inline void TaskReception::clear_message() {
   message_.ClearToEmpty();
 }
-inline const std::string& HandShakeRequest::message() const {
-  // @@protoc_insertion_point(field_get:mapr.HandShakeRequest.message)
+inline const std::string& TaskReception::message() const {
+  // @@protoc_insertion_point(field_get:mapr.TaskReception.message)
   return _internal_message();
 }
-inline void HandShakeRequest::set_message(const std::string& value) {
+inline void TaskReception::set_message(const std::string& value) {
   _internal_set_message(value);
-  // @@protoc_insertion_point(field_set:mapr.HandShakeRequest.message)
+  // @@protoc_insertion_point(field_set:mapr.TaskReception.message)
 }
-inline std::string* HandShakeRequest::mutable_message() {
-  // @@protoc_insertion_point(field_mutable:mapr.HandShakeRequest.message)
+inline std::string* TaskReception::mutable_message() {
+  // @@protoc_insertion_point(field_mutable:mapr.TaskReception.message)
   return _internal_mutable_message();
 }
-inline const std::string& HandShakeRequest::_internal_message() const {
+inline const std::string& TaskReception::_internal_message() const {
   return message_.Get();
 }
-inline void HandShakeRequest::_internal_set_message(const std::string& value) {
+inline void TaskReception::_internal_set_message(const std::string& value) {
   
   message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void HandShakeRequest::set_message(std::string&& value) {
+inline void TaskReception::set_message(std::string&& value) {
   
   message_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:mapr.HandShakeRequest.message)
+  // @@protoc_insertion_point(field_set_rvalue:mapr.TaskReception.message)
 }
-inline void HandShakeRequest::set_message(const char* value) {
+inline void TaskReception::set_message(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:mapr.HandShakeRequest.message)
+  // @@protoc_insertion_point(field_set_char:mapr.TaskReception.message)
 }
-inline void HandShakeRequest::set_message(const char* value,
+inline void TaskReception::set_message(const char* value,
     size_t size) {
   
   message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:mapr.HandShakeRequest.message)
+  // @@protoc_insertion_point(field_set_pointer:mapr.TaskReception.message)
 }
-inline std::string* HandShakeRequest::_internal_mutable_message() {
+inline std::string* TaskReception::_internal_mutable_message() {
   
   return message_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* HandShakeRequest::release_message() {
-  // @@protoc_insertion_point(field_release:mapr.HandShakeRequest.message)
+inline std::string* TaskReception::release_message() {
+  // @@protoc_insertion_point(field_release:mapr.TaskReception.message)
   return message_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void HandShakeRequest::set_allocated_message(std::string* message) {
+inline void TaskReception::set_allocated_message(std::string* message) {
   if (message != nullptr) {
     
   } else {
@@ -776,129 +951,212 @@ inline void HandShakeRequest::set_allocated_message(std::string* message) {
   }
   message_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), message,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:mapr.HandShakeRequest.message)
+  // @@protoc_insertion_point(field_set_allocated:mapr.TaskReception.message)
 }
 
 // -------------------------------------------------------------------
 
-// HandShakeReply
+// ResultFile
 
-// string message = 1;
-inline void HandShakeReply::clear_message() {
-  message_.ClearToEmpty();
+// string fileName = 1;
+inline void ResultFile::clear_filename() {
+  filename_.ClearToEmpty();
 }
-inline const std::string& HandShakeReply::message() const {
-  // @@protoc_insertion_point(field_get:mapr.HandShakeReply.message)
-  return _internal_message();
+inline const std::string& ResultFile::filename() const {
+  // @@protoc_insertion_point(field_get:mapr.ResultFile.fileName)
+  return _internal_filename();
 }
-inline void HandShakeReply::set_message(const std::string& value) {
-  _internal_set_message(value);
-  // @@protoc_insertion_point(field_set:mapr.HandShakeReply.message)
+inline void ResultFile::set_filename(const std::string& value) {
+  _internal_set_filename(value);
+  // @@protoc_insertion_point(field_set:mapr.ResultFile.fileName)
 }
-inline std::string* HandShakeReply::mutable_message() {
-  // @@protoc_insertion_point(field_mutable:mapr.HandShakeReply.message)
-  return _internal_mutable_message();
+inline std::string* ResultFile::mutable_filename() {
+  // @@protoc_insertion_point(field_mutable:mapr.ResultFile.fileName)
+  return _internal_mutable_filename();
 }
-inline const std::string& HandShakeReply::_internal_message() const {
-  return message_.Get();
+inline const std::string& ResultFile::_internal_filename() const {
+  return filename_.Get();
 }
-inline void HandShakeReply::_internal_set_message(const std::string& value) {
+inline void ResultFile::_internal_set_filename(const std::string& value) {
   
-  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+  filename_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void HandShakeReply::set_message(std::string&& value) {
+inline void ResultFile::set_filename(std::string&& value) {
   
-  message_.Set(
+  filename_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:mapr.HandShakeReply.message)
+  // @@protoc_insertion_point(field_set_rvalue:mapr.ResultFile.fileName)
 }
-inline void HandShakeReply::set_message(const char* value) {
+inline void ResultFile::set_filename(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:mapr.HandShakeReply.message)
+  filename_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:mapr.ResultFile.fileName)
 }
-inline void HandShakeReply::set_message(const char* value,
+inline void ResultFile::set_filename(const char* value,
     size_t size) {
   
-  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+  filename_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:mapr.HandShakeReply.message)
+  // @@protoc_insertion_point(field_set_pointer:mapr.ResultFile.fileName)
 }
-inline std::string* HandShakeReply::_internal_mutable_message() {
+inline std::string* ResultFile::_internal_mutable_filename() {
   
-  return message_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+  return filename_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* HandShakeReply::release_message() {
-  // @@protoc_insertion_point(field_release:mapr.HandShakeReply.message)
-  return message_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+inline std::string* ResultFile::release_filename() {
+  // @@protoc_insertion_point(field_release:mapr.ResultFile.fileName)
+  return filename_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void HandShakeReply::set_allocated_message(std::string* message) {
-  if (message != nullptr) {
+inline void ResultFile::set_allocated_filename(std::string* filename) {
+  if (filename != nullptr) {
     
   } else {
     
   }
-  message_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), message,
+  filename_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), filename,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:mapr.HandShakeReply.message)
+  // @@protoc_insertion_point(field_set_allocated:mapr.ResultFile.fileName)
 }
 
 // -------------------------------------------------------------------
 
-// ShardData
+// TaskCompletion
+
+// int32 task_id = 1;
+inline void TaskCompletion::clear_task_id() {
+  task_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TaskCompletion::_internal_task_id() const {
+  return task_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TaskCompletion::task_id() const {
+  // @@protoc_insertion_point(field_get:mapr.TaskCompletion.task_id)
+  return _internal_task_id();
+}
+inline void TaskCompletion::_internal_set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  task_id_ = value;
+}
+inline void TaskCompletion::set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_task_id(value);
+  // @@protoc_insertion_point(field_set:mapr.TaskCompletion.task_id)
+}
+
+// int32 worker_id = 2;
+inline void TaskCompletion::clear_worker_id() {
+  worker_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TaskCompletion::_internal_worker_id() const {
+  return worker_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TaskCompletion::worker_id() const {
+  // @@protoc_insertion_point(field_get:mapr.TaskCompletion.worker_id)
+  return _internal_worker_id();
+}
+inline void TaskCompletion::_internal_set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  worker_id_ = value;
+}
+inline void TaskCompletion::set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_worker_id(value);
+  // @@protoc_insertion_point(field_set:mapr.TaskCompletion.worker_id)
+}
+
+// repeated .mapr.ResultFile result_files = 3;
+inline int TaskCompletion::_internal_result_files_size() const {
+  return result_files_.size();
+}
+inline int TaskCompletion::result_files_size() const {
+  return _internal_result_files_size();
+}
+inline void TaskCompletion::clear_result_files() {
+  result_files_.Clear();
+}
+inline ::mapr::ResultFile* TaskCompletion::mutable_result_files(int index) {
+  // @@protoc_insertion_point(field_mutable:mapr.TaskCompletion.result_files)
+  return result_files_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >*
+TaskCompletion::mutable_result_files() {
+  // @@protoc_insertion_point(field_mutable_list:mapr.TaskCompletion.result_files)
+  return &result_files_;
+}
+inline const ::mapr::ResultFile& TaskCompletion::_internal_result_files(int index) const {
+  return result_files_.Get(index);
+}
+inline const ::mapr::ResultFile& TaskCompletion::result_files(int index) const {
+  // @@protoc_insertion_point(field_get:mapr.TaskCompletion.result_files)
+  return _internal_result_files(index);
+}
+inline ::mapr::ResultFile* TaskCompletion::_internal_add_result_files() {
+  return result_files_.Add();
+}
+inline ::mapr::ResultFile* TaskCompletion::add_result_files() {
+  // @@protoc_insertion_point(field_add:mapr.TaskCompletion.result_files)
+  return _internal_add_result_files();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >&
+TaskCompletion::result_files() const {
+  // @@protoc_insertion_point(field_list:mapr.TaskCompletion.result_files)
+  return result_files_;
+}
+
+// -------------------------------------------------------------------
+
+// FileInfo
 
 // string fname = 1;
-inline void ShardData::clear_fname() {
+inline void FileInfo::clear_fname() {
   fname_.ClearToEmpty();
 }
-inline const std::string& ShardData::fname() const {
-  // @@protoc_insertion_point(field_get:mapr.ShardData.fname)
+inline const std::string& FileInfo::fname() const {
+  // @@protoc_insertion_point(field_get:mapr.FileInfo.fname)
   return _internal_fname();
 }
-inline void ShardData::set_fname(const std::string& value) {
+inline void FileInfo::set_fname(const std::string& value) {
   _internal_set_fname(value);
-  // @@protoc_insertion_point(field_set:mapr.ShardData.fname)
+  // @@protoc_insertion_point(field_set:mapr.FileInfo.fname)
 }
-inline std::string* ShardData::mutable_fname() {
-  // @@protoc_insertion_point(field_mutable:mapr.ShardData.fname)
+inline std::string* FileInfo::mutable_fname() {
+  // @@protoc_insertion_point(field_mutable:mapr.FileInfo.fname)
   return _internal_mutable_fname();
 }
-inline const std::string& ShardData::_internal_fname() const {
+inline const std::string& FileInfo::_internal_fname() const {
   return fname_.Get();
 }
-inline void ShardData::_internal_set_fname(const std::string& value) {
+inline void FileInfo::_internal_set_fname(const std::string& value) {
   
   fname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void ShardData::set_fname(std::string&& value) {
+inline void FileInfo::set_fname(std::string&& value) {
   
   fname_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:mapr.ShardData.fname)
+  // @@protoc_insertion_point(field_set_rvalue:mapr.FileInfo.fname)
 }
-inline void ShardData::set_fname(const char* value) {
+inline void FileInfo::set_fname(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   fname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:mapr.ShardData.fname)
+  // @@protoc_insertion_point(field_set_char:mapr.FileInfo.fname)
 }
-inline void ShardData::set_fname(const char* value,
+inline void FileInfo::set_fname(const char* value,
     size_t size) {
   
   fname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:mapr.ShardData.fname)
+  // @@protoc_insertion_point(field_set_pointer:mapr.FileInfo.fname)
 }
-inline std::string* ShardData::_internal_mutable_fname() {
+inline std::string* FileInfo::_internal_mutable_fname() {
   
   return fname_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* ShardData::release_fname() {
-  // @@protoc_insertion_point(field_release:mapr.ShardData.fname)
+inline std::string* FileInfo::release_fname() {
+  // @@protoc_insertion_point(field_release:mapr.FileInfo.fname)
   return fname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void ShardData::set_allocated_fname(std::string* fname) {
+inline void FileInfo::set_allocated_fname(std::string* fname) {
   if (fname != nullptr) {
     
   } else {
@@ -906,261 +1164,198 @@ inline void ShardData::set_allocated_fname(std::string* fname) {
   }
   fname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), fname,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:mapr.ShardData.fname)
+  // @@protoc_insertion_point(field_set_allocated:mapr.FileInfo.fname)
 }
 
 // int32 start = 2;
-inline void ShardData::clear_start() {
+inline void FileInfo::clear_start() {
   start_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ShardData::_internal_start() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 FileInfo::_internal_start() const {
   return start_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ShardData::start() const {
-  // @@protoc_insertion_point(field_get:mapr.ShardData.start)
+inline ::PROTOBUF_NAMESPACE_ID::int32 FileInfo::start() const {
+  // @@protoc_insertion_point(field_get:mapr.FileInfo.start)
   return _internal_start();
 }
-inline void ShardData::_internal_set_start(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void FileInfo::_internal_set_start(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   start_ = value;
 }
-inline void ShardData::set_start(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void FileInfo::set_start(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_start(value);
-  // @@protoc_insertion_point(field_set:mapr.ShardData.start)
+  // @@protoc_insertion_point(field_set:mapr.FileInfo.start)
 }
 
 // int32 end = 3;
-inline void ShardData::clear_end() {
+inline void FileInfo::clear_end() {
   end_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ShardData::_internal_end() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 FileInfo::_internal_end() const {
   return end_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ShardData::end() const {
-  // @@protoc_insertion_point(field_get:mapr.ShardData.end)
+inline ::PROTOBUF_NAMESPACE_ID::int32 FileInfo::end() const {
+  // @@protoc_insertion_point(field_get:mapr.FileInfo.end)
   return _internal_end();
 }
-inline void ShardData::_internal_set_end(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void FileInfo::_internal_set_end(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   end_ = value;
 }
-inline void ShardData::set_end(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void FileInfo::set_end(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_end(value);
-  // @@protoc_insertion_point(field_set:mapr.ShardData.end)
+  // @@protoc_insertion_point(field_set:mapr.FileInfo.end)
 }
 
 // -------------------------------------------------------------------
 
 // Task
 
-// string taskid = 1;
-inline void Task::clear_taskid() {
-  taskid_.ClearToEmpty();
+// int32 task_id = 1;
+inline void Task::clear_task_id() {
+  task_id_ = 0;
 }
-inline const std::string& Task::taskid() const {
-  // @@protoc_insertion_point(field_get:mapr.Task.taskid)
-  return _internal_taskid();
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::_internal_task_id() const {
+  return task_id_;
 }
-inline void Task::set_taskid(const std::string& value) {
-  _internal_set_taskid(value);
-  // @@protoc_insertion_point(field_set:mapr.Task.taskid)
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::task_id() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.task_id)
+  return _internal_task_id();
 }
-inline std::string* Task::mutable_taskid() {
-  // @@protoc_insertion_point(field_mutable:mapr.Task.taskid)
-  return _internal_mutable_taskid();
-}
-inline const std::string& Task::_internal_taskid() const {
-  return taskid_.Get();
-}
-inline void Task::_internal_set_taskid(const std::string& value) {
+inline void Task::_internal_set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  taskid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+  task_id_ = value;
 }
-inline void Task::set_taskid(std::string&& value) {
-  
-  taskid_.Set(
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:mapr.Task.taskid)
-}
-inline void Task::set_taskid(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  taskid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:mapr.Task.taskid)
-}
-inline void Task::set_taskid(const char* value,
-    size_t size) {
-  
-  taskid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:mapr.Task.taskid)
-}
-inline std::string* Task::_internal_mutable_taskid() {
-  
-  return taskid_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
-}
-inline std::string* Task::release_taskid() {
-  // @@protoc_insertion_point(field_release:mapr.Task.taskid)
-  return taskid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void Task::set_allocated_taskid(std::string* taskid) {
-  if (taskid != nullptr) {
-    
-  } else {
-    
-  }
-  taskid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), taskid,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:mapr.Task.taskid)
+inline void Task::set_task_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_task_id(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.task_id)
 }
 
-// string tasktype = 2;
-inline void Task::clear_tasktype() {
-  tasktype_.ClearToEmpty();
+// int32 worker_id = 2;
+inline void Task::clear_worker_id() {
+  worker_id_ = 0;
 }
-inline const std::string& Task::tasktype() const {
-  // @@protoc_insertion_point(field_get:mapr.Task.tasktype)
-  return _internal_tasktype();
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::_internal_worker_id() const {
+  return worker_id_;
 }
-inline void Task::set_tasktype(const std::string& value) {
-  _internal_set_tasktype(value);
-  // @@protoc_insertion_point(field_set:mapr.Task.tasktype)
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::worker_id() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.worker_id)
+  return _internal_worker_id();
 }
-inline std::string* Task::mutable_tasktype() {
-  // @@protoc_insertion_point(field_mutable:mapr.Task.tasktype)
-  return _internal_mutable_tasktype();
-}
-inline const std::string& Task::_internal_tasktype() const {
-  return tasktype_.Get();
-}
-inline void Task::_internal_set_tasktype(const std::string& value) {
+inline void Task::_internal_set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  tasktype_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+  worker_id_ = value;
 }
-inline void Task::set_tasktype(std::string&& value) {
-  
-  tasktype_.Set(
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:mapr.Task.tasktype)
-}
-inline void Task::set_tasktype(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  tasktype_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:mapr.Task.tasktype)
-}
-inline void Task::set_tasktype(const char* value,
-    size_t size) {
-  
-  tasktype_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:mapr.Task.tasktype)
-}
-inline std::string* Task::_internal_mutable_tasktype() {
-  
-  return tasktype_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
-}
-inline std::string* Task::release_tasktype() {
-  // @@protoc_insertion_point(field_release:mapr.Task.tasktype)
-  return tasktype_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void Task::set_allocated_tasktype(std::string* tasktype) {
-  if (tasktype != nullptr) {
-    
-  } else {
-    
-  }
-  tasktype_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), tasktype,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:mapr.Task.tasktype)
+inline void Task::set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_worker_id(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.worker_id)
 }
 
-// .mapr.ShardData mapshard = 3;
-inline bool Task::_internal_has_mapshard() const {
-  return this != internal_default_instance() && mapshard_ != nullptr;
+// string task_type = 3;
+inline void Task::clear_task_type() {
+  task_type_.ClearToEmpty();
 }
-inline bool Task::has_mapshard() const {
-  return _internal_has_mapshard();
+inline const std::string& Task::task_type() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.task_type)
+  return _internal_task_type();
 }
-inline void Task::clear_mapshard() {
-  if (GetArena() == nullptr && mapshard_ != nullptr) {
-    delete mapshard_;
-  }
-  mapshard_ = nullptr;
+inline void Task::set_task_type(const std::string& value) {
+  _internal_set_task_type(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.task_type)
 }
-inline const ::mapr::ShardData& Task::_internal_mapshard() const {
-  const ::mapr::ShardData* p = mapshard_;
-  return p != nullptr ? *p : reinterpret_cast<const ::mapr::ShardData&>(
-      ::mapr::_ShardData_default_instance_);
+inline std::string* Task::mutable_task_type() {
+  // @@protoc_insertion_point(field_mutable:mapr.Task.task_type)
+  return _internal_mutable_task_type();
 }
-inline const ::mapr::ShardData& Task::mapshard() const {
-  // @@protoc_insertion_point(field_get:mapr.Task.mapshard)
-  return _internal_mapshard();
+inline const std::string& Task::_internal_task_type() const {
+  return task_type_.Get();
 }
-inline void Task::unsafe_arena_set_allocated_mapshard(
-    ::mapr::ShardData* mapshard) {
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(mapshard_);
-  }
-  mapshard_ = mapshard;
-  if (mapshard) {
+inline void Task::_internal_set_task_type(const std::string& value) {
+  
+  task_type_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void Task::set_task_type(std::string&& value) {
+  
+  task_type_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:mapr.Task.task_type)
+}
+inline void Task::set_task_type(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  task_type_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:mapr.Task.task_type)
+}
+inline void Task::set_task_type(const char* value,
+    size_t size) {
+  
+  task_type_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:mapr.Task.task_type)
+}
+inline std::string* Task::_internal_mutable_task_type() {
+  
+  return task_type_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* Task::release_task_type() {
+  // @@protoc_insertion_point(field_release:mapr.Task.task_type)
+  return task_type_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void Task::set_allocated_task_type(std::string* task_type) {
+  if (task_type != nullptr) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:mapr.Task.mapshard)
+  task_type_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), task_type,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:mapr.Task.task_type)
 }
-inline ::mapr::ShardData* Task::release_mapshard() {
-  
-  ::mapr::ShardData* temp = mapshard_;
-  mapshard_ = nullptr;
-  if (GetArena() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
+
+// repeated .mapr.FileInfo files = 4;
+inline int Task::_internal_files_size() const {
+  return files_.size();
 }
-inline ::mapr::ShardData* Task::unsafe_arena_release_mapshard() {
-  // @@protoc_insertion_point(field_release:mapr.Task.mapshard)
-  
-  ::mapr::ShardData* temp = mapshard_;
-  mapshard_ = nullptr;
-  return temp;
+inline int Task::files_size() const {
+  return _internal_files_size();
 }
-inline ::mapr::ShardData* Task::_internal_mutable_mapshard() {
-  
-  if (mapshard_ == nullptr) {
-    auto* p = CreateMaybeMessage<::mapr::ShardData>(GetArena());
-    mapshard_ = p;
-  }
-  return mapshard_;
+inline void Task::clear_files() {
+  files_.Clear();
 }
-inline ::mapr::ShardData* Task::mutable_mapshard() {
-  // @@protoc_insertion_point(field_mutable:mapr.Task.mapshard)
-  return _internal_mutable_mapshard();
+inline ::mapr::FileInfo* Task::mutable_files(int index) {
+  // @@protoc_insertion_point(field_mutable:mapr.Task.files)
+  return files_.Mutable(index);
 }
-inline void Task::set_allocated_mapshard(::mapr::ShardData* mapshard) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
-  if (message_arena == nullptr) {
-    delete mapshard_;
-  }
-  if (mapshard) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(mapshard);
-    if (message_arena != submessage_arena) {
-      mapshard = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, mapshard, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  mapshard_ = mapshard;
-  // @@protoc_insertion_point(field_set_allocated:mapr.Task.mapshard)
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo >*
+Task::mutable_files() {
+  // @@protoc_insertion_point(field_mutable_list:mapr.Task.files)
+  return &files_;
+}
+inline const ::mapr::FileInfo& Task::_internal_files(int index) const {
+  return files_.Get(index);
+}
+inline const ::mapr::FileInfo& Task::files(int index) const {
+  // @@protoc_insertion_point(field_get:mapr.Task.files)
+  return _internal_files(index);
+}
+inline ::mapr::FileInfo* Task::_internal_add_files() {
+  return files_.Add();
+}
+inline ::mapr::FileInfo* Task::add_files() {
+  // @@protoc_insertion_point(field_add:mapr.Task.files)
+  return _internal_add_files();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo >&
+Task::files() const {
+  // @@protoc_insertion_point(field_list:mapr.Task.files)
+  return files_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

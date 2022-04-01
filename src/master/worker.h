@@ -15,12 +15,14 @@ enum WorkerStatus {idle, busy, down};
 
 class WorkerInstance {
     
-    public:
+    private:
         int id;
         WorkerStatus status;
         std::string address;
         std::shared_ptr<Channel> channel;
-
+        friend class Master;
+    
+    public:
         WorkerInstance(int id, std::string address, std::shared_ptr<Channel> channel) {
             this->id = id;
             this->address = address;
