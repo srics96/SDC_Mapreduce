@@ -1,0 +1,5 @@
+This	8
+a	8
+file	8
+input	8
+test	8
