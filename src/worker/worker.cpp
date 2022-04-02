@@ -142,10 +142,10 @@ class TaskExecutor {
 
             string mapper_output_file = directory_name + "/" + "mapper_output_file.txt";
             execute(filename, mapper_output_file, "/code/src/sdc_map_reduce/app/mapper.py", "mapper.py",  O_RDWR|O_CREAT);
-
+            cout<< "USER FUNCTION DONE" <<endl;
             std::ifstream ifs(mapper_output_file);
             std::string content( (std::istreambuf_iterator<char>(ifs) ),(std::istreambuf_iterator<char>()) );
-
+            cout << "map result content" << content << endl;
             const std::string s = "\n";
             const std::string t = "\t";
 
@@ -155,11 +155,12 @@ class TaskExecutor {
                 content.replace( n, s.size(), t );
                 n += t.size();
             }
-
+            cout << "After replace" << endl;
             vector<string> tokens = split(s, "\t");
             int reducer_count = task->num_reducers();
             vector<std::ofstream> file_ofstreams; 
             vector<std::string> output_file_names;
+            
             for(int i=0 ; i < reducer_count; i++){
                 string directory_name = "./intermediates";            
                 string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + "_" + std::to_string(i+1) + ".txt";
