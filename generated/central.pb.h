@@ -811,12 +811,13 @@ class Task PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFilesFieldNumber = 4,
-    kTaskTypeFieldNumber = 3,
+    kFilesFieldNumber = 5,
+    kTaskTypeFieldNumber = 4,
     kTaskIdFieldNumber = 1,
     kWorkerIdFieldNumber = 2,
+    kNumReducersFieldNumber = 3,
   };
-  // repeated .mapr.FileInfo files = 4;
+  // repeated .mapr.FileInfo files = 5;
   int files_size() const;
   private:
   int _internal_files_size() const;
@@ -834,7 +835,7 @@ class Task PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo >&
       files() const;
 
-  // string task_type = 3;
+  // string task_type = 4;
   void clear_task_type();
   const std::string& task_type() const;
   void set_task_type(const std::string& value);
@@ -868,6 +869,15 @@ class Task PROTOBUF_FINAL :
   void _internal_set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 num_reducers = 3;
+  void clear_num_reducers();
+  ::PROTOBUF_NAMESPACE_ID::int32 num_reducers() const;
+  void set_num_reducers(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_num_reducers() const;
+  void _internal_set_num_reducers(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:mapr.Task)
  private:
   class _Internal;
@@ -879,6 +889,7 @@ class Task PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr task_type_;
   ::PROTOBUF_NAMESPACE_ID::int32 task_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 worker_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 num_reducers_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_central_2eproto;
 };
@@ -1251,7 +1262,27 @@ inline void Task::set_worker_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:mapr.Task.worker_id)
 }
 
-// string task_type = 3;
+// int32 num_reducers = 3;
+inline void Task::clear_num_reducers() {
+  num_reducers_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::_internal_num_reducers() const {
+  return num_reducers_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::num_reducers() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.num_reducers)
+  return _internal_num_reducers();
+}
+inline void Task::_internal_set_num_reducers(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  num_reducers_ = value;
+}
+inline void Task::set_num_reducers(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_num_reducers(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.num_reducers)
+}
+
+// string task_type = 4;
 inline void Task::clear_task_type() {
   task_type_.ClearToEmpty();
 }
@@ -1312,7 +1343,7 @@ inline void Task::set_allocated_task_type(std::string* task_type) {
   // @@protoc_insertion_point(field_set_allocated:mapr.Task.task_type)
 }
 
-// repeated .mapr.FileInfo files = 4;
+// repeated .mapr.FileInfo files = 5;
 inline int Task::_internal_files_size() const {
   return files_.size();
 }

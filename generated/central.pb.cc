@@ -145,6 +145,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_central_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::mapr::Task, task_id_),
   PROTOBUF_FIELD_OFFSET(::mapr::Task, worker_id_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, num_reducers_),
   PROTOBUF_FIELD_OFFSET(::mapr::Task, task_type_),
   PROTOBUF_FIELD_OFFSET(::mapr::Task, files_),
 };
@@ -170,12 +171,12 @@ const char descriptor_table_protodef_central_2eproto[] PROTOBUF_SECTION_VARIABLE
   "e\030\001 \001(\t\"\\\n\016TaskCompletion\022\017\n\007task_id\030\001 \001"
   "(\005\022\021\n\tworker_id\030\002 \001(\005\022&\n\014result_files\030\003 "
   "\003(\0132\020.mapr.ResultFile\"5\n\010FileInfo\022\r\n\005fna"
-  "me\030\001 \001(\t\022\r\n\005start\030\002 \001(\005\022\013\n\003end\030\003 \001(\005\"\\\n\004"
+  "me\030\001 \001(\t\022\r\n\005start\030\002 \001(\005\022\013\n\003end\030\003 \001(\005\"r\n\004"
   "Task\022\017\n\007task_id\030\001 \001(\005\022\021\n\tworker_id\030\002 \001(\005"
-  "\022\021\n\ttask_type\030\003 \001(\t\022\035\n\005files\030\004 \003(\0132\016.map"
-  "r.FileInfo2B\n\rWorkerService\0221\n\014execute_t"
-  "ask\022\n.mapr.Task\032\023.mapr.TaskReception\"\000b\006"
-  "proto3"
+  "\022\024\n\014num_reducers\030\003 \001(\005\022\021\n\ttask_type\030\004 \001("
+  "\t\022\035\n\005files\030\005 \003(\0132\016.mapr.FileInfo2B\n\rWork"
+  "erService\0221\n\014execute_task\022\n.mapr.Task\032\023."
+  "mapr.TaskReception\"\000b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_central_2eproto_deps[1] = {
 };
@@ -188,7 +189,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_cen
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_central_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_central_2eproto = {
-  false, false, descriptor_table_protodef_central_2eproto, "central.proto", 406,
+  false, false, descriptor_table_protodef_central_2eproto, "central.proto", 428,
   &descriptor_table_central_2eproto_once, descriptor_table_central_2eproto_sccs, descriptor_table_central_2eproto_deps, 5, 0,
   schemas, file_default_instances, TableStruct_central_2eproto::offsets,
   file_level_metadata_central_2eproto, 5, file_level_enum_descriptors_central_2eproto, file_level_service_descriptors_central_2eproto,
@@ -1163,8 +1164,8 @@ Task::Task(const Task& from)
       GetArena());
   }
   ::memcpy(&task_id_, &from.task_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&worker_id_) -
-    reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
+    static_cast<size_t>(reinterpret_cast<char*>(&num_reducers_) -
+    reinterpret_cast<char*>(&task_id_)) + sizeof(num_reducers_));
   // @@protoc_insertion_point(copy_constructor:mapr.Task)
 }
 
@@ -1173,8 +1174,8 @@ void Task::SharedCtor() {
   task_type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
       reinterpret_cast<char*>(&task_id_) - reinterpret_cast<char*>(this)),
-      0, static_cast<size_t>(reinterpret_cast<char*>(&worker_id_) -
-      reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
+      0, static_cast<size_t>(reinterpret_cast<char*>(&num_reducers_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(num_reducers_));
 }
 
 Task::~Task() {
@@ -1212,8 +1213,8 @@ void Task::Clear() {
   files_.Clear();
   task_type_.ClearToEmpty();
   ::memset(&task_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&worker_id_) -
-      reinterpret_cast<char*>(&task_id_)) + sizeof(worker_id_));
+      reinterpret_cast<char*>(&num_reducers_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(num_reducers_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1238,25 +1239,32 @@ const char* Task::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inter
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string task_type = 3;
+      // int32 num_reducers = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          num_reducers_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string task_type = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           auto str = _internal_mutable_task_type();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.Task.task_type"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .mapr.FileInfo files = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+      // repeated .mapr.FileInfo files = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_files(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -1299,22 +1307,28 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_worker_id(), target);
   }
 
-  // string task_type = 3;
+  // int32 num_reducers = 3;
+  if (this->num_reducers() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_num_reducers(), target);
+  }
+
+  // string task_type = 4;
   if (this->task_type().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_task_type().data(), static_cast<int>(this->_internal_task_type().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "mapr.Task.task_type");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_task_type(), target);
+        4, this->_internal_task_type(), target);
   }
 
-  // repeated .mapr.FileInfo files = 4;
+  // repeated .mapr.FileInfo files = 5;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_files_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, this->_internal_files(i), target, stream);
+      InternalWriteMessage(5, this->_internal_files(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1333,14 +1347,14 @@ size_t Task::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .mapr.FileInfo files = 4;
+  // repeated .mapr.FileInfo files = 5;
   total_size += 1UL * this->_internal_files_size();
   for (const auto& msg : this->files_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // string task_type = 3;
+  // string task_type = 4;
   if (this->task_type().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -1359,6 +1373,13 @@ size_t Task::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_worker_id());
+  }
+
+  // int32 num_reducers = 3;
+  if (this->num_reducers() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_num_reducers());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1402,6 +1423,9 @@ void Task::MergeFrom(const Task& from) {
   if (from.worker_id() != 0) {
     _internal_set_worker_id(from._internal_worker_id());
   }
+  if (from.num_reducers() != 0) {
+    _internal_set_num_reducers(from._internal_num_reducers());
+  }
 }
 
 void Task::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -1428,8 +1452,8 @@ void Task::InternalSwap(Task* other) {
   files_.InternalSwap(&other->files_);
   task_type_.Swap(&other->task_type_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Task, worker_id_)
-      + sizeof(Task::worker_id_)
+      PROTOBUF_FIELD_OFFSET(Task, num_reducers_)
+      + sizeof(Task::num_reducers_)
       - PROTOBUF_FIELD_OFFSET(Task, task_id_)>(
           reinterpret_cast<char*>(&task_id_),
           reinterpret_cast<char*>(&other->task_id_));

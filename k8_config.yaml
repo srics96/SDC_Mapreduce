@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: master-app
-        image: srics96/master_image
+        image: mapreduceimage.azurecr.io/mapreduce/master_image
         command: ['/code/src/master/master']
 ---
 apiVersion: apps/v1
@@ -37,6 +37,6 @@ spec:
     spec:
       containers:
       - name: worker-app
-        image: srics96/worker_image
+        image: mapreduceimage.azurecr.io/mapreduce/worker_image
         command: ['/code/src/worker/worker']
 ---
