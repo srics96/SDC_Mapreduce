@@ -193,6 +193,35 @@ class TaskExecutor {
             1. Download the M intermediate files.
             2. Call the Reducer M + 1 times.
             */
+
+            string directory_name = "./reducers";            
+            
+            if (!boost::filesystem::exists(directory_name)) {
+                boost::filesystem::create_directory(directory_name);
+                cout << "Directory created" << endl;
+            }
+            auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
+            vector<std::string> reducer_file_names;
+            for(int i=0 ; i<files.size(); i++){
+                string reducer_file = directory_name + "/" + files[i].fname();
+                as.save_blob(files[i].fname(), reducer_file);
+                reducer_file_names.push_back(reducer_file);
+            }
+
+            string temp_out_file = directory_name + "/" + "temp";
+
+            for(int i=0 ; i<files.size(); i++){
+                if(i == 0){
+                execute(reducer_file_names[i], temp_out_file, "/code/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_CREAT); 
+                } else { 
+                execute(reducer_file_names[i], temp_out_file, "/code/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_APPEND); 
+                }
+            }
+
+            string final_out_file = directory_name + "/" + "final_" +  to_string(task->task_id()) + ".txt";
+            execute(temp_out_file, final_out_file, "/code/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_CREAT); 
+            as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
+            as.upload_file(final_out_file, final_out_file);
         }
 };
 
