@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+#include <vector>
 #include <boost/filesystem.hpp>
 
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
@@ -33,6 +34,21 @@ using mapr::TaskReception;
 using namespace std;
 
 
+vector<string> split (string s, string delimiter) {
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    string token;
+    vector<string> res;
+
+    while ((pos_end = s.find (delimiter, pos_start)) != string::npos) {
+        token = s.substr (pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back (token);
+    }
+
+    res.push_back (s.substr (pos_start));
+    return res;
+}
+
 class TaskExecutor {
     
     private:
@@ -40,6 +56,7 @@ class TaskExecutor {
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             return as.get_blob_with_offset(fileInfo.fileName, fileInfo.startOffset, (fileInfo.endOffset - fileInfo.startOffset) + 1);
         }
+
 
     public:
         string adjust_shard_boundaries(const FileInfo* file){
@@ -54,7 +71,7 @@ class TaskExecutor {
             sh.startOffset = start; 
             sh.endOffset = end;
             sh.fileName = fname;
-            string data = getFileContents(sh);
+            //string data = getFileContents(sh);
             // cout << "INITIAL DATA" << endl << data << endl;
             bool first_shard = false;
             if(start == 0){
@@ -67,7 +84,7 @@ class TaskExecutor {
             sh.endOffset = end + 100;
             sh.fileName = fname;
 
-            data = getFileContents(sh);
+            string data = getFileContents(sh);
             // cout << "Requested DATA" << endl << data << endl;
             
             int i = 0;
@@ -97,7 +114,7 @@ class TaskExecutor {
                 sh.endOffset = end;
             }
 
-            data = getFileContents(sh);
+            //data = getFileContents(sh);
             cout << "Shard boundaries adjusted" << endl;
             return data;
         }
@@ -105,7 +122,6 @@ class TaskExecutor {
         void map(const Task* task) {   
             cout << "Map task called" << endl;
             
-            string directory_name = "./intermediates";
             if (!boost::filesystem::exists(directory_name)) {
                 boost::filesystem::create_directory(directory_name);
                 cout << "Directory created" << endl;
@@ -116,12 +132,56 @@ class TaskExecutor {
                 shard_content += adjust_shard_boundaries(&file);
                 shard_content += " ";
             }
+
+            string directory_name = "./intermediates";            
             string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + ".txt";
             string filename = directory_name + "/" + blobname;
             std::ofstream out(filename, std::ios::out);
-            cout << shard_content;
             out << shard_content;
-            out.close();         
+            out.close();
+
+            auto mapper_output_file = "./intermediates/" + "mapper_output_file.txt";
+            execute(filename, mapper_output_file, "/code/src/sdc_map_reduce/app/mapper.py", "mapper.py",  O_RDWR|O_CREAT);
+
+            std::ifstream ifs(mapper_output_file);
+            std::string content( (std::istreambuf_iterator<char>(ifs) ),(std::istreambuf_iterator<char>()) );
+
+            const std::string s = "\n";
+            const std::string t = "\t";
+
+            std::string::size_type n = 0;
+            while ( ( n = content.find( s, n ) ) != std::string::npos )
+            {
+                content.replace( n, s.size(), t );
+                n += t.size();
+            }
+
+            vector<string> tokens = split(s, "\t");
+            int reducer_count = task.num_reducers();
+            vector<std::ofstream> file_ofstreams; 
+            vector<std::string> output_file_names;
+            for(int i=0 ; i< reducer_count; i++){
+                string directory_name = "./intermediates";            
+                string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + "_" + std::to_string(i+1) + ".txt";
+                string filename = directory_name + "/" + blobname;
+                std::ofstream out(filename, std::ios::out);
+                file_ofstreams.push_back(out);
+                output_file_name.push_back(filename);
+            }
+            
+            hash<string> hasher;
+            for(int i=0; i<tokens.size(); i+=2){
+                int id = hasher(tokens[i])%reducer_count;
+                file_ofstreams[id] << tokens[i] + "\t" + tokens[i+1];
+            }
+
+            for(int i=0 ; i< reducer_count; i++){
+                file_ofstreams[i].close();
+            }
+            auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
+            for(int i=0 ; i< reducer_count; i++){
+                as.upload_file(output_file_names[i], out_file_names[i]);
+            }
             cout << "Map task complete" << endl;
             
         }
