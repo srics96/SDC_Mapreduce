@@ -172,7 +172,7 @@ class TaskExecutor {
             hash<string> hasher;
             for(int i=0; i<tokens.size(); i+=2){
                 int id = hasher(tokens[i])%reducer_count;
-                file_ofstreams[id] << tokens[i] + "\t" + tokens[i+1];
+                file_ofstreams[id] << tokens[i] + "\t" + tokens[i+1] << std::endl;
             }
 
             for(int i=0 ; i< reducer_count; i++){
@@ -180,7 +180,7 @@ class TaskExecutor {
             }
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             for(int i=0 ; i< reducer_count; i++){
-                as.upload_file(output_file_names[i], out_file_names[i]);
+                as.upload_file(output_file_names[i], output_file_names[i]);
             }
             cout << "Map task complete" << endl;
             
