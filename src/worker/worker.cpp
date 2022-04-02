@@ -116,7 +116,7 @@ class TaskExecutor {
                 shard_content += adjust_shard_boundaries(&file);
                 shard_content += " ";
             }
-            string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + ".txt";
+            string blobname = std::to_string(task->task_id()) + ".txt";
             string filename = directory_name + "/" + blobname;
             std::ofstream out(filename, std::ios::out);
             cout << shard_content;
