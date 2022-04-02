@@ -121,6 +121,7 @@ class TaskExecutor {
 
         void map(const Task* task) {   
             cout << "Map task called" << endl;
+            string directory_name = "./intermediates";            
             
             if (!boost::filesystem::exists(directory_name)) {
                 boost::filesystem::create_directory(directory_name);
@@ -133,14 +134,13 @@ class TaskExecutor {
                 shard_content += " ";
             }
 
-            string directory_name = "./intermediates";            
             string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + ".txt";
             string filename = directory_name + "/" + blobname;
             std::ofstream out(filename, std::ios::out);
             out << shard_content;
             out.close();
 
-            auto mapper_output_file = "./intermediates/" + "mapper_output_file.txt";
+            string mapper_output_file = directory_name + "/" + "mapper_output_file.txt";
             execute(filename, mapper_output_file, "/code/src/sdc_map_reduce/app/mapper.py", "mapper.py",  O_RDWR|O_CREAT);
 
             std::ifstream ifs(mapper_output_file);
@@ -157,22 +157,22 @@ class TaskExecutor {
             }
 
             vector<string> tokens = split(s, "\t");
-            int reducer_count = task.num_reducers();
+            int reducer_count = task->num_reducers();
             vector<std::ofstream> file_ofstreams; 
             vector<std::string> output_file_names;
-            for(int i=0 ; i< reducer_count; i++){
+            for(int i=0 ; i < reducer_count; i++){
                 string directory_name = "./intermediates";            
                 string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + "_" + std::to_string(i+1) + ".txt";
                 string filename = directory_name + "/" + blobname;
-                std::ofstream out(filename, std::ios::out);
-                file_ofstreams.push_back(out);
-                output_file_name.push_back(filename);
+                file_ofstreams.emplace_back(std::ofstream {filename.c_str()});
+                output_file_names.push_back(filename);
             }
             
             hash<string> hasher;
             for(int i=0; i<tokens.size(); i+=2){
                 int id = hasher(tokens[i])%reducer_count;
-                file_ofstreams[id] << tokens[i] + "\t" + tokens[i+1] << std::endl;
+                string to_output = tokens[i] + "\t" + tokens[i+1] + "\n";
+                file_ofstreams[id] << to_output;
             }
 
             for(int i=0 ; i< reducer_count; i++){
