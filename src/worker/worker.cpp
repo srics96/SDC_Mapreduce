@@ -231,9 +231,9 @@ class TaskExecutor {
 
             for(int i=0 ; i<files.size(); i++){
                 if(i == 0){
-                execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_CREAT); 
+                execute(reducer_file_names[i], temp_out_file, azure_path, "reducer.py",  O_RDWR|O_CREAT); 
                 } else { 
-                execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_APPEND); 
+                execute(reducer_file_names[i], temp_out_file, azure_path, "reducer.py",  O_RDWR|O_APPEND); 
                 }
             }
 
@@ -328,7 +328,7 @@ void runServer() {
     // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
     string hostname = get_local_ip();
-    // register_with_zoopeeker(hostname);
+    register_with_zoopeeker(hostname);
     
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());

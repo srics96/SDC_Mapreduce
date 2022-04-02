@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3.8
 import sys
 def read_from_input(file):
     for line in file:

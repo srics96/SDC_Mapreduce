@@ -90,6 +90,7 @@ class Master {
         vector<shared_ptr<WorkerInstance>> workers_;
         vector<string> map_phase_files;
         int phase = 0;
+        int worker_rr = 0;
     
     public:
         Master() {}
@@ -102,12 +103,9 @@ class Master {
         }
 
         int choose_worker() {
-            for (int i = 0; i < workers_.size(); i++) {
-                auto worker = workers_[i];
-                if (worker->status == WorkerStatus::idle)
-                    return i;
-            }
-            return -1;
+            int worker_idx = worker_rr;
+            worker_rr = (worker_rr + 1) % workers_.size();
+            return worker_idx;
         }
 
         void schedule(string phase) {
