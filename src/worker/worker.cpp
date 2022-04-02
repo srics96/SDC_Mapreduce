@@ -28,25 +28,23 @@ using grpc::Status;
 
 using mapr::FileInfo;
 using mapr::WorkerService;
+using mapr::ResultFile;
 using mapr::Task;
+using mapr::TaskCompletion;
 using mapr::TaskReception;
 
 using namespace std;
 
 
-vector<string> split (string s, string delimiter) {
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-    string token;
-    vector<string> res;
-
-    while ((pos_end = s.find (delimiter, pos_start)) != string::npos) {
-        token = s.substr (pos_start, pos_end - pos_start);
-        pos_start = pos_end + delim_len;
-        res.push_back (token);
+vector<string> splitter (string s, string delimiter) {
+    size_t pos = 0;
+    vector<std::string> tokens;
+    while ((pos = s.find(delimiter)) != std::string::npos) {
+        string token = s.substr(0, pos);
+        tokens.push_back(token);
+        s.erase(0, pos + delimiter.length());
     }
-
-    res.push_back (s.substr (pos_start));
-    return res;
+    return tokens;
 }
 
 class TaskExecutor {
@@ -119,7 +117,7 @@ class TaskExecutor {
             return data;
         }
 
-        void map(const Task* task) {   
+        vector<string> map(const Task* task) {   
             cout << "Map task called" << endl;
             string directory_name = "./intermediates";            
             
@@ -141,13 +139,17 @@ class TaskExecutor {
             out.close();
 
             string mapper_output_file = directory_name + "/" + "mapper_output_file.txt";
-            execute(filename, mapper_output_file, "/code/src/sdc_map_reduce/app/mapper.py", "mapper.py",  O_RDWR|O_CREAT);
+            
+            string azure_path = "/code/src/app/mapper.py";
+            string vm_path = "/vagrant/workshop6-c/src/app/mapper.py";
+            
+            execute(filename, mapper_output_file, vm_path, "mapper.py",  O_RDWR|O_CREAT);
             cout<< "USER FUNCTION DONE" <<endl;
             std::ifstream ifs(mapper_output_file);
             std::string content( (std::istreambuf_iterator<char>(ifs) ),(std::istreambuf_iterator<char>()) );
             cout << "map result content" << content << endl;
             const std::string s = "\n";
-            const std::string t = "\t";
+            const std::string t = " ";
 
             std::string::size_type n = 0;
             while ( ( n = content.find( s, n ) ) != std::string::npos )
@@ -156,38 +158,42 @@ class TaskExecutor {
                 n += t.size();
             }
             cout << "After replace" << endl;
-            vector<string> tokens = split(s, "\t");
+            vector<string> tokens = splitter(content, " ");
+            cout<< tokens.size() << endl;
             int reducer_count = task->num_reducers();
             vector<std::ofstream> file_ofstreams; 
             vector<std::string> output_file_names;
-            
+            cout << "Splitting reduce files" << endl;
             for(int i=0 ; i < reducer_count; i++){
                 string directory_name = "./intermediates";            
-                string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + "_" + std::to_string(i+1) + ".txt";
+                string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + "_" + std::to_string(i+1);
                 string filename = directory_name + "/" + blobname;
                 file_ofstreams.emplace_back(std::ofstream {filename.c_str()});
                 output_file_names.push_back(filename);
             }
-            
+            cout << "File streams created" << endl;
             hash<string> hasher;
-            for(int i=0; i<tokens.size(); i+=2){
+            for(int i=0; i<tokens.size()-3; i+=2){
                 int id = hasher(tokens[i])%reducer_count;
-                string to_output = tokens[i] + "\t" + tokens[i+1] + "\n";
+                string to_output = tokens[i] + " " + tokens[i+1] + "\n";
+                cout << to_output << endl;
                 file_ofstreams[id] << to_output;
             }
-
+            cout << "Data appended to streams" << endl;
             for(int i=0 ; i< reducer_count; i++){
                 file_ofstreams[i].close();
             }
+            cout << "Splitting completed" << endl;
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             for(int i=0 ; i< reducer_count; i++){
                 as.upload_file(output_file_names[i], output_file_names[i]);
             }
             cout << "Map task complete" << endl;
-            
+            return output_file_names;
         }
 
-        void reduce(const Task* task) {
+        vector<string> reduce(const Task* task) {
+            vector<string> output_files;
             std::vector<FileInfo> files(task->files().begin(), task->files().end());
             cout << "Reduce called" << endl;
             /*
@@ -204,25 +210,30 @@ class TaskExecutor {
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             vector<std::string> reducer_file_names;
             for(int i=0 ; i<files.size(); i++){
-                string reducer_file = directory_name + "/" + files[i].fname();
+                string reducer_file = directory_name + "/" + files[i].fname().substr(files[i].fname().find_last_of("/")+1);
                 as.save_blob(files[i].fname(), reducer_file);
                 reducer_file_names.push_back(reducer_file);
             }
 
             string temp_out_file = directory_name + "/" + "temp";
 
+            string azure_path = "/code/src/app/mapper.py";
+            string vm_path = "/vagrant/workshop6-c/src/app/reducer.py";
+
             for(int i=0 ; i<files.size(); i++){
                 if(i == 0){
-                execute(reducer_file_names[i], temp_out_file, "/code/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_CREAT); 
+                execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_CREAT); 
                 } else { 
-                execute(reducer_file_names[i], temp_out_file, "/code/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_APPEND); 
+                execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_APPEND); 
                 }
             }
 
             string final_out_file = directory_name + "/" + "final_" +  to_string(task->task_id()) + ".txt";
-            execute(temp_out_file, final_out_file, "/code/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_CREAT); 
+            execute(temp_out_file, final_out_file, vm_path, "reducer.py",  O_RDWR|O_CREAT); 
             as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             as.upload_file(final_out_file, final_out_file);
+            output_files.push_back(final_out_file);
+            return output_files;
         }
 };
 
@@ -234,16 +245,23 @@ class WorkerServiceImpl final : public WorkerService::Service {
     Status execute_task(
         ServerContext* context, 
         const Task* task,
-        TaskReception* reception 
+        TaskCompletion* completion
     ) override {
         string reception_text = "Received Task " + to_string(task->task_id()) + " " + task->task_type();
         cout << reception_text << endl;
         TaskExecutor executor;
+        vector<string> output_files;
         if (task->task_type() == "map")
-            executor.map(task);
+            output_files = executor.map(task);
         else
-            executor.reduce(task);   
-        reception->set_message(reception_text);
+            output_files = executor.reduce(task); 
+        
+        completion->set_worker_id(task->worker_id());
+        completion->set_task_id(task->task_id());
+        for(auto i : output_files){
+    	    ResultFile* result_file = completion->add_result_files();
+    	    result_file->set_filename(i);
+        }
         return Status::OK;
     }
 
@@ -301,7 +319,7 @@ void runServer() {
     // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
     string hostname = get_local_ip();
-    register_with_zoopeeker(hostname);
+    // register_with_zoopeeker(hostname);
     
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
