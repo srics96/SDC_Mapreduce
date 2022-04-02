@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+#include <boost/filesystem.hpp>
 
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include <grpcpp/grpcpp.h>
@@ -13,6 +14,7 @@
 #include "sharding.h"
 #include "../util/constants.h"
 #include "../util/blob.h"
+#include "python_executor.h"
 
 #include <zookeeper/zookeeper.h>
 #include <conservator/ConservatorFrameworkFactory.h>
@@ -41,9 +43,13 @@ class TaskExecutor {
 
     public:
         string adjust_shard_boundaries(const FileInfo* file){
+            cout<< "Inside Adjust Shard " << endl;
+
             int start = file->start();
             int end = file->end();
             string fname = file->fname();
+            cout<< start << " " <<end <<" " <<fname <<endl;
+            
             ShardFileInfo sh;
             sh.startOffset = start; 
             sh.endOffset = end;
@@ -92,23 +98,31 @@ class TaskExecutor {
             }
 
             data = getFileContents(sh);
-            // cout << "Corrected DATA" << endl << data << endl;
-
+            cout << "Shard boundaries adjusted" << endl;
             return data;
         }
 
-        void map(const Task* task) {        
+        void map(const Task* task) {   
+            cout << "Map task called" << endl;
+            
+            string directory_name = "./intermediates";
+            if (!boost::filesystem::exists(directory_name)) {
+                boost::filesystem::create_directory(directory_name);
+                cout << "Directory created" << endl;
+            }
             std::vector<FileInfo> files(task->files().begin(), task->files().end());
             string shard_content = "";
             for (auto file: files) {
                 shard_content += adjust_shard_boundaries(&file);
                 shard_content += " ";
             }
-            cout << "Map called" << endl;
-            /*
-            1. Write shard content to a file.
-            2. Call python Mapper.
-            */
+            string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + ".txt";
+            string filename = directory_name + "/" + blobname;
+            std::ofstream out(filename, std::ios::out);
+            cout << shard_content;
+            out << shard_content;
+            out.close();         
+            cout << "Map task complete" << endl;
             
         }
 
@@ -125,6 +139,8 @@ class TaskExecutor {
 
 class WorkerServiceImpl final : public WorkerService::Service {
     
+    int state;
+
     Status execute_task(
         ServerContext* context, 
         const Task* task,
@@ -132,11 +148,11 @@ class WorkerServiceImpl final : public WorkerService::Service {
     ) override {
         string reception_text = "Received Task " + to_string(task->task_id()) + " " + task->task_type();
         cout << reception_text << endl;
-        TaskExecutor* taskPtr = new TaskExecutor();
+        TaskExecutor executor;
         if (task->task_type() == "map")
-            std::thread task_thread(&TaskExecutor::map, taskPtr, task);
+            executor.map(task);
         else
-            std::thread task_thread(&TaskExecutor::reduce, taskPtr, task);
+            executor.reduce(task);   
         reception->set_message(reception_text);
         return Status::OK;
     }

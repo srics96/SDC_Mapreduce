@@ -49,6 +49,7 @@ class MasterClient {
 
             task.set_task_type(task_type);
             task.set_task_id(task_instance->id);
+            task.set_num_reducers(3);
             
             FileInfo* file_info = task.add_files();
             
@@ -90,12 +91,13 @@ class Master {
             return allShards;
         }
 
-        shared_ptr<WorkerInstance> choose_worker() {
-            for (auto worker: workers_) {
+        int choose_worker() {
+            for (int i = 0; i < workers_.size(); i++) {
+                auto worker = workers_[i];
                 if (worker->status == WorkerStatus::idle)
-                    return worker;
+                    return i;
             }
-            return NULL;
+            return -1;
         }
 
         void schedule() {
@@ -103,9 +105,10 @@ class Master {
             while (!tasks_.empty()) {
                 auto task = tasks_.front();
                 tasks_.pop();
-                auto worker = choose_worker();
-                if (worker == NULL)
+                int worker_idx = choose_worker();
+                if (worker_idx == -1)
                     continue;    
+                auto worker = workers_[worker_idx];
                 cout << "For task id: " << task->id << " worker is: " << worker->id << endl;
                 trigger(task, worker);
                 cout << "Trigger complete" << endl;
