@@ -46,7 +46,7 @@ struct TableStruct_central_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -66,6 +66,9 @@ extern TaskDefaultTypeInternal _Task_default_instance_;
 class TaskCompletion;
 class TaskCompletionDefaultTypeInternal;
 extern TaskCompletionDefaultTypeInternal _TaskCompletion_default_instance_;
+class TaskCompletionAck;
+class TaskCompletionAckDefaultTypeInternal;
+extern TaskCompletionAckDefaultTypeInternal _TaskCompletionAck_default_instance_;
 class TaskReception;
 class TaskReceptionDefaultTypeInternal;
 extern TaskReceptionDefaultTypeInternal _TaskReception_default_instance_;
@@ -75,6 +78,7 @@ template<> ::mapr::FileInfo* Arena::CreateMaybeMessage<::mapr::FileInfo>(Arena*)
 template<> ::mapr::ResultFile* Arena::CreateMaybeMessage<::mapr::ResultFile>(Arena*);
 template<> ::mapr::Task* Arena::CreateMaybeMessage<::mapr::Task>(Arena*);
 template<> ::mapr::TaskCompletion* Arena::CreateMaybeMessage<::mapr::TaskCompletion>(Arena*);
+template<> ::mapr::TaskCompletionAck* Arena::CreateMaybeMessage<::mapr::TaskCompletionAck>(Arena*);
 template<> ::mapr::TaskReception* Arena::CreateMaybeMessage<::mapr::TaskReception>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace mapr {
@@ -224,6 +228,149 @@ class TaskReception PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class TaskCompletionAck PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.TaskCompletionAck) */ {
+ public:
+  inline TaskCompletionAck() : TaskCompletionAck(nullptr) {}
+  virtual ~TaskCompletionAck();
+
+  TaskCompletionAck(const TaskCompletionAck& from);
+  TaskCompletionAck(TaskCompletionAck&& from) noexcept
+    : TaskCompletionAck() {
+    *this = ::std::move(from);
+  }
+
+  inline TaskCompletionAck& operator=(const TaskCompletionAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TaskCompletionAck& operator=(TaskCompletionAck&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const TaskCompletionAck& default_instance();
+
+  static inline const TaskCompletionAck* internal_default_instance() {
+    return reinterpret_cast<const TaskCompletionAck*>(
+               &_TaskCompletionAck_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(TaskCompletionAck& a, TaskCompletionAck& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TaskCompletionAck* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TaskCompletionAck* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TaskCompletionAck* New() const final {
+    return CreateMaybeMessage<TaskCompletionAck>(nullptr);
+  }
+
+  TaskCompletionAck* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TaskCompletionAck>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const TaskCompletionAck& from);
+  void MergeFrom(const TaskCompletionAck& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TaskCompletionAck* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "mapr.TaskCompletionAck";
+  }
+  protected:
+  explicit TaskCompletionAck(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_central_2eproto);
+    return ::descriptor_table_central_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMessageFieldNumber = 1,
+  };
+  // string message = 1;
+  void clear_message();
+  const std::string& message() const;
+  void set_message(const std::string& value);
+  void set_message(std::string&& value);
+  void set_message(const char* value);
+  void set_message(const char* value, size_t size);
+  std::string* mutable_message();
+  std::string* release_message();
+  void set_allocated_message(std::string* message);
+  private:
+  const std::string& _internal_message() const;
+  void _internal_set_message(const std::string& value);
+  std::string* _internal_mutable_message();
+  public:
+
+  // @@protoc_insertion_point(class_scope:mapr.TaskCompletionAck)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_central_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ResultFile PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mapr.ResultFile) */ {
  public:
@@ -265,7 +412,7 @@ class ResultFile PROTOBUF_FINAL :
                &_ResultFile_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(ResultFile& a, ResultFile& b) {
     a.Swap(&b);
@@ -408,7 +555,7 @@ class TaskCompletion PROTOBUF_FINAL :
                &_TaskCompletion_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(TaskCompletion& a, TaskCompletion& b) {
     a.Swap(&b);
@@ -575,7 +722,7 @@ class FileInfo PROTOBUF_FINAL :
                &_FileInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(FileInfo& a, FileInfo& b) {
     a.Swap(&b);
@@ -740,7 +887,7 @@ class Task PROTOBUF_FINAL :
                &_Task_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(Task& a, Task& b) {
     a.Swap(&b);
@@ -812,10 +959,14 @@ class Task PROTOBUF_FINAL :
 
   enum : int {
     kFilesFieldNumber = 5,
+    kOutputFilesFieldNumber = 9,
     kTaskTypeFieldNumber = 4,
+    kStatusFieldNumber = 8,
     kTaskIdFieldNumber = 1,
     kWorkerIdFieldNumber = 2,
     kNumReducersFieldNumber = 3,
+    kReducerIdFieldNumber = 6,
+    kJobIdFieldNumber = 7,
   };
   // repeated .mapr.FileInfo files = 5;
   int files_size() const;
@@ -835,6 +986,24 @@ class Task PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo >&
       files() const;
 
+  // repeated .mapr.ResultFile output_files = 9;
+  int output_files_size() const;
+  private:
+  int _internal_output_files_size() const;
+  public:
+  void clear_output_files();
+  ::mapr::ResultFile* mutable_output_files(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >*
+      mutable_output_files();
+  private:
+  const ::mapr::ResultFile& _internal_output_files(int index) const;
+  ::mapr::ResultFile* _internal_add_output_files();
+  public:
+  const ::mapr::ResultFile& output_files(int index) const;
+  ::mapr::ResultFile* add_output_files();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >&
+      output_files() const;
+
   // string task_type = 4;
   void clear_task_type();
   const std::string& task_type() const;
@@ -849,6 +1018,22 @@ class Task PROTOBUF_FINAL :
   const std::string& _internal_task_type() const;
   void _internal_set_task_type(const std::string& value);
   std::string* _internal_mutable_task_type();
+  public:
+
+  // string status = 8;
+  void clear_status();
+  const std::string& status() const;
+  void set_status(const std::string& value);
+  void set_status(std::string&& value);
+  void set_status(const char* value);
+  void set_status(const char* value, size_t size);
+  std::string* mutable_status();
+  std::string* release_status();
+  void set_allocated_status(std::string* status);
+  private:
+  const std::string& _internal_status() const;
+  void _internal_set_status(const std::string& value);
+  std::string* _internal_mutable_status();
   public:
 
   // int32 task_id = 1;
@@ -878,6 +1063,24 @@ class Task PROTOBUF_FINAL :
   void _internal_set_num_reducers(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 reducer_id = 6;
+  void clear_reducer_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 reducer_id() const;
+  void set_reducer_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_reducer_id() const;
+  void _internal_set_reducer_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 job_id = 7;
+  void clear_job_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 job_id() const;
+  void set_job_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_job_id() const;
+  void _internal_set_job_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:mapr.Task)
  private:
   class _Internal;
@@ -886,10 +1089,14 @@ class Task PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::FileInfo > files_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile > output_files_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr task_type_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr status_;
   ::PROTOBUF_NAMESPACE_ID::int32 task_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 worker_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 num_reducers_;
+  ::PROTOBUF_NAMESPACE_ID::int32 reducer_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 job_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_central_2eproto;
 };
@@ -963,6 +1170,71 @@ inline void TaskReception::set_allocated_message(std::string* message) {
   message_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), message,
       GetArena());
   // @@protoc_insertion_point(field_set_allocated:mapr.TaskReception.message)
+}
+
+// -------------------------------------------------------------------
+
+// TaskCompletionAck
+
+// string message = 1;
+inline void TaskCompletionAck::clear_message() {
+  message_.ClearToEmpty();
+}
+inline const std::string& TaskCompletionAck::message() const {
+  // @@protoc_insertion_point(field_get:mapr.TaskCompletionAck.message)
+  return _internal_message();
+}
+inline void TaskCompletionAck::set_message(const std::string& value) {
+  _internal_set_message(value);
+  // @@protoc_insertion_point(field_set:mapr.TaskCompletionAck.message)
+}
+inline std::string* TaskCompletionAck::mutable_message() {
+  // @@protoc_insertion_point(field_mutable:mapr.TaskCompletionAck.message)
+  return _internal_mutable_message();
+}
+inline const std::string& TaskCompletionAck::_internal_message() const {
+  return message_.Get();
+}
+inline void TaskCompletionAck::_internal_set_message(const std::string& value) {
+  
+  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void TaskCompletionAck::set_message(std::string&& value) {
+  
+  message_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:mapr.TaskCompletionAck.message)
+}
+inline void TaskCompletionAck::set_message(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:mapr.TaskCompletionAck.message)
+}
+inline void TaskCompletionAck::set_message(const char* value,
+    size_t size) {
+  
+  message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:mapr.TaskCompletionAck.message)
+}
+inline std::string* TaskCompletionAck::_internal_mutable_message() {
+  
+  return message_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* TaskCompletionAck::release_message() {
+  // @@protoc_insertion_point(field_release:mapr.TaskCompletionAck.message)
+  return message_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void TaskCompletionAck::set_allocated_message(std::string* message) {
+  if (message != nullptr) {
+    
+  } else {
+    
+  }
+  message_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), message,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:mapr.TaskCompletionAck.message)
 }
 
 // -------------------------------------------------------------------
@@ -1382,9 +1654,151 @@ Task::files() const {
   return files_;
 }
 
+// int32 reducer_id = 6;
+inline void Task::clear_reducer_id() {
+  reducer_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::_internal_reducer_id() const {
+  return reducer_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::reducer_id() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.reducer_id)
+  return _internal_reducer_id();
+}
+inline void Task::_internal_set_reducer_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  reducer_id_ = value;
+}
+inline void Task::set_reducer_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_reducer_id(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.reducer_id)
+}
+
+// int32 job_id = 7;
+inline void Task::clear_job_id() {
+  job_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::_internal_job_id() const {
+  return job_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Task::job_id() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.job_id)
+  return _internal_job_id();
+}
+inline void Task::_internal_set_job_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  job_id_ = value;
+}
+inline void Task::set_job_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_job_id(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.job_id)
+}
+
+// string status = 8;
+inline void Task::clear_status() {
+  status_.ClearToEmpty();
+}
+inline const std::string& Task::status() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.status)
+  return _internal_status();
+}
+inline void Task::set_status(const std::string& value) {
+  _internal_set_status(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.status)
+}
+inline std::string* Task::mutable_status() {
+  // @@protoc_insertion_point(field_mutable:mapr.Task.status)
+  return _internal_mutable_status();
+}
+inline const std::string& Task::_internal_status() const {
+  return status_.Get();
+}
+inline void Task::_internal_set_status(const std::string& value) {
+  
+  status_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void Task::set_status(std::string&& value) {
+  
+  status_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:mapr.Task.status)
+}
+inline void Task::set_status(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  status_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:mapr.Task.status)
+}
+inline void Task::set_status(const char* value,
+    size_t size) {
+  
+  status_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:mapr.Task.status)
+}
+inline std::string* Task::_internal_mutable_status() {
+  
+  return status_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* Task::release_status() {
+  // @@protoc_insertion_point(field_release:mapr.Task.status)
+  return status_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void Task::set_allocated_status(std::string* status) {
+  if (status != nullptr) {
+    
+  } else {
+    
+  }
+  status_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), status,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:mapr.Task.status)
+}
+
+// repeated .mapr.ResultFile output_files = 9;
+inline int Task::_internal_output_files_size() const {
+  return output_files_.size();
+}
+inline int Task::output_files_size() const {
+  return _internal_output_files_size();
+}
+inline void Task::clear_output_files() {
+  output_files_.Clear();
+}
+inline ::mapr::ResultFile* Task::mutable_output_files(int index) {
+  // @@protoc_insertion_point(field_mutable:mapr.Task.output_files)
+  return output_files_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >*
+Task::mutable_output_files() {
+  // @@protoc_insertion_point(field_mutable_list:mapr.Task.output_files)
+  return &output_files_;
+}
+inline const ::mapr::ResultFile& Task::_internal_output_files(int index) const {
+  return output_files_.Get(index);
+}
+inline const ::mapr::ResultFile& Task::output_files(int index) const {
+  // @@protoc_insertion_point(field_get:mapr.Task.output_files)
+  return _internal_output_files(index);
+}
+inline ::mapr::ResultFile* Task::_internal_add_output_files() {
+  return output_files_.Add();
+}
+inline ::mapr::ResultFile* Task::add_output_files() {
+  // @@protoc_insertion_point(field_add:mapr.Task.output_files)
+  return _internal_add_output_files();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >&
+Task::output_files() const {
+  // @@protoc_insertion_point(field_list:mapr.Task.output_files)
+  return output_files_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

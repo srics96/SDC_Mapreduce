@@ -82,5 +82,66 @@ WorkerService::Service::~Service() {
 }
 
 
+static const char* MasterService_method_names[] = {
+  "/mapr.MasterService/task_complete",
+};
+
+std::unique_ptr< MasterService::Stub> MasterService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  (void)options;
+  std::unique_ptr< MasterService::Stub> stub(new MasterService::Stub(channel));
+  return stub;
+}
+
+MasterService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
+  : channel_(channel), rpcmethod_task_complete_(MasterService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  {}
+
+::grpc::Status MasterService::Stub::task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::mapr::TaskCompletionAck* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::mapr::TaskCompletion, ::mapr::TaskCompletionAck, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_task_complete_, context, request, response);
+}
+
+void MasterService::Stub::experimental_async::task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::mapr::TaskCompletion, ::mapr::TaskCompletionAck, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_task_complete_, context, request, response, std::move(f));
+}
+
+void MasterService::Stub::experimental_async::task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_task_complete_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>* MasterService::Stub::PrepareAsynctask_completeRaw(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::mapr::TaskCompletionAck, ::mapr::TaskCompletion, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_task_complete_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>* MasterService::Stub::Asynctask_completeRaw(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsynctask_completeRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+MasterService::Service::Service() {
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      MasterService_method_names[0],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< MasterService::Service, ::mapr::TaskCompletion, ::mapr::TaskCompletionAck, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](MasterService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::mapr::TaskCompletion* req,
+             ::mapr::TaskCompletionAck* resp) {
+               return service->task_complete(ctx, req, resp);
+             }, this)));
+}
+
+MasterService::Service::~Service() {
+}
+
+::grpc::Status MasterService::Service::task_complete(::grpc::ServerContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+
 }  // namespace mapr
 

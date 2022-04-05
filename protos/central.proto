@@ -6,7 +6,15 @@ service WorkerService {
   rpc execute_task (Task) returns (TaskReception) {}
 }
 
+service MasterService {
+  rpc task_complete(TaskCompletion) returns (TaskCompletionAck) {}
+}
+
 message TaskReception {
+  string message = 1;
+}
+
+message TaskCompletionAck {
   string message = 1;
 }
 
@@ -32,4 +40,9 @@ message Task{
   int32 num_reducers = 3;
   string task_type = 4;
   repeated FileInfo files = 5;
+  int32 reducer_id = 6;
+  int32 job_id = 7;
+  string status = 8;
+  repeated ResultFile output_files = 9;
+  string master_url = 10;
 }

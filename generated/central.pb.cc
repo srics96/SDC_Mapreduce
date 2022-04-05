@@ -21,6 +21,10 @@ class TaskReceptionDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TaskReception> _instance;
 } _TaskReception_default_instance_;
+class TaskCompletionAckDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TaskCompletionAck> _instance;
+} _TaskCompletionAck_default_instance_;
 class ResultFileDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ResultFile> _instance;
@@ -74,9 +78,10 @@ static void InitDefaultsscc_info_Task_central_2eproto() {
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Task_central_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Task_central_2eproto}, {
-      &scc_info_FileInfo_central_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<2> scc_info_Task_central_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 2, 0, InitDefaultsscc_info_Task_central_2eproto}, {
+      &scc_info_FileInfo_central_2eproto.base,
+      &scc_info_ResultFile_central_2eproto.base,}};
 
 static void InitDefaultsscc_info_TaskCompletion_central_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -92,6 +97,19 @@ static void InitDefaultsscc_info_TaskCompletion_central_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_TaskCompletion_central_2eproto}, {
       &scc_info_ResultFile_central_2eproto.base,}};
 
+static void InitDefaultsscc_info_TaskCompletionAck_central_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::mapr::_TaskCompletionAck_default_instance_;
+    new (ptr) ::mapr::TaskCompletionAck();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TaskCompletionAck_central_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TaskCompletionAck_central_2eproto}, {}};
+
 static void InitDefaultsscc_info_TaskReception_central_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -105,7 +123,7 @@ static void InitDefaultsscc_info_TaskReception_central_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TaskReception_central_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TaskReception_central_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_central_2eproto[5];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_central_2eproto[6];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_central_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_central_2eproto = nullptr;
 
@@ -116,6 +134,12 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_central_2eproto::offsets[] PRO
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::mapr::TaskReception, message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskCompletionAck, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::mapr::TaskCompletionAck, message_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::mapr::ResultFile, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -148,17 +172,23 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_central_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::mapr::Task, num_reducers_),
   PROTOBUF_FIELD_OFFSET(::mapr::Task, task_type_),
   PROTOBUF_FIELD_OFFSET(::mapr::Task, files_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, reducer_id_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, job_id_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, status_),
+  PROTOBUF_FIELD_OFFSET(::mapr::Task, output_files_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::mapr::TaskReception)},
-  { 6, -1, sizeof(::mapr::ResultFile)},
-  { 12, -1, sizeof(::mapr::TaskCompletion)},
-  { 20, -1, sizeof(::mapr::FileInfo)},
-  { 28, -1, sizeof(::mapr::Task)},
+  { 6, -1, sizeof(::mapr::TaskCompletionAck)},
+  { 12, -1, sizeof(::mapr::ResultFile)},
+  { 18, -1, sizeof(::mapr::TaskCompletion)},
+  { 26, -1, sizeof(::mapr::FileInfo)},
+  { 34, -1, sizeof(::mapr::Task)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_TaskReception_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_TaskCompletionAck_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_ResultFile_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_TaskCompletion_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::mapr::_FileInfo_default_instance_),
@@ -167,32 +197,39 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_central_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\rcentral.proto\022\004mapr\" \n\rTaskReception\022\017"
-  "\n\007message\030\001 \001(\t\"\036\n\nResultFile\022\020\n\010fileNam"
-  "e\030\001 \001(\t\"\\\n\016TaskCompletion\022\017\n\007task_id\030\001 \001"
-  "(\005\022\021\n\tworker_id\030\002 \001(\005\022&\n\014result_files\030\003 "
-  "\003(\0132\020.mapr.ResultFile\"5\n\010FileInfo\022\r\n\005fna"
-  "me\030\001 \001(\t\022\r\n\005start\030\002 \001(\005\022\013\n\003end\030\003 \001(\005\"r\n\004"
-  "Task\022\017\n\007task_id\030\001 \001(\005\022\021\n\tworker_id\030\002 \001(\005"
-  "\022\024\n\014num_reducers\030\003 \001(\005\022\021\n\ttask_type\030\004 \001("
-  "\t\022\035\n\005files\030\005 \003(\0132\016.mapr.FileInfo2B\n\rWork"
-  "erService\0221\n\014execute_task\022\n.mapr.Task\032\023."
-  "mapr.TaskReception\"\000b\006proto3"
+  "\n\007message\030\001 \001(\t\"$\n\021TaskCompletionAck\022\017\n\007"
+  "message\030\001 \001(\t\"\036\n\nResultFile\022\020\n\010fileName\030"
+  "\001 \001(\t\"\\\n\016TaskCompletion\022\017\n\007task_id\030\001 \001(\005"
+  "\022\021\n\tworker_id\030\002 \001(\005\022&\n\014result_files\030\003 \003("
+  "\0132\020.mapr.ResultFile\"5\n\010FileInfo\022\r\n\005fname"
+  "\030\001 \001(\t\022\r\n\005start\030\002 \001(\005\022\013\n\003end\030\003 \001(\005\"\316\001\n\004T"
+  "ask\022\017\n\007task_id\030\001 \001(\005\022\021\n\tworker_id\030\002 \001(\005\022"
+  "\024\n\014num_reducers\030\003 \001(\005\022\021\n\ttask_type\030\004 \001(\t"
+  "\022\035\n\005files\030\005 \003(\0132\016.mapr.FileInfo\022\022\n\nreduc"
+  "er_id\030\006 \001(\005\022\016\n\006job_id\030\007 \001(\005\022\016\n\006status\030\010 "
+  "\001(\t\022&\n\014output_files\030\t \003(\0132\020.mapr.ResultF"
+  "ile2B\n\rWorkerService\0221\n\014execute_task\022\n.m"
+  "apr.Task\032\023.mapr.TaskReception\"\0002Q\n\rMaste"
+  "rService\022@\n\rtask_complete\022\024.mapr.TaskCom"
+  "pletion\032\027.mapr.TaskCompletionAck\"\000b\006prot"
+  "o3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_central_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_central_2eproto_sccs[5] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_central_2eproto_sccs[6] = {
   &scc_info_FileInfo_central_2eproto.base,
   &scc_info_ResultFile_central_2eproto.base,
   &scc_info_Task_central_2eproto.base,
   &scc_info_TaskCompletion_central_2eproto.base,
+  &scc_info_TaskCompletionAck_central_2eproto.base,
   &scc_info_TaskReception_central_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_central_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_central_2eproto = {
-  false, false, descriptor_table_protodef_central_2eproto, "central.proto", 428,
-  &descriptor_table_central_2eproto_once, descriptor_table_central_2eproto_sccs, descriptor_table_central_2eproto_deps, 5, 0,
+  false, false, descriptor_table_protodef_central_2eproto, "central.proto", 642,
+  &descriptor_table_central_2eproto_once, descriptor_table_central_2eproto_sccs, descriptor_table_central_2eproto_deps, 6, 0,
   schemas, file_default_instances, TableStruct_central_2eproto::offsets,
-  file_level_metadata_central_2eproto, 5, file_level_enum_descriptors_central_2eproto, file_level_service_descriptors_central_2eproto,
+  file_level_metadata_central_2eproto, 6, file_level_enum_descriptors_central_2eproto, file_level_service_descriptors_central_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -401,6 +438,212 @@ void TaskReception::InternalSwap(TaskReception* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata TaskReception::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class TaskCompletionAck::_Internal {
+ public:
+};
+
+TaskCompletionAck::TaskCompletionAck(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:mapr.TaskCompletionAck)
+}
+TaskCompletionAck::TaskCompletionAck(const TaskCompletionAck& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_message().empty()) {
+    message_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_message(), 
+      GetArena());
+  }
+  // @@protoc_insertion_point(copy_constructor:mapr.TaskCompletionAck)
+}
+
+void TaskCompletionAck::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TaskCompletionAck_central_2eproto.base);
+  message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+TaskCompletionAck::~TaskCompletionAck() {
+  // @@protoc_insertion_point(destructor:mapr.TaskCompletionAck)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void TaskCompletionAck::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  message_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void TaskCompletionAck::ArenaDtor(void* object) {
+  TaskCompletionAck* _this = reinterpret_cast< TaskCompletionAck* >(object);
+  (void)_this;
+}
+void TaskCompletionAck::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void TaskCompletionAck::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const TaskCompletionAck& TaskCompletionAck::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TaskCompletionAck_central_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void TaskCompletionAck::Clear() {
+// @@protoc_insertion_point(message_clear_start:mapr.TaskCompletionAck)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  message_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TaskCompletionAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string message = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_message();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.TaskCompletionAck.message"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* TaskCompletionAck::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:mapr.TaskCompletionAck)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string message = 1;
+  if (this->message().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "mapr.TaskCompletionAck.message");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:mapr.TaskCompletionAck)
+  return target;
+}
+
+size_t TaskCompletionAck::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:mapr.TaskCompletionAck)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string message = 1;
+  if (this->message().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_message());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void TaskCompletionAck::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:mapr.TaskCompletionAck)
+  GOOGLE_DCHECK_NE(&from, this);
+  const TaskCompletionAck* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TaskCompletionAck>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:mapr.TaskCompletionAck)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:mapr.TaskCompletionAck)
+    MergeFrom(*source);
+  }
+}
+
+void TaskCompletionAck::MergeFrom(const TaskCompletionAck& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:mapr.TaskCompletionAck)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.message().size() > 0) {
+    _internal_set_message(from._internal_message());
+  }
+}
+
+void TaskCompletionAck::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:mapr.TaskCompletionAck)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void TaskCompletionAck::CopyFrom(const TaskCompletionAck& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:mapr.TaskCompletionAck)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TaskCompletionAck::IsInitialized() const {
+  return true;
+}
+
+void TaskCompletionAck::InternalSwap(TaskCompletionAck* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TaskCompletionAck::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -1149,33 +1392,41 @@ class Task::_Internal {
 
 Task::Task(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  files_(arena) {
+  files_(arena),
+  output_files_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:mapr.Task)
 }
 Task::Task(const Task& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      files_(from.files_) {
+      files_(from.files_),
+      output_files_(from.output_files_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   task_type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_task_type().empty()) {
     task_type_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_task_type(), 
       GetArena());
   }
+  status_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_status().empty()) {
+    status_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_status(), 
+      GetArena());
+  }
   ::memcpy(&task_id_, &from.task_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&num_reducers_) -
-    reinterpret_cast<char*>(&task_id_)) + sizeof(num_reducers_));
+    static_cast<size_t>(reinterpret_cast<char*>(&job_id_) -
+    reinterpret_cast<char*>(&task_id_)) + sizeof(job_id_));
   // @@protoc_insertion_point(copy_constructor:mapr.Task)
 }
 
 void Task::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Task_central_2eproto.base);
   task_type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  status_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
       reinterpret_cast<char*>(&task_id_) - reinterpret_cast<char*>(this)),
-      0, static_cast<size_t>(reinterpret_cast<char*>(&num_reducers_) -
-      reinterpret_cast<char*>(&task_id_)) + sizeof(num_reducers_));
+      0, static_cast<size_t>(reinterpret_cast<char*>(&job_id_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(job_id_));
 }
 
 Task::~Task() {
@@ -1187,6 +1438,7 @@ Task::~Task() {
 void Task::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   task_type_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  status_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void Task::ArenaDtor(void* object) {
@@ -1211,10 +1463,12 @@ void Task::Clear() {
   (void) cached_has_bits;
 
   files_.Clear();
+  output_files_.Clear();
   task_type_.ClearToEmpty();
+  status_.ClearToEmpty();
   ::memset(&task_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&num_reducers_) -
-      reinterpret_cast<char*>(&task_id_)) + sizeof(num_reducers_));
+      reinterpret_cast<char*>(&job_id_) -
+      reinterpret_cast<char*>(&task_id_)) + sizeof(job_id_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1265,6 +1519,41 @@ const char* Task::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inter
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // int32 reducer_id = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          reducer_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 job_id = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          job_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string status = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
+          auto str = _internal_mutable_status();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "mapr.Task.status"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .mapr.ResultFile output_files = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_output_files(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<74>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -1331,6 +1620,36 @@ failure:
       InternalWriteMessage(5, this->_internal_files(i), target, stream);
   }
 
+  // int32 reducer_id = 6;
+  if (this->reducer_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_reducer_id(), target);
+  }
+
+  // int32 job_id = 7;
+  if (this->job_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(7, this->_internal_job_id(), target);
+  }
+
+  // string status = 8;
+  if (this->status().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_status().data(), static_cast<int>(this->_internal_status().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "mapr.Task.status");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_status(), target);
+  }
+
+  // repeated .mapr.ResultFile output_files = 9;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_output_files_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(9, this->_internal_output_files(i), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1354,11 +1673,25 @@ size_t Task::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
+  // repeated .mapr.ResultFile output_files = 9;
+  total_size += 1UL * this->_internal_output_files_size();
+  for (const auto& msg : this->output_files_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
   // string task_type = 4;
   if (this->task_type().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_task_type());
+  }
+
+  // string status = 8;
+  if (this->status().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_status());
   }
 
   // int32 task_id = 1;
@@ -1380,6 +1713,20 @@ size_t Task::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_num_reducers());
+  }
+
+  // int32 reducer_id = 6;
+  if (this->reducer_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_reducer_id());
+  }
+
+  // int32 job_id = 7;
+  if (this->job_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_job_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1414,8 +1761,12 @@ void Task::MergeFrom(const Task& from) {
   (void) cached_has_bits;
 
   files_.MergeFrom(from.files_);
+  output_files_.MergeFrom(from.output_files_);
   if (from.task_type().size() > 0) {
     _internal_set_task_type(from._internal_task_type());
+  }
+  if (from.status().size() > 0) {
+    _internal_set_status(from._internal_status());
   }
   if (from.task_id() != 0) {
     _internal_set_task_id(from._internal_task_id());
@@ -1425,6 +1776,12 @@ void Task::MergeFrom(const Task& from) {
   }
   if (from.num_reducers() != 0) {
     _internal_set_num_reducers(from._internal_num_reducers());
+  }
+  if (from.reducer_id() != 0) {
+    _internal_set_reducer_id(from._internal_reducer_id());
+  }
+  if (from.job_id() != 0) {
+    _internal_set_job_id(from._internal_job_id());
   }
 }
 
@@ -1450,10 +1807,12 @@ void Task::InternalSwap(Task* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   files_.InternalSwap(&other->files_);
+  output_files_.InternalSwap(&other->output_files_);
   task_type_.Swap(&other->task_type_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  status_.Swap(&other->status_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Task, num_reducers_)
-      + sizeof(Task::num_reducers_)
+      PROTOBUF_FIELD_OFFSET(Task, job_id_)
+      + sizeof(Task::job_id_)
       - PROTOBUF_FIELD_OFFSET(Task, task_id_)>(
           reinterpret_cast<char*>(&task_id_),
           reinterpret_cast<char*>(&other->task_id_));
@@ -1469,6 +1828,9 @@ void Task::InternalSwap(Task* other) {
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::mapr::TaskReception* Arena::CreateMaybeMessage< ::mapr::TaskReception >(Arena* arena) {
   return Arena::CreateMessageInternal< ::mapr::TaskReception >(arena);
+}
+template<> PROTOBUF_NOINLINE ::mapr::TaskCompletionAck* Arena::CreateMaybeMessage< ::mapr::TaskCompletionAck >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::mapr::TaskCompletionAck >(arena);
 }
 template<> PROTOBUF_NOINLINE ::mapr::ResultFile* Arena::CreateMaybeMessage< ::mapr::ResultFile >(Arena* arena) {
   return Arena::CreateMessageInternal< ::mapr::ResultFile >(arena);

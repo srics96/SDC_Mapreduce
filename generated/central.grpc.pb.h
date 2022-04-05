@@ -286,6 +286,264 @@ class WorkerService final {
   typedef WithStreamedUnaryMethod_execute_task<Service > StreamedService;
 };
 
+class MasterService final {
+ public:
+  static constexpr char const* service_full_name() {
+    return "mapr.MasterService";
+  }
+  class StubInterface {
+   public:
+    virtual ~StubInterface() {}
+    virtual ::grpc::Status task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::mapr::TaskCompletionAck* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskCompletionAck>> Asynctask_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskCompletionAck>>(Asynctask_completeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskCompletionAck>> PrepareAsynctask_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskCompletionAck>>(PrepareAsynctask_completeRaw(context, request, cq));
+    }
+    class experimental_async_interface {
+     public:
+      virtual ~experimental_async_interface() {}
+      virtual void task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+    };
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    typedef class experimental_async_interface async_interface;
+    #endif
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    async_interface* async() { return experimental_async(); }
+    #endif
+    virtual class experimental_async_interface* experimental_async() { return nullptr; }
+  private:
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskCompletionAck>* Asynctask_completeRaw(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mapr::TaskCompletionAck>* PrepareAsynctask_completeRaw(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) = 0;
+  };
+  class Stub final : public StubInterface {
+   public:
+    Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
+    ::grpc::Status task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::mapr::TaskCompletionAck* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>> Asynctask_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>>(Asynctask_completeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>> PrepareAsynctask_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>>(PrepareAsynctask_completeRaw(context, request, cq));
+    }
+    class experimental_async final :
+      public StubInterface::experimental_async_interface {
+     public:
+      void task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void task_complete(::grpc::ClientContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+     private:
+      friend class Stub;
+      explicit experimental_async(Stub* stub): stub_(stub) { }
+      Stub* stub() { return stub_; }
+      Stub* stub_;
+    };
+    class experimental_async_interface* experimental_async() override { return &async_stub_; }
+
+   private:
+    std::shared_ptr< ::grpc::ChannelInterface> channel_;
+    class experimental_async async_stub_{this};
+    ::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>* Asynctask_completeRaw(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::mapr::TaskCompletionAck>* PrepareAsynctask_completeRaw(::grpc::ClientContext* context, const ::mapr::TaskCompletion& request, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_task_complete_;
+  };
+  static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
+
+  class Service : public ::grpc::Service {
+   public:
+    Service();
+    virtual ~Service();
+    virtual ::grpc::Status task_complete(::grpc::ServerContext* context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response);
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_task_complete : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_task_complete() {
+      ::grpc::Service::MarkMethodAsync(0);
+    }
+    ~WithAsyncMethod_task_complete() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status task_complete(::grpc::ServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requesttask_complete(::grpc::ServerContext* context, ::mapr::TaskCompletion* request, ::grpc::ServerAsyncResponseWriter< ::mapr::TaskCompletionAck>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_task_complete<Service > AsyncService;
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_task_complete : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_task_complete() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(0,
+          new ::grpc::internal::CallbackUnaryHandler< ::mapr::TaskCompletion, ::mapr::TaskCompletionAck>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::mapr::TaskCompletion* request, ::mapr::TaskCompletionAck* response) { return this->task_complete(context, request, response); }));}
+    void SetMessageAllocatorFor_task_complete(
+        ::grpc::experimental::MessageAllocator< ::mapr::TaskCompletion, ::mapr::TaskCompletionAck>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
+    #endif
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::mapr::TaskCompletion, ::mapr::TaskCompletionAck>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_task_complete() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status task_complete(::grpc::ServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* task_complete(
+      ::grpc::CallbackServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* task_complete(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+  typedef ExperimentalWithCallbackMethod_task_complete<Service > CallbackService;
+  #endif
+
+  typedef ExperimentalWithCallbackMethod_task_complete<Service > ExperimentalCallbackService;
+  template <class BaseClass>
+  class WithGenericMethod_task_complete : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_task_complete() {
+      ::grpc::Service::MarkMethodGeneric(0);
+    }
+    ~WithGenericMethod_task_complete() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status task_complete(::grpc::ServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_task_complete : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_task_complete() {
+      ::grpc::Service::MarkMethodRaw(0);
+    }
+    ~WithRawMethod_task_complete() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status task_complete(::grpc::ServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requesttask_complete(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_task_complete : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_task_complete() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(0,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->task_complete(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_task_complete() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status task_complete(::grpc::ServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* task_complete(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* task_complete(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_task_complete : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_task_complete() {
+      ::grpc::Service::MarkMethodStreamed(0,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::mapr::TaskCompletion, ::mapr::TaskCompletionAck>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::mapr::TaskCompletion, ::mapr::TaskCompletionAck>* streamer) {
+                       return this->Streamedtask_complete(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_task_complete() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status task_complete(::grpc::ServerContext* /*context*/, const ::mapr::TaskCompletion* /*request*/, ::mapr::TaskCompletionAck* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status Streamedtask_complete(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::mapr::TaskCompletion,::mapr::TaskCompletionAck>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_task_complete<Service > StreamedUnaryService;
+  typedef Service SplitStreamedService;
+  typedef WithStreamedUnaryMethod_task_complete<Service > StreamedService;
+};
+
 }  // namespace mapr
 
 
