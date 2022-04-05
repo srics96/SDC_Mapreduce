@@ -17,22 +17,59 @@
 #include <grpcpp/grpcpp.h>
 
 #include "central.grpc.pb.h"
-#include "sharding.h"
-#include "task.h"
-#include "worker.h"
+#include "master.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
+using grpc::Server;
+using grpc::ServerContext;
 using grpc::Status;
+using grpc::ServerBuilder;
 
+using mapr::MasterService;
 using mapr::WorkerService;
 using mapr::ResultFile;
 using mapr::Task;
+
 using mapr::TaskCompletion;
+using mapr::TaskCompletionAck;
 using mapr::TaskReception;
 using mapr::FileInfo;
 
 using namespace std;
+
+class Master;
+
+class MasterServiceImpl final : public MasterService::Service {
+
+    private:
+        Master* master;
+    public:
+
+        MasterServiceImpl(Master* master) {
+            this->master = master;
+        }
+        
+        Status task_complete(
+            ServerContext* context, 
+            const TaskCompletion* completion,
+            TaskCompletionAck* ack
+        ) override {
+            std::vector<ResultFile> files(completion->result_files().begin(), completion->result_files().end());
+            
+            shared_ptr<Task> task = master->get_task_by_id(completion->task_id());
+            task->set_status("completed");
+            
+            for (auto file: files) {
+                ResultFile* result_file = task->add_output_files();
+                result_file->set_filename(file.filename());
+            }
+            
+            ack->set_message("Acknowledged");
+            return Status::OK;
+        }
+
+};
 
 
 class MasterClient { 
@@ -40,147 +77,169 @@ class MasterClient {
     public:
         MasterClient(std::shared_ptr<Channel> channel): stub_(WorkerService::NewStub(channel)) {}
 
-        vector<string> execute_task(shared_ptr<TaskInstance> task_instance, shared_ptr<WorkerInstance> worker) {
+        bool execute_task(shared_ptr<Task> task, shared_ptr<WorkerInstance> worker) {
             vector<string> output_files;
-            Task task;
             string task_type;
             
-            if (task_instance->taskType == TaskType::map)
-                task_type = "map";
-            else
-                task_type = "reduce";
-
-            task.set_task_type(task_type);
-            task.set_task_id(task_instance->id);
-            task.set_num_reducers(3);
-            
-            FileInfo* file_info = task.add_files();
-            
-            for (auto file: task_instance->shard->files) {
-                file_info->set_fname(file.fileName);
-                file_info->set_start(file.startOffset);
-                file_info->set_end(file.endOffset);
-            }
-
-            TaskCompletion completion;
+            TaskReception reception;
             ClientContext context;
 
-            Status status = stub_->execute_task(&context, task, &completion);
+            Status status = stub_->execute_task(&context, *task, &reception);
 
             if (status.ok()) {
-                cout << "Map task completed" << " " << task_instance->id << endl;
-                std::vector<ResultFile> files(completion.result_files().begin(), completion.result_files().end());
-                for (auto file: files)
-                    output_files.push_back(file.filename());
-
-            } else {
-                std::cout << status.error_code() << ": " << status.error_message() << std::endl;
+                LOG(INFO) << "Receipt for " << task->task_id() << endl;
+                return true;
             }
-            return output_files;
+            else {
+                LOG(INFO) << status.error_code() << ": " << status.error_message() << std::endl;
+                return false;
+            }
         }
     private:
         std::unique_ptr<WorkerService::Stub> stub_;
 };
 
+Master::Master() {}
 
-class Master {
+shared_ptr<Task> Master::get_task_by_id(int task_id) {
+    for (auto task: tasks_) {
+        if (task->task_id() == task_id)
+            return task;
+    }
+    return NULL;
+}
 
-    private:
-        queue<shared_ptr<TaskInstance>> tasks_;
-        vector<shared_ptr<WorkerInstance>> workers_;
-        vector<string> map_phase_files;
-        int phase = 0;
-        int worker_rr = 0;
+vector<shared_ptr<ShardAllocation>> Master::shard() {
+    vector<shared_ptr<ShardAllocation>> allShards = createShardAllocations(job->shard_size, job->file_paths);
+    LOG(INFO) << "Sharding phase complete" << endl;
+    LOG(INFO) << "Num Shards: " << allShards.size() << endl;
+    return allShards;
+}
+
+int Master::choose_worker() {
+    for (int i = 0; i < workers_.size(); i++) {
+        if (workers_[i]->status == WorkerStatus::idle)
+            return i;
+    }
+    LOG(INFO) << "No worker to choose for task allocation" << endl;
+    return -1;
+}
+
+void Master::schedule(string phase) {
+    LOG(INFO) << phase << " phase started" << endl;
+
+    for (auto task: tasks_) {
+        if (task->status() != "queued")
+            continue;
+        
+        int worker_idx = choose_worker();
+        if (!trigger(task, workers_[worker_idx])) {
+            LOG(INFO) << "Trigger unsuccessful for task: " << task->task_id() << " and worker: " << workers_[worker_idx]->id << endl;
+            continue;
+        }
+        task->set_status("running");
+        workers_[worker_idx]->status = WorkerStatus::busy;
+    }
+}
+
+void Master::runServer() {
+    std::string server_address("0.0.0.0:5002");
+    MasterServiceImpl service(this);
+
+    ServerBuilder builder;
+    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+    builder.RegisterService(&service);
+
+    std::unique_ptr<Server> server(builder.BuildAndStart());
+    std::cout << "Master Server listening on " << server_address << std::endl;
     
-    public:
-        Master() {}
+    while (!kill_server)
+        server->Wait();
+    server->Shutdown();
+}
 
-        vector<shared_ptr<ShardAllocation>> shard() {
-            vector<shared_ptr<ShardAllocation>> allShards = createShardAllocations();
-            LOG(INFO) << "Sharding phase complete" << endl;
-            LOG(INFO) << "Num Shards: " << allShards.size() << endl;
-            return allShards;
-        }
+bool Master::trigger(shared_ptr<Task> task, shared_ptr<WorkerInstance> worker) {
+    string serverAddress = worker->address;
+    MasterClient masterClient(worker->channel);
+    return masterClient.execute_task(task, worker);
+}
 
-        int choose_worker() {
-            int worker_idx = worker_rr;
-            worker_rr = (worker_rr + 1) % workers_.size();
-            return worker_idx;
-        }
+void Master::populateWorkers() {
+    auto workers = WorkerInstance::populate();
+    workers_ = workers;
+}
 
-        void schedule(string phase) {
-            cout << phase << " phase started" << endl;
-            while (!tasks_.empty()) {
-                auto task = tasks_.front();
-                tasks_.pop();
-                int worker_idx = choose_worker();
-                if (worker_idx == -1)
-                    continue;    
-                auto worker = workers_[worker_idx];
-                cout << "For task id: " << task->id << " worker is: " << worker->id << endl;
-                trigger(task, worker);
-            }
+void Master::bootstrap_tasks() {
+    auto shards = shard();
+    int id = 1;
+    
+    for (auto shard: shards) {
+        auto task = make_shared<Task>();
+
+        task->set_task_id(id);
+        task->set_job_id(job->job_id);
+        task->set_status("queued");
+
+        // Change this using the received configuration.
+        task->set_num_reducers(3);
+        
+        task->set_task_type("map");
+        
+        for (auto file: shard->files) {
+            FileInfo* file_info = task->add_files();
+            file_info->set_fname(file.fileName);
+            file_info->set_start(file.startOffset);
+            file_info->set_end(file.endOffset);
         }
         
-        void trigger(shared_ptr<TaskInstance> task, shared_ptr<WorkerInstance> worker) {
-            string serverAddress = worker->address;
-            LOG(INFO) << "The server address is " << serverAddress << endl;
-            MasterClient masterClient(worker->channel);
-            vector<string> op_files = masterClient.execute_task(task, worker);
-            if (task->taskType == TaskType::map) {
-                for (auto file: op_files)
-                    map_phase_files.push_back(file);
-            }
-        }
+        tasks_.push_back(task);
+        id = id + 1;
+    }
+}
 
-        void populateWorkers() {
-            auto workers = WorkerInstance::populate();
-            workers_ = workers;
-        }
+void Master::fill_tasks(bool is_new) {
+    if (is_new)
+        bootstrap_tasks();
+    
+}
 
-        void execute() {
-            populateWorkers();
-            auto shards = shard();
-            int id = 1;
-            for (auto shard: shards) {
-                auto task = make_shared<TaskInstance>(id, TaskType::map, shard);
-                tasks_.push(task);
-                id = id + 1;
-            }
-            schedule("map");
-            cout << "Map phase complete." << endl;
-            phase = phase + 1;
-            cout << "There are " << to_string(map_phase_files.size()) << " files" << endl;
-            std::map<int, vector<string>> reducer_wise_files;
-            
-            for (auto filename: map_phase_files) {
-                int start = filename.find_last_of('_');
-                int end = filename.find('.');
-                int reducer_id = stoi(filename.substr(start + 1));
-                reducer_wise_files[reducer_id].push_back(filename);
-            }
+void Master::execute() {
 
-            std::map<int, vector<string>>::iterator it;
-            for (it = reducer_wise_files.begin(); it != reducer_wise_files.end(); it++) {
-                shared_ptr<ShardAllocation> newShard = shared_ptr<ShardAllocation>(new ShardAllocation());
-                for (auto filename: it->second) {
-                    ShardFileInfo fileInfo;
-                    fileInfo.fileName = filename;
-                    fileInfo.startOffset = 0;
-                    fileInfo.endOffset = 10;
-                    newShard->files.push_back(fileInfo);
-                }
-                auto task = make_shared<TaskInstance>(id, TaskType::reduce, newShard);
-                task->reducer_id = it->first;
-                tasks_.push(task);
-                id = id + 1;
-            }
+    LOG(INFO) << "Spawning thread for listening to task completions" << endl;
+    std::thread server_thread(&Master::runServer, this);
 
-            schedule("reduce");
-        }
+    while (True) {
+        // Remove this.
+        vector<string> file_paths {"gutenberg/John Bunyan___The Works of John Bunyan.txt"};
+        int shard_size = 50000;
+        int num_reducers = 3;
+        // Remove this.
+        
+        this->job = make_shared<Job>(1, file_paths, shard_size, num_reducers);
 
-};
+        string hostname = get_local_ip();
+        // populateWorkers();
+        fill_tasks(true);
+        
+        // Starting the master server for accepting task completion requests.
+        
+        
+        schedule("map");
+        schedule("reduce")
+        LOG(INFO) << "Map phase complete." << endl;
+        
+        job_end();
+    }
+    
+    kill_server = true;
+    server_thread.join();
+}
 
+void Master::job_end() {
+    job->is_complete = true;
+    // TODO: Remove the RMQ front.
+}
+        
 
 int get_node_id(const std::string &s) {
   return stoi(s.substr(s.find('_') + 1));

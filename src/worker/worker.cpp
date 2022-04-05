@@ -254,23 +254,25 @@ class WorkerServiceImpl final : public WorkerService::Service {
     Status execute_task(
         ServerContext* context, 
         const Task* task,
-        TaskCompletion* completion
+        TaskReception* reception
     ) override {
         string reception_text = "Received Task " + to_string(task->task_id()) + " " + task->task_type();
-        cout << reception_text << endl;
-        TaskExecutor executor;
-        vector<string> output_files;
-        if (task->task_type() == "map")
-            output_files = executor.map(task);
-        else
-            output_files = executor.reduce(task); 
+        LOG(INFO) << reception_text << endl;
+        reception->set_message(reception_text);
         
-        completion->set_worker_id(task->worker_id());
-        completion->set_task_id(task->task_id());
-        for(auto i : output_files){
-    	    ResultFile* result_file = completion->add_result_files();
-    	    result_file->set_filename(i);
-        }
+        // TaskExecutor executor;
+        // vector<string> output_files;
+        // if (task->task_type() == "map")
+        //     output_files = executor.map(task);
+        // else
+        //     output_files = executor.reduce(task); 
+        
+        // completion->set_worker_id(task->worker_id());
+        // completion->set_task_id(task->task_id());
+        // for(auto i : output_files){
+    	//     ResultFile* result_file = completion->add_result_files();
+    	//     result_file->set_filename(i);
+        // }
         return Status::OK;
     }
 

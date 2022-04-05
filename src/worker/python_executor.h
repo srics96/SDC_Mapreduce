@@ -26,23 +26,3 @@ void execute(string inputfile, string outputfile, string commandfile, char * com
         close(in_fd);
     }
 }
-
-// int main(){
-//     execute("input.txt", "reducer_input.txt", "/home/azureuser/src/sdc_map_reduce/app/mapper.py", "mapper.py",  O_RDWR|O_CREAT);
-//     printf("Mapper done\n");
-//     system("chmod 777 reducer_input.txt" );
-//     execute("reducer_input.txt", "output.txt", "/home/azureuser/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_CREAT); 
-//     system("chmod 777 output.txt" );
-    
-//     printf("Reducer 1 done\n");
-    
-//     execute("reducer_input.txt", "output.txt", "/home/azureuser/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_APPEND);    
-    
-//     printf("Reducer 2 done\n");
-    
-//     execute("output.txt", "final_output.txt", "/home/azureuser/src/sdc_map_reduce/app/reducer.py", "reducer.py",  O_RDWR|O_CREAT);    
-    
-//     printf("Reducer 3 done\n");
-
-//     return 0;
-// }
