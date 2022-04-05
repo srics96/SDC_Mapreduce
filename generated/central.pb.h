@@ -962,6 +962,7 @@ class Task PROTOBUF_FINAL :
     kOutputFilesFieldNumber = 9,
     kTaskTypeFieldNumber = 4,
     kStatusFieldNumber = 8,
+    kMasterUrlFieldNumber = 10,
     kTaskIdFieldNumber = 1,
     kWorkerIdFieldNumber = 2,
     kNumReducersFieldNumber = 3,
@@ -1036,6 +1037,22 @@ class Task PROTOBUF_FINAL :
   std::string* _internal_mutable_status();
   public:
 
+  // string master_url = 10;
+  void clear_master_url();
+  const std::string& master_url() const;
+  void set_master_url(const std::string& value);
+  void set_master_url(std::string&& value);
+  void set_master_url(const char* value);
+  void set_master_url(const char* value, size_t size);
+  std::string* mutable_master_url();
+  std::string* release_master_url();
+  void set_allocated_master_url(std::string* master_url);
+  private:
+  const std::string& _internal_master_url() const;
+  void _internal_set_master_url(const std::string& value);
+  std::string* _internal_mutable_master_url();
+  public:
+
   // int32 task_id = 1;
   void clear_task_id();
   ::PROTOBUF_NAMESPACE_ID::int32 task_id() const;
@@ -1092,6 +1109,7 @@ class Task PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile > output_files_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr task_type_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr status_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr master_url_;
   ::PROTOBUF_NAMESPACE_ID::int32 task_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 worker_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 num_reducers_;
@@ -1792,6 +1810,67 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::mapr::ResultFile >&
 Task::output_files() const {
   // @@protoc_insertion_point(field_list:mapr.Task.output_files)
   return output_files_;
+}
+
+// string master_url = 10;
+inline void Task::clear_master_url() {
+  master_url_.ClearToEmpty();
+}
+inline const std::string& Task::master_url() const {
+  // @@protoc_insertion_point(field_get:mapr.Task.master_url)
+  return _internal_master_url();
+}
+inline void Task::set_master_url(const std::string& value) {
+  _internal_set_master_url(value);
+  // @@protoc_insertion_point(field_set:mapr.Task.master_url)
+}
+inline std::string* Task::mutable_master_url() {
+  // @@protoc_insertion_point(field_mutable:mapr.Task.master_url)
+  return _internal_mutable_master_url();
+}
+inline const std::string& Task::_internal_master_url() const {
+  return master_url_.Get();
+}
+inline void Task::_internal_set_master_url(const std::string& value) {
+  
+  master_url_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void Task::set_master_url(std::string&& value) {
+  
+  master_url_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:mapr.Task.master_url)
+}
+inline void Task::set_master_url(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  master_url_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:mapr.Task.master_url)
+}
+inline void Task::set_master_url(const char* value,
+    size_t size) {
+  
+  master_url_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:mapr.Task.master_url)
+}
+inline std::string* Task::_internal_mutable_master_url() {
+  
+  return master_url_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* Task::release_master_url() {
+  // @@protoc_insertion_point(field_release:mapr.Task.master_url)
+  return master_url_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void Task::set_allocated_master_url(std::string* master_url) {
+  if (master_url != nullptr) {
+    
+  } else {
+    
+  }
+  master_url_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), master_url,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:mapr.Task.master_url)
 }
 
 #ifdef __GNUC__

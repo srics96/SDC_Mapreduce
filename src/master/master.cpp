@@ -9,6 +9,7 @@
 #include <queue>
 #include <vector>
 #include <thread>
+#include <crow.h>
 
 #include <iostream>
 #include <memory>
@@ -208,28 +209,28 @@ void Master::execute() {
     LOG(INFO) << "Spawning thread for listening to task completions" << endl;
     std::thread server_thread(&Master::runServer, this);
 
-    while (True) {
-        // Remove this.
-        vector<string> file_paths {"gutenberg/John Bunyan___The Works of John Bunyan.txt"};
-        int shard_size = 50000;
-        int num_reducers = 3;
-        // Remove this.
-        
-        this->job = make_shared<Job>(1, file_paths, shard_size, num_reducers);
+    
+    // Remove this.
+    vector<string> file_paths {"gutenberg/John Bunyan___The Works of John Bunyan.txt"};
+    int shard_size = 50000;
+    int num_reducers = 3;
+    // Remove this.
+    
+    this->job = make_shared<Job>(1, file_paths, shard_size, num_reducers);
 
-        string hostname = get_local_ip();
-        // populateWorkers();
-        fill_tasks(true);
+    string hostname = get_local_ip();
+    // populateWorkers();
+    fill_tasks(true);
+    
+    // Starting the master server for accepting task completion requests.
+    
+    
+    schedule("map");
         
-        // Starting the master server for accepting task completion requests.
-        
-        
-        schedule("map");
-        schedule("reduce")
-        LOG(INFO) << "Map phase complete." << endl;
-        
-        job_end();
-    }
+    LOG(INFO) << "Map phase complete." << endl;
+    
+    job_end();
+    
     
     kill_server = true;
     server_thread.join();

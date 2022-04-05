@@ -7,6 +7,7 @@ find_package(Threads REQUIRED)
 find_package(Zookeeper REQUIRED)
 find_package(Check REQUIRED)
 find_package(Conservator REQUIRED)
+find_package(Crow REQUIRED)
 
 
 find_package(Protobuf CONFIG REQUIRED)
