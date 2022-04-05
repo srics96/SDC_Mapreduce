@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3.8
 import sys
 def read_from_input(file):
     for line in file:
@@ -14,7 +14,7 @@ def main(separator = ' '):
         for word in words:
             if word.isalnum():
             # write to the reduce
-                print ("{word}{separator}{count}".format(word=word, separator='\t', count=1))
+                print("{word}{separator}{count}".format(word=word, separator=' ', count=1))
 
 if __name__ == '__main__':
 

@@ -21,7 +21,7 @@ void execute(string inputfile, string outputfile, string commandfile, char * com
     }else{
         int status;
         waitpid(pid, &status,0);
-        cout << "Child done!" << endl;
+        cout << "Children done!" << endl;
         close(out_fd);
         close(in_fd);
     }

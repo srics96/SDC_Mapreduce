@@ -26,7 +26,9 @@ using grpc::ClientContext;
 using grpc::Status;
 
 using mapr::WorkerService;
+using mapr::ResultFile;
 using mapr::Task;
+using mapr::TaskCompletion;
 using mapr::TaskReception;
 using mapr::FileInfo;
 
@@ -38,7 +40,8 @@ class MasterClient {
     public:
         MasterClient(std::shared_ptr<Channel> channel): stub_(WorkerService::NewStub(channel)) {}
 
-        std::string execute_task(shared_ptr<TaskInstance> task_instance, shared_ptr<WorkerInstance> worker) {
+        vector<string> execute_task(shared_ptr<TaskInstance> task_instance, shared_ptr<WorkerInstance> worker) {
+            vector<string> output_files;
             Task task;
             string task_type;
             
@@ -59,17 +62,21 @@ class MasterClient {
                 file_info->set_end(file.endOffset);
             }
 
-            TaskReception reception;
+            TaskCompletion completion;
             ClientContext context;
 
-            Status status = stub_->execute_task(&context, task, &reception);
+            Status status = stub_->execute_task(&context, task, &completion);
 
             if (status.ok()) {
-                return reception.message();
+                cout << "Map task completed" << " " << task_instance->id << endl;
+                std::vector<ResultFile> files(completion.result_files().begin(), completion.result_files().end());
+                for (auto file: files)
+                    output_files.push_back(file.filename());
+
             } else {
                 std::cout << status.error_code() << ": " << status.error_message() << std::endl;
             }
-        
+            return output_files;
         }
     private:
         std::unique_ptr<WorkerService::Stub> stub_;
@@ -81,6 +88,10 @@ class Master {
     private:
         queue<shared_ptr<TaskInstance>> tasks_;
         vector<shared_ptr<WorkerInstance>> workers_;
+        vector<string> map_phase_files;
+        int phase = 0;
+        int worker_rr = 0;
+    
     public:
         Master() {}
 
@@ -92,16 +103,13 @@ class Master {
         }
 
         int choose_worker() {
-            for (int i = 0; i < workers_.size(); i++) {
-                auto worker = workers_[i];
-                if (worker->status == WorkerStatus::idle)
-                    return i;
-            }
-            return -1;
+            int worker_idx = worker_rr;
+            worker_rr = (worker_rr + 1) % workers_.size();
+            return worker_idx;
         }
 
-        void schedule() {
-            cout << "Schedule phase" << endl;
+        void schedule(string phase) {
+            cout << phase << " phase started" << endl;
             while (!tasks_.empty()) {
                 auto task = tasks_.front();
                 tasks_.pop();
@@ -111,7 +119,6 @@ class Master {
                 auto worker = workers_[worker_idx];
                 cout << "For task id: " << task->id << " worker is: " << worker->id << endl;
                 trigger(task, worker);
-                cout << "Trigger complete" << endl;
             }
         }
         
@@ -119,9 +126,11 @@ class Master {
             string serverAddress = worker->address;
             LOG(INFO) << "The server address is " << serverAddress << endl;
             MasterClient masterClient(worker->channel);
-            LOG(INFO) << "Connected to server" << endl;
-            string reply = masterClient.execute_task(task, worker);
-            LOG(INFO) << "Handshake response received: " << reply << std::endl;
+            vector<string> op_files = masterClient.execute_task(task, worker);
+            if (task->taskType == TaskType::map) {
+                for (auto file: op_files)
+                    map_phase_files.push_back(file);
+            }
         }
 
         void populateWorkers() {
@@ -138,7 +147,36 @@ class Master {
                 tasks_.push(task);
                 id = id + 1;
             }
-            schedule();
+            schedule("map");
+            cout << "Map phase complete." << endl;
+            phase = phase + 1;
+            cout << "There are " << to_string(map_phase_files.size()) << " files" << endl;
+            std::map<int, vector<string>> reducer_wise_files;
+            
+            for (auto filename: map_phase_files) {
+                int start = filename.find_last_of('_');
+                int end = filename.find('.');
+                int reducer_id = stoi(filename.substr(start + 1));
+                reducer_wise_files[reducer_id].push_back(filename);
+            }
+
+            std::map<int, vector<string>>::iterator it;
+            for (it = reducer_wise_files.begin(); it != reducer_wise_files.end(); it++) {
+                shared_ptr<ShardAllocation> newShard = shared_ptr<ShardAllocation>(new ShardAllocation());
+                for (auto filename: it->second) {
+                    ShardFileInfo fileInfo;
+                    fileInfo.fileName = filename;
+                    fileInfo.startOffset = 0;
+                    fileInfo.endOffset = 10;
+                    newShard->files.push_back(fileInfo);
+                }
+                auto task = make_shared<TaskInstance>(id, TaskType::reduce, newShard);
+                task->reducer_id = it->first;
+                tasks_.push(task);
+                id = id + 1;
+            }
+
+            schedule("reduce");
         }
 
 };

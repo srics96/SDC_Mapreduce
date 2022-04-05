@@ -26,7 +26,9 @@ void printShard(shared_ptr<ShardAllocation> shard) {
 
 vector<shared_ptr<ShardAllocation>> createShardAllocations() {
     // TODO - Remove hardcoded values.
-    vector<string> filePaths {"gutenberg/John Bunyan___The Works of John Bunyan.txt", "gutenberg/William Wordsworth___The Prose Works of William Wordsworth.txt"};
+    //vector<string> filePaths {"gutenberg/John Bunyan___The Works of John Bunyan.txt", "gutenberg/William Wordsworth___The Prose Works of William Wordsworth.txt"};
+    vector<string> filePaths {"gutenberg/Winston Churchill___Coniston, Complete.txt"};
+    
     int shardSize = 50000;
     vector<shared_ptr<ShardAllocation>> allShards;
     shared_ptr<ShardAllocation> currentShard = shared_ptr<ShardAllocation>(new ShardAllocation());

@@ -14,6 +14,7 @@ class TaskInstance {
         TaskType taskType;
         string worker;
         StatusType status;
+        int reducer_id;
         shared_ptr<ShardAllocation> shard;
         
         TaskInstance(int id, TaskType taskType, shared_ptr<ShardAllocation> shard) {
