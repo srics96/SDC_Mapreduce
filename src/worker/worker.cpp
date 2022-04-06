@@ -172,7 +172,7 @@ class TaskExecutor {
         }
 
         vector<string> map(const Task* task) {   
-            cout << "Map task called" << endl;
+            // cout << "Map task called" << endl;
                 
             string job_dir = "./job_" + to_string(task->job_id());
             string directory_name = job_dir + "/intermediates"; 
@@ -195,17 +195,17 @@ class TaskExecutor {
             string azure_path = "/code/src/app/mapper.py";
             string vm_path = "/vagrant/workshop6-c/src/app/mapper.py";
             
-            cout<< "USER FUNCTION STARTS" <<endl;
+            // cout<< "USER FUNCTION STARTS" <<endl;
             execute(filename, mapper_output_file, azure_path, "mapper.py",  O_RDWR|O_CREAT);
-            cout<< "USER FUNCTION DONE" <<endl;
+            // cout<< "USER FUNCTION DONE" <<endl;
             std::ifstream ifs(mapper_output_file);
             std::string content( (std::istreambuf_iterator<char>(ifs) ),(std::istreambuf_iterator<char>()) );
-            cout << "map result content" << content << endl;
+            
             const std::string s = "\n";
             const std::string t = " ";
 
             
-            cout << "After replace" << endl;
+            // cout << "After replace" << endl;
             
             std::vector<std::string> lines;
             boost::split(lines, content, boost::is_any_of("\n"), boost::token_compress_on);
@@ -214,16 +214,15 @@ class TaskExecutor {
             for (auto line: lines) {
                 vector<string> sub_tokens;
                 boost::split(sub_tokens, line, boost::is_any_of(" "), boost::token_compress_on);
-                cout << "Sub token size" << sub_tokens.size() << endl;
+                
                 if (sub_tokens.size() != 0)
                     tokens.push_back(sub_tokens[0]);
             }
             
-            cout << "Token size " << tokens.size() << endl;
             int reducer_count = task->num_reducers();
             vector<std::ofstream> file_ofstreams; 
             vector<std::string> output_file_names;
-            cout << "Splitting reduce files" << endl;
+            // cout << "Splitting reduce files" << endl;
 
             for(int i=0 ; i < reducer_count; i++){
                 string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + "_" + std::to_string(i+1);
@@ -231,19 +230,19 @@ class TaskExecutor {
                 file_ofstreams.emplace_back(std::ofstream {filename.c_str()});
                 output_file_names.push_back(filename);
             }
-            cout << "File streams created" << endl;
+            // cout << "File streams created" << endl;
             hash<string> hasher;
             for(int i=0; i<tokens.size(); i+=1){
                 int id = hasher(tokens[i])%reducer_count;
                 string to_output = tokens[i] + " " + "1" + "\n";
-                cout << to_output << endl;
+                // cout << to_output << endl;
                 file_ofstreams[id] << to_output;
             }
-            cout << "Data appended to streams" << endl;
+            // cout << "Data appended to streams" << endl;
             for(int i=0 ; i< reducer_count; i++){
                 file_ofstreams[i].close();
             }
-            cout << "Splitting completed" << endl;
+            // cout << "Splitting completed" << endl;
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             
             for(int i=0 ; i< reducer_count; i++){
@@ -277,7 +276,7 @@ class TaskExecutor {
 
             string azure_path = "/code/src/app/reducer.py";
             string vm_path = "/vagrant/workshop6-c/src/app/reducer.py";
-            cout<< "USER FUNCTION STARTS" <<endl;
+            
             for(int i=0 ; i<files.size(); i++){
                 if(i == 0){
                     execute(reducer_file_names[i], temp_out_file, azure_path, "reducer.py",  O_RDWR|O_CREAT); 
@@ -288,7 +287,7 @@ class TaskExecutor {
 
             string final_out_file = directory_name + "/" + "final_" +  to_string(task->task_id()) + ".txt";
             execute(temp_out_file, final_out_file, azure_path, "reducer.py",  O_RDWR|O_CREAT); 
-            cout<< "USER FUNCTION ENDS" <<endl;
+            
             as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             as.upload_file(final_out_file, final_out_file);
             output_files.push_back(final_out_file);
@@ -429,29 +428,29 @@ string get_local_ip() {
 }
 
 void register_with_zoopeeker(string local_ip){
-    LOG(INFO) << "Elect leader called by " << local_ip << endl;
+    cout << "Elect leader called by " << local_ip << endl;
 
     ConservatorFrameworkFactory factory = ConservatorFrameworkFactory();
     unique_ptr<ConservatorFramework> framework = factory.newClient("default-zookeeper:2181");
     framework->start();
 
-    LOG(INFO) << "Connected to the zookeeper service" << endl;
+    cout << "Connected to the zookeeper service" << endl;
     
     auto res = framework->create()->forPath("/workers");
-    LOG(INFO) << "Create /workers retval:" << res;
+    cout << "Create /workers retval:" << res;
     
     res = framework->checkExists()->forPath("/workers");
     assert(res == ZOK);
-    LOG(INFO) << "/workers now exists";
+    cout << "/workers now exists";
 
     string realpath;
     int mypath;
     
     res = framework->create()->withFlags(ZOO_EPHEMERAL | ZOO_SEQUENCE)->forPath("/workers/" + local_ip + "_", NULL, realpath);
     if (res != ZOK) {
-        LOG(FATAL) << "Failed to create ephemeral node, retval "<< res;
+        cout << "Failed to create ephemeral node, retval "<< res;
     } else {
-        LOG(INFO) << "Created seq ephm node " << realpath;
+        cout << "Created seq ephm node " << realpath;
         mypath = stoi(realpath.substr(realpath.find('_') + 1));
     }
 }
@@ -463,6 +462,7 @@ void runServer() {
 }
 
 int main(int argc, char** argv) {
+    register_with_zoopeeker(get_local_ip());
     runServer();
     return 0;
 }
