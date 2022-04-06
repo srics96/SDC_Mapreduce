@@ -5,7 +5,7 @@ metadata:
   labels:
     app: master-app
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: master-app
@@ -26,7 +26,7 @@ metadata:
   labels:
     app: worker-app
 spec:
-  replicas: 2
+  replicas: 0
   selector:
     matchLabels:
       app: worker-app
@@ -39,4 +39,35 @@ spec:
       - name: worker-app
         image: mapreduceimage.azurecr.io/mapreduce/worker_image
         command: ['/code/src/worker/worker']
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  containers:
+  - name: web
+    image: mapreduceimage.azurecr.io/mapreduce/master_image
+    command: ['/code/src/webclient/webclient']
+    ports:
+      - containerPort: 5000
+        name: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: mapreduce_group
+  name: web
+spec:
+  loadBalancerIP: 20.120.26.81
+  type: LoadBalancer
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
 ---

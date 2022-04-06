@@ -47,6 +47,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/vagrant/workshop6-c/src/master/cmake_install.cmake")
   include("/vagrant/workshop6-c/src/worker/cmake_install.cmake")
   include("/vagrant/workshop6-c/src/test/cmake_install.cmake")
+  include("/vagrant/workshop6-c/src/webclient/cmake_install.cmake")
 
 endif()
 

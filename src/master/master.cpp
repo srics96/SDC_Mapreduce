@@ -122,7 +122,6 @@ int Master::choose_worker() {
         if (workers_[i]->status == WorkerStatus::idle)
             return i;
     }
-    LOG(INFO) << "No worker to choose for task allocation" << endl;
     return -1;
 }
 
@@ -134,6 +133,10 @@ void Master::schedule(string phase) {
             continue;
         
         int worker_idx = choose_worker();
+        if (worker_idx == -1) {
+            LOG(INFO) << "No worker to choose for task allocation" << endl;
+            continue;
+        }
         if (!trigger(task, workers_[worker_idx])) {
             LOG(INFO) << "Trigger unsuccessful for task: " << task->task_id() << " and worker: " << workers_[worker_idx]->id << endl;
             continue;
