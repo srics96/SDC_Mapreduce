@@ -18,7 +18,6 @@ public:
     unique_ptr<ConservatorFramework> framework;
 
 
-    ZookeeperHelper(string host);
     ZookeeperHelper();
     void get_masters_ordered(
         vector<string> &out_masters, bool strip_trailing = true);
@@ -31,7 +30,7 @@ public:
 
     void create_if_not_exists(string path,string data = string());
 
-    void create(string path,string data = string());
+    int create(string path,string data, int enabled_flag);
 
     void set(string path, string data);
 };
@@ -42,18 +41,11 @@ static int get_trailing_num(const string& s) {
 }
 
 
-
 ZookeeperHelper::ZookeeperHelper(){
-}
-
-
-ZookeeperHelper::ZookeeperHelper(string host){
+    string host = "default-zookeeper:2181";
     factory = ConservatorFrameworkFactory();
     framework = factory.newClient(host);
     framework->start();
-    auto c = framework->getChildren()->forPath("/masters");
-
-
 }
 
 void ZookeeperHelper::get_masters_ordered(
@@ -124,24 +116,24 @@ void ZookeeperHelper::create_if_not_exists(string path,string data) {
   
 }
 
-void ZookeeperHelper::create(string path,string data) {
-  Trace trace(__func__, "path=" + path + ", data=" + data);
-  auto data_ptr = data.empty() ? nullptr : data.c_str();
-  if (path.back() == '/') {
-    path.pop_back();
-  }
-  auto res = framework->create()->forPath(path, data_ptr);
-  assert(res == ZOK);
-  
+int ZookeeperHelper::create(string path, string data, int enabled_flag) {
+    Trace trace(__func__, "path=" + path + ", data=" + data);
+    auto data_ptr = data.empty() ? nullptr : data.c_str();
+    if (path.back() == '/') {
+        path.pop_back();
+    }
+    string realpath;
+    auto res = framework->create()->withFlags(enabled_flag)->forPath(path, data_ptr, realpath);
+    assert(res == ZOK);
+    return stoi(realpath.substr(realpath.find('_') + 1));
 }
 
 void ZookeeperHelper::set(string path,string data) {
-  Trace trace(__func__, "path=" + path + ", data=" + data);
-  if (path.back() == '/') {
-    path.pop_back();
-  }
-  auto ret = framework->setData()->forPath(path, data.c_str());
-  assert(ret == ZOK);
-  
+    Trace trace(__func__, "path=" + path + ", data=" + data);
+    if (path.back() == '/') {
+      path.pop_back();
+    }
+    auto ret = framework->setData()->forPath(path, data.c_str());
+    assert(ret == ZOK);
 }
 

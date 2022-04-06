@@ -27,6 +27,12 @@ using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
+using grpc::Channel;
+using grpc::ClientAsyncResponseReader;
+using grpc::ClientContext;
+using grpc::CompletionQueue;
+using grpc::ServerAsyncResponseWriter;
+using grpc::ServerCompletionQueue;
 
 using mapr::FileInfo;
 using mapr::WorkerService;
@@ -52,11 +58,14 @@ vector<string> splitter (string s, string delimiter) {
 class TaskExecutor {
     
     private:
+        queue<Task*> my_tasks;
+        friend class DynamicRPCListener;
+	    friend class MultiThreadedDispatchServer;
+        
         string getFileContents(ShardFileInfo fileInfo) {
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             return as.get_blob_with_offset(fileInfo.fileName, fileInfo.startOffset, (fileInfo.endOffset - fileInfo.startOffset) + 1);
         }
-
 
     public:
         string adjust_shard_boundaries(const FileInfo* file){
@@ -244,39 +253,108 @@ class TaskExecutor {
             output_files.push_back(final_out_file);
             return output_files;
         }
+
+        void executeTask() {
+	        if (my_tasks.size() == 0)
+                return;
+            Task* task = my_tasks.front();
+
+            string task_type = task -> task_type();
+            LOG(INFO) << "Task type being executed : " << task_type <<endl;
+            my_tasks.pop();
+            if(task_type == "map")
+                map(task);
+            else
+                reduce(task);
+            
+        }
 };
 
 
-class WorkerServiceImpl final : public WorkerService::Service {
-    
-    int state;
+class DynamicRPCListener {
+	public:
 
-    Status execute_task(
-        ServerContext* context, 
-        const Task* task,
-        TaskReception* reception
-    ) override {
-        string reception_text = "Received Task " + to_string(task->task_id()) + " " + task->task_type();
-        LOG(INFO) << reception_text << endl;
-        reception->set_message(reception_text);
-        
-        // TaskExecutor executor;
-        // vector<string> output_files;
-        // if (task->task_type() == "map")
-        //     output_files = executor.map(task);
-        // else
-        //     output_files = executor.reduce(task); 
-        
-        // completion->set_worker_id(task->worker_id());
-        // completion->set_task_id(task->task_id());
-        // for(auto i : output_files){
-    	//     ResultFile* result_file = completion->add_result_files();
-    	//     result_file->set_filename(i);
-        // }
-        return Status::OK;
-    }
+	DynamicRPCListener(WorkerService::AsyncService* service, ServerCompletionQueue* cq, TaskExecutor* worker)
+		: workerService(service), theCompletionQueue(cq), responderObject(&serverContext), status_(CREATE), worker(worker)
+	{
+		Proceed();
+	}
 
+	void Proceed() {
+		if (status_ == CREATE) {
+			status_ = PROCESS;
+			workerService->Requestexecute_task(&serverContext, &task, &responderObject, theCompletionQueue, theCompletionQueue, this);
+		
+		} else if (status_ == PROCESS) {
+			new DynamicRPCListener(workerService, theCompletionQueue, worker);
+			cerr << "Received task from master" << endl;
+			status_ = FINISH;
+			reception.set_message("Received task");
+			worker->my_tasks.push(&task);
+			responderObject.Finish(reception, Status::OK, this);
+			
+		} else {
+			GPR_ASSERT(status_ == FINISH);
+			delete this;
+		}
+	}
+
+	private:
+	TaskExecutor* worker;
+	WorkerService::AsyncService* workerService;
+	CompletionQueue asyncCallsQueue;
+	ServerCompletionQueue* theCompletionQueue;
+	ServerContext serverContext;
+	Task task;
+	TaskReception reception;
+	ServerAsyncResponseWriter<TaskReception> responderObject;
+	
+	enum CallStatus { CREATE, PROCESS, FINISH };
+	CallStatus status_; 
+}; 
+
+
+class MultiThreadedDispatchServer final {
+	public:
+
+	MultiThreadedDispatchServer(TaskExecutor* worker_reference) : worker(worker_reference) {}
+
+	~MultiThreadedDispatchServer() {
+		server->Shutdown();
+		theCompletionQueue->Shutdown();
+	}
+	
+	void runServer(std::string workerServerAddress) {
+		ServerBuilder builder;
+		builder.AddListeningPort(workerServerAddress, grpc::InsecureServerCredentials());
+		builder.RegisterService(&workerService);
+		theCompletionQueue = builder.AddCompletionQueue();
+		server = builder.BuildAndStart();
+		std::cerr << "Worker Server listening on " << workerServerAddress << std::endl;
+		HandleRpcs();
+	}
+	
+	private:
+	
+	void HandleRpcs() {
+		new DynamicRPCListener(&workerService, theCompletionQueue.get(), worker);
+		void* tag; 
+		bool ok;
+		while (true) {
+			GPR_ASSERT(theCompletionQueue->Next(&tag, &ok));
+			GPR_ASSERT(ok);
+			static_cast<DynamicRPCListener*>(tag)->Proceed();
+			worker->executeTask();
+		}
+	}
+
+	std::unique_ptr<ServerCompletionQueue> theCompletionQueue;
+	WorkerService::AsyncService workerService;
+	std::unique_ptr<Server> server;
+	TaskExecutor* worker;
 };
+
+
 
 string get_local_ip() {
     string ip;
@@ -324,22 +402,8 @@ void register_with_zoopeeker(string local_ip){
 
 void runServer() {
     std::string server_address("0.0.0.0:5001");
-    WorkerServiceImpl service;
-
-    // grpc::EnableDefaultHealthCheckService(true);
-    // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
-
-    string hostname = get_local_ip();
-    register_with_zoopeeker(hostname);
-    
-    ServerBuilder builder;
-    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-    builder.RegisterService(&service);
-    
-    std::unique_ptr<Server> server(builder.BuildAndStart());
-    std::cout << "Server listening on " << server_address << std::endl;
-    
-    server->Wait();
+    TaskExecutor executor;
+    MultiThreadedDispatchServer(&executor).runServer(server_address);
 }
 
 int main(int argc, char** argv) {
