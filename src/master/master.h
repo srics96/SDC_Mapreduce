@@ -22,6 +22,7 @@
 #include "job.h"
 #include <mutex>
 #include "../util/service_discovery.h"
+#include "../util/zook.h"
 
 using namespace std;
 

@@ -289,6 +289,10 @@ void Master::bootstrap_reduce() {
     }
 }
 
+void Master::get_next_job() {
+    auto zoo_keeper = ZookeeperHelper();
+}
+
 void Master::execute() {
 
     LOG(INFO) << "Spawning thread for listening to task completions" << endl;
