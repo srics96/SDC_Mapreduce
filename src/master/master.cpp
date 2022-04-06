@@ -169,7 +169,6 @@ void Master::schedule(string phase) {
             
             int worker_idx = choose_worker();
             if (worker_idx == -1) {
-                LOG(INFO) << "No worker to choose for task allocation" << endl;
                 continue;
             }
             if (!trigger(task, workers_[worker_idx])) {
@@ -181,7 +180,6 @@ void Master::schedule(string phase) {
         }
         lck.unlock();
         
-        cout << "Next schedule in 1 secs" << endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         
         if (tasks_comp == tasks_count)
@@ -308,8 +306,6 @@ void Master::execute() {
     string hostname = get_local_ip();
     master_host_name = hostname;
     
-    master_host_name = "localhost";
-    
     populateWorkers();
     fill_tasks(true);
     
@@ -321,8 +317,6 @@ void Master::execute() {
     job_end();
     std::this_thread::sleep_for(std::chrono::milliseconds(100000));
     cout << "Killing server" << endl;
-    
-    
     kill_server = true;
     server_thread.join();
 }
@@ -415,7 +409,9 @@ int main(int argc, char** argv) {
     }
     
     LOG(INFO) << "The host name is " << hostname << endl;
-    // electLeader(hostname);
+    electLeader(hostname);
+    LOG(INFO) << "I am the leader " << hostname << endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(20000));
     Master master;
     master.execute();
     

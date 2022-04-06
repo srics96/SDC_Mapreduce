@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-#/usr/bin/python3.8
+#!/usr/bin/python3.8
+#/usr/bin/env python3
 import sys
 from itertools import groupby
 from operator import itemgetter

@@ -196,7 +196,7 @@ class TaskExecutor {
             string vm_path = "/vagrant/workshop6-c/src/app/mapper.py";
             
             cout<< "USER FUNCTION STARTS" <<endl;
-            execute(filename, mapper_output_file, vm_path, "mapper.py",  O_RDWR|O_CREAT);
+            execute(filename, mapper_output_file, azure_path, "mapper.py",  O_RDWR|O_CREAT);
             cout<< "USER FUNCTION DONE" <<endl;
             std::ifstream ifs(mapper_output_file);
             std::string content( (std::istreambuf_iterator<char>(ifs) ),(std::istreambuf_iterator<char>()) );
@@ -280,14 +280,14 @@ class TaskExecutor {
             cout<< "USER FUNCTION STARTS" <<endl;
             for(int i=0 ; i<files.size(); i++){
                 if(i == 0){
-                    execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_CREAT); 
+                    execute(reducer_file_names[i], temp_out_file, azure_path, "reducer.py",  O_RDWR|O_CREAT); 
                 } else { 
-                    execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_APPEND); 
+                    execute(reducer_file_names[i], temp_out_file, azure_path, "reducer.py",  O_RDWR|O_APPEND); 
                 }
             }
 
             string final_out_file = directory_name + "/" + "final_" +  to_string(task->task_id()) + ".txt";
-            execute(temp_out_file, final_out_file, vm_path, "reducer.py",  O_RDWR|O_CREAT); 
+            execute(temp_out_file, final_out_file, azure_path, "reducer.py",  O_RDWR|O_CREAT); 
             cout<< "USER FUNCTION ENDS" <<endl;
             as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             as.upload_file(final_out_file, final_out_file);
@@ -320,6 +320,7 @@ class TaskExecutor {
             else
                 output_files = reduce(task);
             
+            cout << "Task completed. Sending to " <<  task->master_url() << endl;
             WorkerClient(task->master_url()).sendTaskCompletion(task, output_files);
             
         }
