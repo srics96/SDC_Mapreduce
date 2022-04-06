@@ -32,7 +32,10 @@ public:
 
     int create(string path,string data, int enabled_flag);
 
+    string get_data(string path);
+    
     void set(string path, string data);
+
 };
 
 
@@ -116,14 +119,19 @@ void ZookeeperHelper::create_if_not_exists(string path,string data) {
   
 }
 
-int ZookeeperHelper::create(string path, string data, int enabled_flag) {
+int ZookeeperHelper::create(string path, string data, int enabled_flag=-1000) {
     Trace trace(__func__, "path=" + path + ", data=" + data);
     auto data_ptr = data.empty() ? nullptr : data.c_str();
     if (path.back() == '/') {
         path.pop_back();
     }
     string realpath;
-    auto res = framework->create()->withFlags(enabled_flag)->forPath(path, data_ptr, realpath);
+    int res = 0;
+    if(enabled_flag != -1000){
+      res = framework->create()->withFlags(enabled_flag)->forPath(path, data_ptr, realpath);
+    } else {
+      res = framework->create()->forPath(path, data_ptr, realpath);
+    }    
     assert(res == ZOK);
     return stoi(realpath.substr(realpath.find('_') + 1));
 }
@@ -135,5 +143,14 @@ void ZookeeperHelper::set(string path,string data) {
     }
     auto ret = framework->setData()->forPath(path, data.c_str());
     assert(ret == ZOK);
+}
+
+
+string ZookeeperHelper::get_data(string path){
+  Trace trace(__func__, "path=" + path);
+  if (path.back() == '/') {
+      path.pop_back();
+  }  
+  return framework->getData()->forPath(path);
 }
 

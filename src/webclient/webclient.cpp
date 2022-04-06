@@ -42,7 +42,20 @@ int main()
         auto zoo_keeper = ZookeeperHelper();
         zoo_keeper.create_if_not_exists("/jobs", string());
         int job_id = zoo_keeper.create("/jobs/job_", string(), ZOO_SEQUENCE);
+        
 
+        string prefix = "/jobs/job_" + to_string(job_id);
+        zoo_keeper.create(prefix + "/status", "CREATED");
+        zoo_keeper.create(prefix + "/shard_size", to_string(shard_size));
+        zoo_keeper.create(prefix + "/reducer_count", to_string(reducer_count));
+        string files_string = "";
+        for(auto file: file_paths){
+            files_string += file  + ";" ;
+        }
+        files_string.pop_back();
+        zoo_keeper.create(prefix + "/files", files_string);        
+
+        
         string response_string = "Job successfully submitted: " + std::to_string(job_id);
         return crow::response(200, response_string);
     });
