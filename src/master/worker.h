@@ -15,14 +15,12 @@ enum WorkerStatus {idle, busy, down};
 
 class WorkerInstance {
     
-    private:
+    public:
         int id;
         WorkerStatus status;
         std::string address;
         std::shared_ptr<Channel> channel;
         friend class Master;
-    
-    public:
         WorkerInstance(int id, std::string address, std::shared_ptr<Channel> channel) {
             this->id = id;
             this->address = address;
@@ -31,14 +29,16 @@ class WorkerInstance {
         }
 
         static vector<shared_ptr<WorkerInstance>> populate() {
-            
-            string serverAddress = node_ip + ":5001";
+            vector<shared_ptr<WorkerInstance>> worker_instances;
+            int id = 1;
+            string str("localhost");
+            string serverAddress = str + ":5001";
             auto channel = grpc::CreateChannel(serverAddress, grpc::InsecureChannelCredentials());
 
-            auto worker_instance = make_shared<WorkerInstance>(id, node_ip, channel);
+            auto worker_instance = make_shared<WorkerInstance>(id, serverAddress, channel);
             worker_instances.push_back(worker_instance);
             id = id + 1;
-            
+            return worker_instances;
             
             
             // ConservatorFrameworkFactory factory = ConservatorFrameworkFactory();

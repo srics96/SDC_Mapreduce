@@ -9,6 +9,7 @@
 #include <queue>
 #include <vector>
 #include <thread>
+#include <mutex>
 #include <crow.h>
 
 #include <iostream>
@@ -56,15 +57,25 @@ class MasterServiceImpl final : public MasterService::Service {
             const TaskCompletion* completion,
             TaskCompletionAck* ack
         ) override {
+            LOG(INFO) << "Task complete received for " << completion->task_id() << endl;
+
             std::vector<ResultFile> files(completion->result_files().begin(), completion->result_files().end());
+            
+            
+            std::unique_lock<std::mutex> lck (master->task_mutex, std::defer_lock);
+            
+            lck.lock();
             
             shared_ptr<Task> task = master->get_task_by_id(completion->task_id());
             task->set_status("completed");
+            auto worker = master->get_worker_by_id(completion->worker_id());
+            worker->status = WorkerStatus::idle;
             
             for (auto file: files) {
                 ResultFile* result_file = task->add_output_files();
                 result_file->set_filename(file.filename());
             }
+            lck.unlock();
             
             ack->set_message("Acknowledged");
             return Status::OK;
@@ -100,7 +111,9 @@ class MasterClient {
         std::unique_ptr<WorkerService::Stub> stub_;
 };
 
-Master::Master() {}
+Master::Master() {
+    kill_server = false;
+}
 
 shared_ptr<Task> Master::get_task_by_id(int task_id) {
     for (auto task: tasks_) {
@@ -110,6 +123,16 @@ shared_ptr<Task> Master::get_task_by_id(int task_id) {
     return NULL;
 }
 
+
+shared_ptr<WorkerInstance> Master::get_worker_by_id(int worker_id) {
+    for (auto worker: workers_) {
+        if (worker->id == worker_id)
+            return worker;
+    }
+    return NULL;
+}
+
+
 vector<shared_ptr<ShardAllocation>> Master::shard() {
     vector<shared_ptr<ShardAllocation>> allShards = createShardAllocations(job->shard_size, job->file_paths);
     LOG(INFO) << "Sharding phase complete" << endl;
@@ -118,6 +141,7 @@ vector<shared_ptr<ShardAllocation>> Master::shard() {
 }
 
 int Master::choose_worker() {
+    LOG(INFO) << "Number of workers available: " << workers_.size() << endl;
     for (int i = 0; i < workers_.size(); i++) {
         if (workers_[i]->status == WorkerStatus::idle)
             return i;
@@ -127,23 +151,44 @@ int Master::choose_worker() {
 
 void Master::schedule(string phase) {
     LOG(INFO) << phase << " phase started" << endl;
+    cout << "Total tasks: " << tasks_.size() << endl;
+    
+    while (true) {
+        int tasks_count = tasks_.size();
+        int tasks_comp = 0;
 
-    for (auto task: tasks_) {
-        if (task->status() != "queued")
-            continue;
+        std::unique_lock<std::mutex> lck (task_mutex, std::defer_lock);
+        lck.lock();
+
+        for (auto task: tasks_) {
+            if (task->status() == "completed")
+                tasks_comp += 1;
+            
+            if (task->status() != "queued")
+                continue;
+            
+            int worker_idx = choose_worker();
+            if (worker_idx == -1) {
+                LOG(INFO) << "No worker to choose for task allocation" << endl;
+                continue;
+            }
+            if (!trigger(task, workers_[worker_idx])) {
+                LOG(INFO) << "Trigger unsuccessful for task: " << task->task_id() << " and worker: " << workers_[worker_idx]->id << endl;
+                continue;
+            }
+            task->set_status("running");
+            workers_[worker_idx]->status = WorkerStatus::busy;
+        }
+        lck.unlock();
         
-        int worker_idx = choose_worker();
-        if (worker_idx == -1) {
-            LOG(INFO) << "No worker to choose for task allocation" << endl;
-            continue;
-        }
-        if (!trigger(task, workers_[worker_idx])) {
-            LOG(INFO) << "Trigger unsuccessful for task: " << task->task_id() << " and worker: " << workers_[worker_idx]->id << endl;
-            continue;
-        }
-        task->set_status("running");
-        workers_[worker_idx]->status = WorkerStatus::busy;
+        cout << "Next schedule in 1 secs" << endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        
+        if (tasks_comp == tasks_count)
+            break;
     }
+
+    
 }
 
 void Master::runServer() {
@@ -159,12 +204,16 @@ void Master::runServer() {
     
     while (!kill_server)
         server->Wait();
+    cout << "Server shutdown" << endl;
     server->Shutdown();
 }
 
 bool Master::trigger(shared_ptr<Task> task, shared_ptr<WorkerInstance> worker) {
     string serverAddress = worker->address;
     MasterClient masterClient(worker->channel);
+    string master_url = master_host_name + ":5002";
+    task->set_master_url(master_url);
+    task->set_worker_id(worker->id);
     return masterClient.execute_task(task, worker);
 }
 
@@ -207,6 +256,41 @@ void Master::fill_tasks(bool is_new) {
     
 }
 
+void Master::bootstrap_reduce() {
+    std::map<int, vector<string>> reducer_wise_files;
+    for (auto comp_task: tasks_) {
+        for (auto result_file: comp_task->output_files()) {
+            auto filename = result_file.filename();
+            int start = filename.find_last_of('_');
+            int end = filename.find('.');
+            int reducer_id = stoi(filename.substr(start + 1));
+            reducer_wise_files[reducer_id].push_back(filename);
+        }
+    }
+    tasks_.clear();
+    
+    int id = 1;
+    std::map<int, vector<string>>::iterator it;
+    for (it = reducer_wise_files.begin(); it != reducer_wise_files.end(); it++) {
+        
+        auto task = make_shared<Task>();
+        task->set_reducer_id(it->first);
+        task->set_task_id(id);
+        task->set_job_id(job->job_id);
+        task->set_status("queued");
+        task->set_task_type("reduce");
+        
+        for (auto filename: it->second) {
+            FileInfo* file_info = task->add_files();
+            file_info->set_fname(filename);
+            file_info->set_start(0);
+            file_info->set_end(100);
+        }
+        tasks_.push_back(task);
+        id = id + 1;
+    }
+}
+
 void Master::execute() {
 
     LOG(INFO) << "Spawning thread for listening to task completions" << endl;
@@ -214,7 +298,7 @@ void Master::execute() {
 
     
     // Remove this.
-    vector<string> file_paths {"gutenberg/John Bunyan___The Works of John Bunyan.txt"};
+    vector<string> file_paths {"gutenberg/Winston Churchill___Coniston, Complete.txt"};
     int shard_size = 50000;
     int num_reducers = 3;
     // Remove this.
@@ -222,17 +306,21 @@ void Master::execute() {
     this->job = make_shared<Job>(1, file_paths, shard_size, num_reducers);
 
     string hostname = get_local_ip();
-    // populateWorkers();
+    master_host_name = hostname;
+    
+    master_host_name = "localhost";
+    
+    populateWorkers();
     fill_tasks(true);
     
-    // Starting the master server for accepting task completion requests.
-    
-    
     schedule("map");
-        
     LOG(INFO) << "Map phase complete." << endl;
-    
+    bootstrap_reduce();
+    schedule("reduce");
+    LOG(INFO) << "Reduce phase complete." << endl;
     job_end();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100000));
+    cout << "Killing server" << endl;
     
     
     kill_server = true;
@@ -241,7 +329,6 @@ void Master::execute() {
 
 void Master::job_end() {
     job->is_complete = true;
-    // TODO: Remove the RMQ front.
 }
         
 

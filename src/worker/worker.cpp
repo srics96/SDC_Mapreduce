@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <chrono>
 #include <memory>
 #include <string>
 #include <thread>
@@ -35,16 +36,18 @@ using grpc::ServerAsyncResponseWriter;
 using grpc::ServerCompletionQueue;
 
 using mapr::FileInfo;
+using mapr::MasterService;
 using mapr::WorkerService;
 using mapr::ResultFile;
 using mapr::Task;
 using mapr::TaskCompletion;
+using mapr::TaskCompletionAck;
 using mapr::TaskReception;
 
 using namespace std;
 
 
-vector<string> splitter (string s, string delimiter) {
+vector<string> splitter(string s, string delimiter) {
     size_t pos = 0;
     vector<std::string> tokens;
     while ((pos = s.find(delimiter)) != std::string::npos) {
@@ -53,6 +56,46 @@ vector<string> splitter (string s, string delimiter) {
         s.erase(0, pos + delimiter.length());
     }
     return tokens;
+}
+
+
+class WorkerClient {
+
+    public:
+        WorkerClient(std::string server_address);
+        bool sendTaskCompletion(Task* task, vector<string> output_files);
+
+    private:
+        std::unique_ptr<MasterService::Stub> stub_;
+};
+
+WorkerClient::WorkerClient(std::string server_address)
+  : stub_(MasterService::NewStub(grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials()))) {}
+
+bool WorkerClient::sendTaskCompletion(Task* task, vector<string> output_files) {
+
+    TaskCompletion completion;
+    completion.set_worker_id(task->worker_id());
+    completion.set_task_id(task->task_id());
+   
+	for(auto i : output_files){
+    	ResultFile* result_file = completion.add_result_files();
+    	result_file -> set_filename(i);
+    }
+
+    ClientContext context;
+	TaskCompletionAck ack;
+    
+	Status status = stub_->task_complete(&context, completion, &ack);
+    if (status.ok()) {
+        cout << "Receipt for " << task->task_id() << endl;
+        return true;
+    }
+    else {
+        cout << status.error_code() << ": " << status.error_message() << std::endl;
+        return false;
+    }
+    return true;
 }
 
 class TaskExecutor {
@@ -130,12 +173,10 @@ class TaskExecutor {
 
         vector<string> map(const Task* task) {   
             cout << "Map task called" << endl;
-            string directory_name = "./intermediates";            
+                
+            string job_dir = "./job_" + to_string(task->job_id());
+            string directory_name = job_dir + "/intermediates"; 
             
-            if (!boost::filesystem::exists(directory_name)) {
-                boost::filesystem::create_directory(directory_name);
-                cout << "Directory created" << endl;
-            }
             std::vector<FileInfo> files(task->files().begin(), task->files().end());
             string shard_content = "";
             for (auto file: files) {
@@ -154,7 +195,8 @@ class TaskExecutor {
             string azure_path = "/code/src/app/mapper.py";
             string vm_path = "/vagrant/workshop6-c/src/app/mapper.py";
             
-            execute(filename, mapper_output_file, azure_path, "mapper.py",  O_RDWR|O_CREAT);
+            cout<< "USER FUNCTION STARTS" <<endl;
+            execute(filename, mapper_output_file, vm_path, "mapper.py",  O_RDWR|O_CREAT);
             cout<< "USER FUNCTION DONE" <<endl;
             std::ifstream ifs(mapper_output_file);
             std::string content( (std::istreambuf_iterator<char>(ifs) ),(std::istreambuf_iterator<char>()) );
@@ -182,8 +224,8 @@ class TaskExecutor {
             vector<std::ofstream> file_ofstreams; 
             vector<std::string> output_file_names;
             cout << "Splitting reduce files" << endl;
+
             for(int i=0 ; i < reducer_count; i++){
-                string directory_name = "./intermediates";            
                 string blobname = std::to_string(task->worker_id()) + "_" + std::to_string(task->task_id()) + "_" + std::to_string(i+1);
                 string filename = directory_name + "/" + blobname;
                 file_ofstreams.emplace_back(std::ofstream {filename.c_str()});
@@ -203,6 +245,7 @@ class TaskExecutor {
             }
             cout << "Splitting completed" << endl;
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
+            
             for(int i=0 ; i< reducer_count; i++){
                 as.upload_file(output_file_names[i], output_file_names[i]);
             }
@@ -219,12 +262,9 @@ class TaskExecutor {
             2. Call the Reducer M + 1 times.
             */
 
-            string directory_name = "./reducers";            
+            string job_dir = "./job_" + to_string(task->job_id());
+            string directory_name = job_dir + "/reducers";
             
-            if (!boost::filesystem::exists(directory_name)) {
-                boost::filesystem::create_directory(directory_name);
-                cout << "Directory created" << endl;
-            }
             auto as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             vector<std::string> reducer_file_names;
             for(int i=0 ; i<files.size(); i++){
@@ -237,17 +277,18 @@ class TaskExecutor {
 
             string azure_path = "/code/src/app/reducer.py";
             string vm_path = "/vagrant/workshop6-c/src/app/reducer.py";
-
+            cout<< "USER FUNCTION STARTS" <<endl;
             for(int i=0 ; i<files.size(); i++){
                 if(i == 0){
-                execute(reducer_file_names[i], temp_out_file, azure_path, "reducer.py",  O_RDWR|O_CREAT); 
+                    execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_CREAT); 
                 } else { 
-                execute(reducer_file_names[i], temp_out_file, azure_path, "reducer.py",  O_RDWR|O_APPEND); 
+                    execute(reducer_file_names[i], temp_out_file, vm_path, "reducer.py",  O_RDWR|O_APPEND); 
                 }
             }
 
             string final_out_file = directory_name + "/" + "final_" +  to_string(task->task_id()) + ".txt";
-            execute(temp_out_file, final_out_file, azure_path, "reducer.py",  O_RDWR|O_CREAT); 
+            execute(temp_out_file, final_out_file, vm_path, "reducer.py",  O_RDWR|O_CREAT); 
+            cout<< "USER FUNCTION ENDS" <<endl;
             as = AzureStorageHelper(AZURE_STORAGE_CONNECTION_STRING, AZURE_BLOB_CONTAINER);
             as.upload_file(final_out_file, final_out_file);
             output_files.push_back(final_out_file);
@@ -255,17 +296,31 @@ class TaskExecutor {
         }
 
         void executeTask() {
-	        if (my_tasks.size() == 0)
+            if (my_tasks.size() == 0)
                 return;
             Task* task = my_tasks.front();
 
             string task_type = task -> task_type();
             LOG(INFO) << "Task type being executed : " << task_type <<endl;
             my_tasks.pop();
+            string job_dir = "./job_" + to_string(task->job_id());
+            vector<string> directories = {job_dir, job_dir + "/intermediates", job_dir + "/reducers"};
+            
+            for (auto directory: directories) {
+                if (!boost::filesystem::exists(directory)) {
+                    boost::filesystem::create_directory(directory);
+                    cout << "Directory created" << endl;
+                }
+            }
+            
+            vector<string> output_files;
+            
             if(task_type == "map")
-                map(task);
+                output_files = map(task);
             else
-                reduce(task);
+                output_files = reduce(task);
+            
+            WorkerClient(task->master_url()).sendTaskCompletion(task, output_files);
             
         }
 };

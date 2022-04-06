@@ -20,6 +20,7 @@
 #include "sharding.h"
 #include "worker.h"
 #include "job.h"
+#include <mutex>
 #include "../util/service_discovery.h"
 
 using namespace std;
@@ -35,6 +36,7 @@ class Master {
         string master_host_name;
         shared_ptr<Job> job;
         friend class MasterServiceImpl;
+        std::mutex task_mutex;
         
         bool kill_server;
         
@@ -42,6 +44,7 @@ class Master {
         Master();
 
         shared_ptr<Task> get_task_by_id(int task_id);
+        shared_ptr<WorkerInstance> get_worker_by_id(int worker_id);
         vector<shared_ptr<ShardAllocation>> shard();
         int choose_worker();
         void schedule(string phase);
@@ -49,6 +52,7 @@ class Master {
         bool trigger(shared_ptr<Task> task, shared_ptr<WorkerInstance> worker);
         void populateWorkers();
         void bootstrap_tasks();
+        void bootstrap_reduce();
         void fill_tasks(bool is_new);
         void execute();
         void job_end();
