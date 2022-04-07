@@ -9,6 +9,8 @@
 #include <queue>
 #include <vector>
 #include <thread>
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp> 
 
 #include <iostream>
 #include <memory>
@@ -57,4 +59,5 @@ class Master {
         void fill_tasks(bool is_new);
         void execute();
         void job_end();
+        bool get_next_job();
 };

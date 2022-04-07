@@ -216,8 +216,16 @@ bool Master::trigger(shared_ptr<Task> task, shared_ptr<WorkerInstance> worker) {
 }
 
 void Master::populateWorkers() {
-    auto workers = WorkerInstance::populate();
-    workers_ = workers;
+    workers_.clear();
+    while (true) {
+        auto workers = WorkerInstance::populate();
+        if (workers.size() == 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            continue;
+        }
+        workers_ = workers;
+        return;
+    }
 }
 
 void Master::bootstrap_tasks() {
@@ -289,8 +297,42 @@ void Master::bootstrap_reduce() {
     }
 }
 
-void Master::get_next_job() {
+bool Master::get_next_job() {
+    vector<string> jobs;
     auto zoo_keeper = ZookeeperHelper();
+    zoo_keeper.get_jobs_ordered(jobs, false);
+    
+    for (auto job: jobs) {
+        cout << "Job" << job << endl;
+        string zoo_id = job.substr(job.find('_') + 1);
+        int job_id = stoi(job.substr(job.find('_') + 1));
+        
+        string job_dir = "/jobs/" + job;
+        
+        auto status = zoo_keeper.get_data(job_dir + "/status");
+        if(status != "CREATED"){
+            continue;
+        }
+        cout << "Status" << status;
+        auto shard_size = zoo_keeper.get_data(job_dir + "/shard_size");
+        auto reducer_count = zoo_keeper.get_data(job_dir + "/reducer_count");
+        auto files = zoo_keeper.get_data(job_dir + "/files");
+
+        vector<string> file_names;
+        boost::split(file_names, files, boost::is_any_of("$"), boost::token_compress_on);
+
+        cout << "Shard" << shard_size << endl;
+        cout << "Reducer" << reducer_count << endl;
+        cout << "Files count" << file_names.size() << endl;
+        
+        for (auto file: file_names) 
+            cout << "File" << file << endl;
+
+        this->job = make_shared<Job>(job_id, file_names, stoi(shard_size), stoi(reducer_count), zoo_id);
+        return true;
+    }
+    cout << "No incomplete jobs available" << endl;
+    return false;
 }
 
 void Master::execute() {
@@ -298,27 +340,31 @@ void Master::execute() {
     LOG(INFO) << "Spawning thread for listening to task completions" << endl;
     std::thread server_thread(&Master::runServer, this);
 
-    
-    // Remove this.
-    vector<string> file_paths {"gutenberg/Winston Churchill___Coniston, Complete.txt"};
-    int shard_size = 50000;
-    int num_reducers = 3;
-    // Remove this.
-    
-    this->job = make_shared<Job>(1, file_paths, shard_size, num_reducers);
+    while (true) {
+        bool status = get_next_job();
+        if (!status) {
+            cout << "Next job poll in 5 secs" << endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+            continue;
+        }
 
-    string hostname = get_local_ip();
-    master_host_name = hostname;
+        cout << "Working on Job id: " << job->job_id << endl;
+        string hostname = get_local_ip();
+        master_host_name = hostname;
     
-    populateWorkers();
-    fill_tasks(true);
+        populateWorkers();
+        fill_tasks(true);
+        
+        schedule("map");
+        LOG(INFO) << "Map phase complete." << endl;
+        bootstrap_reduce();
+        schedule("reduce");
+        LOG(INFO) << "Reduce phase complete." << endl;
+        job_end();
+        cout << "Next job poll in 5 secs" << endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+    }
     
-    schedule("map");
-    LOG(INFO) << "Map phase complete." << endl;
-    bootstrap_reduce();
-    schedule("reduce");
-    LOG(INFO) << "Reduce phase complete." << endl;
-    job_end();
     std::this_thread::sleep_for(std::chrono::milliseconds(100000));
     cout << "Killing server" << endl;
     kill_server = true;
@@ -326,7 +372,12 @@ void Master::execute() {
 }
 
 void Master::job_end() {
+    tasks_.clear();
+    string path = "/jobs/job_" + job->zoo_id + "/status";
+    auto zoo_keeper = ZookeeperHelper();
+    zoo_keeper.set(path, "COMPLETED");
     job->is_complete = true;
+
 }
         
 
@@ -415,7 +466,7 @@ int main(int argc, char** argv) {
     LOG(INFO) << "The host name is " << hostname << endl;
     electLeader(hostname);
     LOG(INFO) << "I am the leader " << hostname << endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(20000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     Master master;
     master.execute();
     

@@ -21,6 +21,9 @@ public:
     ZookeeperHelper();
     void get_masters_ordered(
         vector<string> &out_masters, bool strip_trailing = true);
+    
+    void get_jobs_ordered(
+        vector<string> &out_masters, bool strip_trailing = true);
 
     void delete_children(string path);
 
@@ -30,7 +33,7 @@ public:
 
     void create_if_not_exists(string path,string data = string());
 
-    int create(string path,string data, int enabled_flag);
+    string create(string path,string data, int enabled_flag);
 
     string get_data(string path);
     
@@ -119,7 +122,7 @@ void ZookeeperHelper::create_if_not_exists(string path,string data) {
   
 }
 
-int ZookeeperHelper::create(string path, string data, int enabled_flag=-1000) {
+string ZookeeperHelper::create(string path, string data, int enabled_flag=-1000) {
     Trace trace(__func__, "path=" + path + ", data=" + data);
     auto data_ptr = data.empty() ? nullptr : data.c_str();
     if (path.back() == '/') {
@@ -133,7 +136,7 @@ int ZookeeperHelper::create(string path, string data, int enabled_flag=-1000) {
       res = framework->create()->forPath(path, data_ptr, realpath);
     }    
     assert(res == ZOK);
-    return stoi(realpath.substr(realpath.find('_') + 1));
+    return realpath.substr(realpath.find('_') + 1);
 }
 
 void ZookeeperHelper::set(string path,string data) {
@@ -154,3 +157,25 @@ string ZookeeperHelper::get_data(string path){
   return framework->getData()->forPath(path);
 }
 
+
+void ZookeeperHelper::get_jobs_ordered(
+   vector<string>& out_masters, bool strip_trailing) {
+  Trace trace(__func__);
+  auto children = framework->getChildren()->forPath("/jobs");
+  sort(children.begin(), children.end(),
+            [](const string& a, const string& b) {
+              return get_trailing_num(a) < get_trailing_num(b);
+            });
+
+  out_masters.clear();
+  for (auto s : children) {
+    string push_str;
+    if (strip_trailing) {
+      push_str = s.substr(0, s.find_last_of('_'));
+    } else {
+      push_str = s;
+    }
+    out_masters.push_back(push_str);
+  }
+  
+}
