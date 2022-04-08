@@ -14,10 +14,12 @@
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>
 
-#include "central.grpc.pb.h"
+#include "../generated/central.pb.h"
+#include "../generated/central.grpc.pb.h"
 #include "sharding.h"
 #include "../util/constants.h"
 #include "../util/blob.h"
+#include "../util/zook.h"
 #include "python_executor.h"
 
 #include <zookeeper/zookeeper.h>
@@ -47,6 +49,7 @@ using mapr::TaskReception;
 using namespace std;
 
 
+
 vector<string> splitter(string s, string delimiter) {
     size_t pos = 0;
     vector<std::string> tokens;
@@ -56,6 +59,13 @@ vector<string> splitter(string s, string delimiter) {
         s.erase(0, pos + delimiter.length());
     }
     return tokens;
+}
+
+void update_worker_self_status(string node, string status){
+    
+    auto zk = ZookeeperHelper();    
+    zk.create_if_not_exists(node, status);
+    zk.set(node, status);
 }
 
 
@@ -271,7 +281,7 @@ class TaskExecutor {
                 as.save_blob(files[i].fname(), reducer_file);
                 reducer_file_names.push_back(reducer_file);
             }
-            cout << "Task id " << task->task_id() <<  " " << reducer_file_names.size();
+            cout << "Task id " << task->task_id() <<  " " << reducer_file_names.size() << endl;
             string temp_out_file = directory_name + "/" + "temp";
 
             string azure_path = "/code/src/app/reducer.py";
@@ -294,9 +304,11 @@ class TaskExecutor {
             return output_files;
         }
 
-        void executeTask() {
+        void executeTask(string worker_id_zookeeper) {
             if (my_tasks.size() == 0)
                 return;
+            update_worker_self_status(worker_id_zookeeper+ "/status", "BUSY");
+			
             Task* task = my_tasks.front();
 
             string task_type = task -> task_type();
@@ -313,6 +325,7 @@ class TaskExecutor {
             }
             
             vector<string> output_files;
+
             
             if(task_type == "map")
                 output_files = map(task);
@@ -321,6 +334,8 @@ class TaskExecutor {
             
             cout << "Task completed. Sending to " <<  task->master_url() << endl;
             WorkerClient(task->master_url()).sendTaskCompletion(task, output_files);
+            update_worker_self_status(worker_id_zookeeper+ "/status", "IDLE");
+			
             
         }
 };
@@ -345,8 +360,12 @@ class DynamicRPCListener {
 			cerr << "Received task from master" << endl;
 			status_ = FINISH;
 			reception.set_message("Received task");
-			worker->my_tasks.push(&task);
-			responderObject.Finish(reception, Status::OK, this);
+            if(worker->my_tasks.size() == 0){
+			    worker->my_tasks.push(&task);
+			    responderObject.Finish(reception, Status::OK, this);
+            } else {
+                responderObject.Finish(reception, Status::CANCELLED, this);
+            }
 			
 		} else {
 			GPR_ASSERT(status_ == FINISH);
@@ -372,7 +391,13 @@ class DynamicRPCListener {
 class MultiThreadedDispatchServer final {
 	public:
 
-	MultiThreadedDispatchServer(TaskExecutor* worker_reference) : worker(worker_reference) {}
+    string status;
+    string worker_id_zookeeper;
+
+	MultiThreadedDispatchServer(TaskExecutor* worker_reference, string my_id) : worker(worker_reference) {
+        status = "IDLE";
+        my_id = worker_id_zookeeper;
+    }
 
 	~MultiThreadedDispatchServer() {
 		server->Shutdown();
@@ -399,7 +424,7 @@ class MultiThreadedDispatchServer final {
 			GPR_ASSERT(theCompletionQueue->Next(&tag, &ok));
 			GPR_ASSERT(ok);
 			static_cast<DynamicRPCListener*>(tag)->Proceed();
-			worker->executeTask();
+            worker->executeTask(worker_id_zookeeper);			
 		}
 	}
 
@@ -427,42 +452,48 @@ string get_local_ip() {
     return ip;
 }
 
-void register_with_zoopeeker(string local_ip){
+/* sample usage
+    update_worker_self_status(/workers/workerid/status, IDLE)
+    update_worker_self_status(/workers/workerid/busy, IDLE)
+*/
+string register_with_zoopeeker(string local_ip){
     cout << "Elect leader called by " << local_ip << endl;
 
     ConservatorFrameworkFactory factory = ConservatorFrameworkFactory();
-    unique_ptr<ConservatorFramework> framework = factory.newClient("default-zookeeper:2181");
+    unique_ptr<ConservatorFramework> framework = factory.newClient("127.0.0.1:2181");
     framework->start();
 
     cout << "Connected to the zookeeper service" << endl;
     
     auto res = framework->create()->forPath("/workers");
-    cout << "Create /workers retval:" << res;
+    cout << "Create /workers retval:" << res << endl;
     
     res = framework->checkExists()->forPath("/workers");
     assert(res == ZOK);
-    cout << "/workers now exists";
+    cout << "/workers now exists"<< endl;
 
     string realpath;
     int mypath;
     
     res = framework->create()->withFlags(ZOO_EPHEMERAL | ZOO_SEQUENCE)->forPath("/workers/" + local_ip + "_", NULL, realpath);
     if (res != ZOK) {
-        cout << "Failed to create ephemeral node, retval "<< res;
+        cout << "Failed to create ephemeral node, retval "<< res << endl;;
     } else {
-        cout << "Created seq ephm node " << realpath;
+        cout << "Created seq ephm node " << realpath << endl;
         mypath = stoi(realpath.substr(realpath.find('_') + 1));
     }
+    cout << "MY ID in zookeeper " << realpath << endl;; 
+    return realpath;
 }
 
-void runServer() {
+void runServer(string zookeeper_id) {
     std::string server_address("0.0.0.0:5001");
     TaskExecutor executor;
-    MultiThreadedDispatchServer(&executor).runServer(server_address);
+    MultiThreadedDispatchServer(&executor, zookeeper_id).runServer(server_address);
 }
 
 int main(int argc, char** argv) {
-    register_with_zoopeeker(get_local_ip());
-    runServer();
+    string zookeeper_id = register_with_zoopeeker(get_local_ip());
+    runServer(zookeeper_id);
     return 0;
 }
